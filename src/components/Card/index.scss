@@ -1,0 +1,11 @@
+.comedian-card {
+  display: flex !important;
+  justify-content: flex-start !important;
+  .MuiTypography-root {
+    text-align: left;
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+  }
+}

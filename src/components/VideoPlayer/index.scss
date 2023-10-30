@@ -1,0 +1,40 @@
+.player-container {
+  position: relative;
+  width: 60vw;
+  // min-height: 100vh;
+  .cover {
+    z-index: -1000;
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 60vw;
+    height: 80vh;
+    &.float {
+      z-index: 1000;
+    }
+  }
+  .iframe {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 0;
+    border-radius: 4px;
+    width: 60vw;
+    height: 80vh;
+  }
+  .canvas {
+    position: absolute;
+    height: 80vh;
+    width: 60vw;
+    top: 0;
+    left: 0;
+    z-index: -10000;
+    &.show {
+      z-index: 10000;
+    }
+  }
+  .video-title {
+    margin-top: 3vh !important;
+    font-weight: bold;
+  }
+}

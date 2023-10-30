@@ -1,8 +1,31 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Link from '@mui/material/Link';
+import './globals.scss'
 
 const inter = Inter({ subsets: ['latin'] })
+
+const pages = [
+  {
+    name: 'Home',
+    path: '/'
+  },
+  {
+    name: 'Comedians',
+    path: '/comedians'
+  },
+  // {
+  //   name: 'Profile',
+  //   path: '/profile'
+  // },
+  // {
+  //   name: 'Forum',
+  //   path: '/forrm'
+  // }
+]
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +39,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+      <div className='App'>
+        <AppBar className='app-bar' position="fixed">
+          <Toolbar>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              {pages.map((page) => (
+                <Link className='link' href={page.path} underline="none">
+                  {page.name}
+                </Link>            
+              ))}
+            </Box>
+          </Toolbar>
+        </AppBar>
+        {children}        
+      </div>
+      </body>
     </html>
   )
 }
