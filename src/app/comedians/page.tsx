@@ -13,6 +13,8 @@ import './page.scss'
 interface IComediansProps {
 }
 
+
+// TODO: SWR SSR
 const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
 
   return <div className='comedians-container'>

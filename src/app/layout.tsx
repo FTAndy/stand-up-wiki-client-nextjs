@@ -4,6 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
+import {SWRProvider} from './swr-provider'
 import './globals.scss'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -52,7 +53,9 @@ export default function RootLayout({
             </Box>
           </Toolbar>
         </AppBar>
-        {children}        
+        <SWRProvider>
+          {children}        
+        </SWRProvider>
       </div>
       </body>
     </html>

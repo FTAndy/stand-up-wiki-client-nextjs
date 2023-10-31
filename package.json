@@ -20,12 +20,14 @@
     "react-dom": "^18",
     "react-timer-hook": "^3.0.7",
     "sass": "^1.69.2",
+    "swr": "^2.2.4",
     "zustand": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vercel/node": "^3.0.7",
     "eslint": "^8",
     "eslint-config-next": "14.0.0",
     "typescript": "^5"
