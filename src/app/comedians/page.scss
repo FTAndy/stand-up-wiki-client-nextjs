@@ -1,5 +1,18 @@
 .comedians-container {
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  .card-container {
+    display: flex;
+    flex-direction: row;
+    width: 50vw;
+    max-height: 60vh;
+    .avatar {
+      height: 40vh;
+    }
+    .card-content {
+      margin-left: 2vw;
+    }
+  }
 }

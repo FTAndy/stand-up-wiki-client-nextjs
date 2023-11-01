@@ -9,6 +9,11 @@ export type Comedian = {
   instagramURL: string,
   specials: Array<Special>,
   ranking: number,
+  AIGeneratedContent: {
+    wikiDetail: string
+    brief: string,
+    tags: Array<string>
+  },
   news: Array<New>,
 }
 
