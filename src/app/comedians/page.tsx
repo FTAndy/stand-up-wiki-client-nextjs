@@ -6,9 +6,11 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
+import Link from 'next/link'
 import { CardActionArea } from '@mui/material';
 import useSWR from 'swr'
+import Chip from '@mui/material/Chip';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import {Comedians} from '@/types/comdian'
 import Typography from '@mui/material/Typography'
 import './page.scss'
@@ -34,12 +36,20 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
     <div className='comedians-list'>
       { comedians.map(comedian => {
         return <Card className='card-container'>
-          {/* <Link href='/profile' underline="none"> */}
             <img className='avatar' src={comedian.avatarImgURL} alt={comedian.name} />
             <CardContent className='card-content'>
+              <h1 className='name'>{comedian.name}</h1>
               {comedian.AIGeneratedContent.brief}
+              <div className='tags'>
+                {comedian.AIGeneratedContent.tags.map(tag => {
+                  return <Chip className='tag' label={tag} variant="outlined" onClick={() => {}} />
+                })}
+              </div>
+              <Link href={`/profile/${comedian._id}`} className='play-area'>
+                <PlayCircleIcon className='play-icon'></PlayCircleIcon>
+                <span>Play Specials</span>
+              </Link>
             </CardContent>
-          {/* </Link> */}
         </Card>
       }) }
     </div>

@@ -1,6 +1,7 @@
 export type Comedians = Array<Comedian>
 
 export type Comedian = {
+  _id: string
   name: string,
   desc: string,
   avatarImgURL: string,
@@ -26,6 +27,24 @@ type Role = {
   name: string,
 }
 
+export enum Langs {
+  "enUS" = "en-US",
+  "zhs" = "zh-Hans",
+  "zht" = "zh-Hant"
+}
+
+export type Subtitle = {
+  ai_status: number
+  ai_type: number
+  id: string
+  id_str: string
+  is_lock: boolean
+  lan: Langs
+  lan_doc: "英语（美国）" | "中文（简体）" | '中文（繁体）'
+  subtitleASSURL: string
+  type: number
+}
+
 export type Special = {
   specialDetail: {
     datetime: string
@@ -39,7 +58,8 @@ export type Special = {
     aid: number,
     bvid: string,
     cid: string,
-    iframeUrl: string
+    iframeUrl: string,
+    subtitles: Array<Subtitle>
   }
   specialName: string,
   comments: Array<CommentContent>
