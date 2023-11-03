@@ -39,7 +39,9 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
             <img className='avatar' src={comedian.avatarImgURL} alt={comedian.name} />
             <CardContent className='card-content'>
               <h1 className='name'>{comedian.name}</h1>
-              {comedian?.AIGeneratedContent?.brief}
+              <div className='brief'>
+                {comedian?.AIGeneratedContent?.brief}
+              </div>
               <div className='tags'>
                 {comedian?.AIGeneratedContent?.tags.map(tag => {
                   return <Chip className='tag' label={tag} variant="outlined" onClick={() => {}} />
@@ -47,7 +49,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
               </div>
               <Link href={`/profile/${comedian._id}`} className='play-area'>
                 <PlayCircleIcon className='play-icon'></PlayCircleIcon>
-                <span>Play All Specials</span>
+                <span>Watch All Specials For Free</span>
               </Link>
             </CardContent>
         </Card>
