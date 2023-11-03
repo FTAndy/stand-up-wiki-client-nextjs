@@ -32,28 +32,22 @@ const FontMap = (lang: Langs) => {
 export default function VideoPlayer (props: VideoPlayerProps) {
   const { playingSpecial, currentComedian } = useGlobalStore()
   const [isMouseOvered, setIsMouseOvered] = useState<Boolean>(false)
-  const [currentSubtitle, setCurrentSubtitle] = useState<Subtitle>()
+  const [currentSubtitle, setCurrentSubtitle] = useState<Subtitle|null>(null)
   const [curMin, setCurMin] = useState(0)
   const [curSecond, setCurSecond] = useState(0)
   const [iframeInited, setIframeInited] = useState(false)
+  const [subTitleInited, setSubTitleInited] = useState(false)
 
   const subtitleRef = useRef<any>(null)
   const iframeContainerRef = useRef<HTMLIFrameElement | null>(null)
 
   useEffect(() => {
     setIframeInited(false)
+    setSubTitleInited(false)
   }, [playingSpecial])
 
   const {
     seconds: totalSeconds,
-    // seconds,
-    // minutes,
-    // hours,
-    // days,
-    // isRunning,
-    // start,
-    // pause,
-    // resume,
     setSeconds,
     reset,
   } = useTimer({ 
@@ -63,8 +57,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
 
 
   useEffect(() => {
-    if (subtitleRef.current) {
-      console.log('totalSeconds', totalSeconds)
+    if (subtitleRef.current && currentSubtitle) {
       subtitleRef.current.setCurrentTime(totalSeconds)
     }
   }, [totalSeconds])
@@ -82,20 +75,27 @@ export default function VideoPlayer (props: VideoPlayerProps) {
       };
       subtitleRef.current = new SubtitlesOctopus(options);
 
-      reset()
+      
+      if (!subTitleInited) {
+        setSubTitleInited(true)
+        reset()
+      }
 
       console.log('subtitle init')
+    } else {
+      // destory subtitle
+      if (subtitleRef.current) {
+        subtitleRef.current.dispose()
+      }
     }
   }, [currentSubtitle])
 
   useEffect(() => {
     function mouseOverDone() {
-      console.log('mouseOverDone')
       setIsMouseOvered(true)
     }
 
     function mouseLeaveDone() {
-      console.log('mouseLeaveDone')
       setIsMouseOvered(false)
     }
 
@@ -111,6 +111,8 @@ export default function VideoPlayer (props: VideoPlayerProps) {
 
       if (playingSpecial?.bilibiliInfo.subtitles.length) {
         setCurrentSubtitle(playingSpecial?.bilibiliInfo.subtitles[0])
+      } else {
+        setCurrentSubtitle(null)
       }
 
       console.log('iframe event inited')
@@ -146,13 +148,17 @@ export default function VideoPlayer (props: VideoPlayerProps) {
         {/* TODO: figure mention */}
         {/* TODO: split the video content into different material script, show blow the video */}
       </div>
-      <div className='subtitle-container'>
-        <ButtonGroup color="secondary" aria-label="medium secondary button group">
+      { currentSubtitle ?  <div className='subtitle-container'>
+        <ButtonGroup className='subtitles' color="secondary" aria-label="medium secondary button group">
           {playingSpecial.bilibiliInfo.subtitles.map(subtitle => {
             return <Button 
-              // disabled={currentSubtitle?.lan === subtitle.lan} 
               key={subtitle.lan}
               variant={currentSubtitle?.lan === subtitle.lan ? "contained" : 'outlined'}
+              onClick={() => {
+                if (currentSubtitle?.lan !== subtitle.lan) {
+                  setCurrentSubtitle(subtitle)
+                }
+              }}
             >{subtitle.lan}</Button>
           })}
         </ButtonGroup>
@@ -191,15 +197,17 @@ export default function VideoPlayer (props: VideoPlayerProps) {
               console.log(curMin, curSecond, sumSecond)
               if (sumSecond > 0) {
                 setSeconds(sumSecond)
+              } else {
+
               }
             }}
-          >Jump To</Button>
+          >Subtitle Jump To</Button>
         </div>
-      </div>
+      </div> : '' }
       <Typography className='video-title' gutterBottom variant="h5" component="div">
         { playingSpecial.specialName }
       </Typography>
-      <div dangerouslySetInnerHTML={{__html: currentComedian?.AIGeneratedContent.wikiDetail || ''}}>
+      <div dangerouslySetInnerHTML={{__html: currentComedian?.AIGeneratedContent?.wikiDetail || ''}}>
       </div>
     </div>
   );

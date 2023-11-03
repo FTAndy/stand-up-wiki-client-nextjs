@@ -10,7 +10,7 @@ export type Comedian = {
   instagramURL: string,
   specials: Array<Special>,
   ranking: number,
-  AIGeneratedContent: {
+  AIGeneratedContent?: {
     wikiDetail: string
     brief: string,
     tags: Array<string>
@@ -30,7 +30,7 @@ type Role = {
 export enum Langs {
   "enUS" = "en-US",
   "zhs" = "zh-Hans",
-  "zht" = "zh-Hant"
+  "zh" = "zh-Hant"
 }
 
 export type Subtitle = {

@@ -15,6 +15,8 @@
       max-height: 40vh;
       overflow: scroll;
       margin-left: 2vw;
+      display: flex;
+      flex-direction: column;
       .name {
         margin-bottom: 2vh;
       }
@@ -25,7 +27,7 @@
       }
       .play-area {
         cursor: pointer;
-        margin-top: 2vh;
+        margin-top: auto;
         display: flex;
         flex-direction: row;
         align-items: center;

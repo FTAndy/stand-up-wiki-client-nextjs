@@ -39,15 +39,15 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
             <img className='avatar' src={comedian.avatarImgURL} alt={comedian.name} />
             <CardContent className='card-content'>
               <h1 className='name'>{comedian.name}</h1>
-              {comedian.AIGeneratedContent.brief}
+              {comedian?.AIGeneratedContent?.brief}
               <div className='tags'>
-                {comedian.AIGeneratedContent.tags.map(tag => {
+                {comedian?.AIGeneratedContent?.tags.map(tag => {
                   return <Chip className='tag' label={tag} variant="outlined" onClick={() => {}} />
                 })}
               </div>
               <Link href={`/profile/${comedian._id}`} className='play-area'>
                 <PlayCircleIcon className='play-icon'></PlayCircleIcon>
-                <span>Play Specials</span>
+                <span>Play All Specials</span>
               </Link>
             </CardContent>
         </Card>
