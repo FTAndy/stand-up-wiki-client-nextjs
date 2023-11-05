@@ -30,7 +30,7 @@ type Role = {
 export enum Langs {
   "enUS" = "en-US",
   "zhs" = "zh-Hans",
-  "zh" = "zh-Hant"
+  "zht" = "zh-Hant"
 }
 
 export type Subtitle = {
@@ -52,6 +52,7 @@ export type Special = {
     runtimeDuration: string
     tags: Array<string>
     rating: string
+    presentTime: Date
     coverImgURL: string
   }
   bilibiliInfo: {

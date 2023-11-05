@@ -26,6 +26,7 @@ export default function Profile (props: Props) {
 
   useEffect(() => {
     if (data) {
+      data.comedian.specials.sort((a, b) => new Date(b.specialDetail.presentTime).getTime() - new Date(a.specialDetail.presentTime).getTime())
       setCurrentComedian(data.comedian)
     }
   }, [data])

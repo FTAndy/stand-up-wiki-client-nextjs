@@ -109,7 +109,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
         iframeContainerRef.current?.addEventListener('mouseleave', mouseLeaveDone)
       }, 3000)
 
-      if (playingSpecial?.bilibiliInfo.subtitles.length) {
+      if (playingSpecial?.bilibiliInfo?.subtitles?.length) {
         setCurrentSubtitle(playingSpecial?.bilibiliInfo.subtitles[0])
       } else {
         setCurrentSubtitle(null)

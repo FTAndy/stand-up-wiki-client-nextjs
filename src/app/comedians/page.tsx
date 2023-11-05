@@ -12,6 +12,7 @@ import useSWR from 'swr'
 import Chip from '@mui/material/Chip';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import {Comedians} from '@/types/comdian'
+import GlobalLoading from '@/components/GlobalLoading'
 import Typography from '@mui/material/Typography'
 import './page.scss'
 
@@ -27,7 +28,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
   }>('/api/comedians')
 
   if (!data || isLoading) {
-    return 'loading'
+    return <GlobalLoading />
   }
 
   const { comedians } = data
