@@ -9,9 +9,10 @@ import Button from '@mui/material/Button';
 import Link from 'next/link'
 import { CardActionArea } from '@mui/material';
 import useSWR from 'swr'
+import InfiniteScroll from 'react-infinite-scroller';
 import Chip from '@mui/material/Chip';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import {Comedians} from '@/types/comdian'
+import type {Comedian} from '@/types/comdian'
 import GlobalLoading from '@/components/GlobalLoading'
 import Typography from '@mui/material/Typography'
 import './page.scss'
@@ -23,20 +24,51 @@ interface IComediansProps {
 // TODO: SWR SSR
 const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
 
-  const { data, error, isLoading } = useSWR<{
-    comedians: Comedians
-  }>('/api/comedians')
+  const [comedianList, setComedianList] = useState<Array<Comedian>>([])
 
-  if (!data || isLoading) {
+  const { data: initedData, error, isLoading } = useSWR<{
+    comedians: Array<Comedian>
+  }>('/api/comedians?page=1')
+
+  useEffect(() => {
+    if (initedData?.comedians) {
+      setComedianList(initedData.comedians)
+    }
+  }, [initedData])
+
+  if (!initedData || isLoading) {
     return <GlobalLoading />
   }
 
-  const { comedians } = data
+  console.log(comedianList, 'comedianList')
 
   return <div className='comedians-container'>
-    <div className='comedians-list'>
-      { comedians.map(comedian => {
-        return <Card className='card-container'>
+    <InfiniteScroll
+        className='comedians-list'
+        pageStart={1}
+        initialLoad={false}
+        loadMore={(page: number) => {
+          console.log('InfiniteScroll fetch', page)
+          fetch(`/api/comedians?page=${page}`)
+          .then(res => {
+            return res.json()
+          })
+          .then((res: {comedians: Array<Comedian>}) => {
+            const {comedians} = res
+            console.log(comedians, 'comedians', comedianList)
+            if (comedians?.length) {
+              setComedianList([
+                ...comedianList,
+                ...comedians
+              ])
+            }
+          })
+        }}
+        hasMore={true}
+        loader={<div className="loader" key={0}>Loading ...</div>}
+    >
+      { comedianList.map((comedian, index) => {
+        return <Card key={`${comedian._id}_${index}`} className='card-container'>
             <img className='avatar' src={comedian.avatarImgURL} alt={comedian.name} />
             <CardContent className='card-content'>
               <h1 className='name'>{comedian.name}</h1>
@@ -55,7 +87,8 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
             </CardContent>
         </Card>
       }) }
-    </div>
+    </InfiniteScroll>
+
   </div>;
 };
 
