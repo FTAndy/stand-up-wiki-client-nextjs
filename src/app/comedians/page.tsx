@@ -104,14 +104,16 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
     </div>
 
     { searchValue ? 
-      <div className='comedians-list'>
+      <div key='search-result' className='comedians-list'>
         {comedianComponents}
-      </div>
-       : <InfiniteScroll
+      </div> :
+       <InfiniteScroll
+          key='infinite-scroll'
           className='comedians-list'
           pageStart={1}
           initialLoad={false}
           loadMore={(page: number) => {
+            console.log('loadMore!!!')
             fetch(`/api/comedians?page=${page}`)
             .then(res => {
               return res.json()
@@ -132,7 +134,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
       >
         { comedianComponents }
       </InfiniteScroll>
-    }
+    } 
   </div>;
 };
 

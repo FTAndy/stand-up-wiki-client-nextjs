@@ -4,17 +4,36 @@ import { useState } from 'react'
 import { useServerInsertedHTML } from 'next/navigation';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { lime, purple } from '@mui/material/colors';
 
 import CssBaseline from '@mui/material/CssBaseline';
 // import theme from '/path/to/your/theme';
 
 const theme = createTheme({
+  components: {
+    MuiCard: {
+      styleOverrides: {
+
+      }
+    },
+    MuiRating: {
+      styleOverrides: {
+        'icon': {
+          'color': 'unset'
+        }
+      }
+    }
+  },
   palette: {
     primary: {
       main: '#121212'
     },
-    secondary: purple,
+    text: {
+      primary: '#FFFFFF'
+    },
+    background: {
+      paper: '#121212',
+      // default: '#121212'
+    }
   }
 })
 

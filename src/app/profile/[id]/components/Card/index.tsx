@@ -45,13 +45,19 @@ export default function MediaControlCard(props: Props) {
             <Typography component="div" variant="h5">
               { specialName }
             </Typography>
-            <Typography className='datetime' variant="subtitle1" color="text.secondary" component="div">
+            <Typography className='datetime' variant="subtitle1" component="div">
               { datetime }
             </Typography>
-            <Typography className='duration' variant="subtitle1" color="text.secondary" component="div">
+            <Typography className='duration' variant="subtitle1" component="div">
               { runtimeDuration }
             </Typography>
-            <Rating name="half-rating-read" defaultValue={parseFloat(rating)} precision={0.5} max={10} readOnly />
+            <Rating 
+              name="half-rating-read" 
+              defaultValue={parseFloat(rating)} 
+              precision={0.5} 
+              max={10} 
+              readOnly 
+            />
           </CardContent>
         </Box>
       </CardActionArea>

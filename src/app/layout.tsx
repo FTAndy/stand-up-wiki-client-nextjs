@@ -41,9 +41,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html style={{height: '100%'}} lang="en">
-      <body style={{height: '100%'}} className={inter.className}>
-      <div style={{height: '100%'}} className='App'>
+    <html lang="en">
+      <body className={inter.className}>
+      <div className='App'>
         <SWRProvider>
           <ThemeProvider options={{ key: 'mui', prepend: true }}>
             <AppBar className='app-bar' position="fixed">
