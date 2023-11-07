@@ -2,8 +2,8 @@ import './page.scss'
 
 export default function Home() {
   return (
-    <main>
-      home page
+    <main className='main'>
+      <div className='cover'></div>
     </main>
   )
 }

@@ -5,7 +5,9 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
 import {SWRProvider} from './swr-provider'
+import ThemeProvider from './theme-provider'
 import './globals.scss'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -39,22 +41,24 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-      <div className='App'>
-        <AppBar className='app-bar' position="fixed">
-          <Toolbar>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Link className='link' href={page.path} underline="none">
-                  {page.name}
-                </Link>            
-              ))}
-            </Box>
-          </Toolbar>
-        </AppBar>
+    <html style={{height: '100%'}} lang="en">
+      <body style={{height: '100%'}} className={inter.className}>
+      <div style={{height: '100%'}} className='App'>
         <SWRProvider>
-          {children}        
+          <ThemeProvider options={{ key: 'mui', prepend: true }}>
+            <AppBar className='app-bar' position="fixed">
+              <Toolbar>
+                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                  {pages.map((page) => (
+                    <Link className='link' href={page.path} underline="none">
+                      {page.name}
+                    </Link>            
+                  ))}
+                </Box>
+              </Toolbar>
+            </AppBar>
+            {children}        
+          </ThemeProvider>
         </SWRProvider>
       </div>
       </body>
