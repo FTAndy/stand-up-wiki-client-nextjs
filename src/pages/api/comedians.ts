@@ -4,20 +4,28 @@ import MongoClient from '@/service/mongodb'
 const PAGE_SIZE = 5
 
 
-// TODO: Typescript
 export default async function handle(request: NextApiRequest, res: NextApiResponse) {
   await MongoClient.connect()
 
   const Database = MongoClient.db("standup-wiki");
   const Comedian = Database.collection("comedian");
 
-  const {page} = request.query
+  const {page, name} = (request.query as {
+    page: string,
+    name: string
+  })
 
   let comedians = []
 
   if (typeof page === 'string' && parseInt(page) >= 1) {
+    const filter: {
+      name?: string
+    } = {}
+    if (name) {
+      filter.name = name
+    }
     comedians = await Comedian
-    .find({})
+    .find(filter)
     .skip(PAGE_SIZE * (parseInt(page) - 1))
     .limit(PAGE_SIZE)
     .toArray()

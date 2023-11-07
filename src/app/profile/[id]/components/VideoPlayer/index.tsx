@@ -33,6 +33,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
   const { playingSpecial, currentComedian } = useGlobalStore()
   const [isMouseOvered, setIsMouseOvered] = useState<Boolean>(false)
   const [currentSubtitle, setCurrentSubtitle] = useState<Subtitle|null>(null)
+  const wikiElement = useRef<HTMLDivElement>(null) 
   const [curMin, setCurMin] = useState(0)
   const [curSecond, setCurSecond] = useState(0)
   const [iframeInited, setIframeInited] = useState(false)
@@ -61,6 +62,17 @@ export default function VideoPlayer (props: VideoPlayerProps) {
       subtitleRef.current.setCurrentTime(totalSeconds)
     }
   }, [totalSeconds])
+
+  useEffect(() => {
+    if (currentComedian?.AIGeneratedContent?.wikiDetail && wikiElement?.current) {
+      const shadow = wikiElement?.current?.attachShadow({
+        mode: 'closed'
+      })
+      const wikiContainer = document.createElement("section");
+      wikiContainer.innerHTML = currentComedian?.AIGeneratedContent?.wikiDetail
+      shadow.appendChild(wikiContainer)
+    }
+  }, [currentComedian])
 
   useEffect(() => {
     if (currentSubtitle) {
@@ -105,6 +117,8 @@ export default function VideoPlayer (props: VideoPlayerProps) {
 
       setTimeout(() => {
         // TODO: unable to get video init event,
+        // TODO: hover 5s to mouseleave
+        // TODO: thumb up
         iframeContainerRef.current?.addEventListener('mouseover', mouseOverDone)
         iframeContainerRef.current?.addEventListener('mouseleave', mouseLeaveDone)
       }, 3000)
@@ -125,30 +139,29 @@ export default function VideoPlayer (props: VideoPlayerProps) {
   }, [iframeInited])
 
 
-  if (!playingSpecial) {
-    return null
-  }
-
   return (
     <div className='player-container'>
       <div ref={iframeContainerRef} className='iframe-container'>
-        {/* <div className={`cover ${isMouseOvered && 'float'}`} /> */}
-        <iframe 
-          className='iframe'
-          src={`${playingSpecial.bilibiliInfo.iframeUrl}&danmaku=0`}
-          onLoad={() => {
-            console.log('onload!!!')
-            setIframeInited(true)
-          }}
-          allowFullScreen={true}
-        />
-        <canvas width='1000' height='800' className={`${isMouseOvered && 'hide'} canvas`} id="canvas" />
-        {/* TODO: add sidebar comment scroll */}
-        {/* TODO: platform choose */}
-        {/* TODO: figure mention */}
-        {/* TODO: split the video content into different material script, show blow the video */}
+        {playingSpecial ? 
+          <>
+            <iframe 
+              className='iframe'
+              src={`${playingSpecial.bilibiliInfo.iframeUrl}&danmaku=0`}
+              onLoad={() => {
+                console.log('onload!!!')
+                setIframeInited(true)
+              }}
+              allowFullScreen={true}
+            />
+            <canvas width='1000' height='800' className={`${isMouseOvered && 'hide'} canvas`} id="canvas" />
+            {/* TODO: add sidebar comment scroll */}
+            {/* TODO: platform choose */}
+            {/* TODO: figure mention */}
+            {/* TODO: split the video content into different material script, show blow the video */}
+          </>
+         : ''}
       </div>
-      { currentSubtitle ?  <div className='subtitle-container'>
+      { currentSubtitle && playingSpecial ?  <div className='subtitle-container'>
         <ButtonGroup className='subtitles' color="secondary" aria-label="medium secondary button group">
           {playingSpecial.bilibiliInfo.subtitles.map(subtitle => {
             return <Button 
@@ -169,7 +182,8 @@ export default function VideoPlayer (props: VideoPlayerProps) {
             inputProps={{
               type: 'number',
               min: "0",
-              max: "300"
+              max: "300",
+              defaultValue: '0'
             }} 
             onChange={(e) => {
               setCurMin(parseInt(e.target.value))
@@ -182,7 +196,8 @@ export default function VideoPlayer (props: VideoPlayerProps) {
             inputProps={{
               type: 'number',
               min: "0",
-              max: "59"
+              max: "59",
+              defaultValue: '0'
             }}
             onChange={(e) => {
               setCurSecond(parseInt(e.target.value))
@@ -205,9 +220,11 @@ export default function VideoPlayer (props: VideoPlayerProps) {
         </div>
       </div> : '' }
       <Typography className='video-title' gutterBottom variant="h5" component="div">
-        { playingSpecial.specialName }
+        { playingSpecial?.specialName }
       </Typography>
-      <div dangerouslySetInnerHTML={{__html: currentComedian?.AIGeneratedContent?.wikiDetail || ''}}>
+      <div ref={wikiElement}>
+        {/* <div dangerouslySetInnerHTML={{__html: currentComedian?.AIGeneratedContent?.wikiDetail || ''}}>
+        </div> */}
       </div>
     </div>
   );

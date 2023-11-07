@@ -41,9 +41,9 @@ export default function Profile (props: Props) {
   }, [currentComedian])
 
   // TODO: add loading
-  if (!currentComedian) {
-    return null
-  }
+  // if (!currentComedian) {
+  //   return null
+  // }
 
   return (
     <div className='profile-container'>
@@ -51,7 +51,7 @@ export default function Profile (props: Props) {
       <div className='video-container'>
         <VideoPlayer
         />
-        { playingSpecial && 
+        { playingSpecial &&  currentComedian &&
         <div className='discuss-secion'>
           <DiscussionEmbed
               shortname='standupwiki'
@@ -67,7 +67,7 @@ export default function Profile (props: Props) {
         </div>
         }
       </div>
-      <div className='special-container'>{ currentComedian.specials.map(s => {
+      <div className='special-container'>{ currentComedian?.specials?.map(s => {
         return <ComedianCard
             key={s.specialName}
             className='special'
