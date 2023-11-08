@@ -49,7 +49,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
             className='avatar'
             component="img"
             sx={{ width: 200 }}
-            image={comedian.avatarImgURL}
+            image={comedian.avatarUrl}
             alt={comedian.name}
           />
           <CardContent className='card-content'>

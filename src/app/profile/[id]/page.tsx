@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Comedian } from '@/types/comdian'
-import ComedianCard from '@/app/profile/[id]/components/Card'
+import ComedianCard from '@/components/SpecialCard'
 import VideoPlayer from '@/app/profile/[id]/components/VideoPlayer'
 import useSWR from 'swr'
 import { DiscussionEmbed } from 'disqus-react';

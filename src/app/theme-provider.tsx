@@ -74,7 +74,6 @@ export default function ThemeRegistry(props: {
     for (const name of names) {
       styles += cache.inserted[name];
     }
-    console.log(styles, 'styles')
 
     return (
       <style

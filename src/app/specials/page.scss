@@ -1,0 +1,10 @@
+.specials-container {
+  padding-top: 20px;
+  .specials-list {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    margin: 0 auto;
+    gap: 10px;
+  }
+}

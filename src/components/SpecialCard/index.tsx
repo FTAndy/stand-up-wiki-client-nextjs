@@ -13,7 +13,7 @@ import { CardActionArea } from '@mui/material';
 import './index.scss'
 
 interface Props {
-  className: string
+  className?: string
   special: Special
 }
 
@@ -51,6 +51,7 @@ export default function MediaControlCard(props: Props) {
             <Typography className='duration' variant="subtitle1" component="div">
               { runtimeDuration }
             </Typography>
+            <Typography component="legend">{parseFloat(rating)} stars</Typography>
             <Rating 
               name="half-rating-read" 
               defaultValue={parseFloat(rating)} 
