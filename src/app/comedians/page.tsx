@@ -14,6 +14,7 @@ import Chip from '@mui/material/Chip';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import type {Comedian} from '@/types/comdian'
 import GlobalLoading from '@/components/GlobalLoading'
+import axios from 'axios'
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Typography from '@mui/material/Typography'
@@ -75,13 +76,12 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
     return <GlobalLoading />
   }
 
-  console.log(comedianList, 'comedianList')
+  // TODO: change to instant search
 
   return <div className='comedians-container'>
     <div className='search-area'>
       { comedianNamesData ? <Autocomplete
         disablePortal
-        id="combo-box-demo"
         options={comedianNamesData?.map(s => {
           return {
             label: s.name,
@@ -113,14 +113,9 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
           pageStart={1}
           initialLoad={false}
           loadMore={(page: number) => {
-            console.log('loadMore!!!')
-            fetch(`/api/comedians?page=${page}`)
-            .then(res => {
-              return res.json()
-            })
-            .then((res: {comedians: Array<Comedian>}) => {
-              const {comedians} = res
-              console.log(comedians, 'comedians', comedianList)
+            axios<{comedians: Array<Comedian>}>(`/api/comedians?page=${page}`)
+            .then((res) => {
+              const {comedians} = res.data
               if (comedians?.length) {
                 setComedianList([
                   ...comedianList,
@@ -130,7 +125,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
             })
           }}
           hasMore={true}
-          loader={<div className="loader" key={0}>Loading ...</div>}
+          loader={''}
       >
         { comedianComponents }
       </InfiniteScroll>

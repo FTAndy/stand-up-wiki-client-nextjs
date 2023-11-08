@@ -18,10 +18,13 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
   if (typeof page === 'string' && parseInt(page) >= 1) {
     let specials = []
     const filter: {
-      name?: string
+      name?: {}
     } = {}
     if (name) {
-      filter.name = name
+      filter.name = {
+        $regex: name, 
+        $options: 'i' // this makes the search case-insensitive
+      }
     }
     specials = await Special
     .find(filter)

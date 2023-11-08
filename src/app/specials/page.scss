@@ -1,5 +1,17 @@
 .specials-container {
   padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .search-area {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .search-button {
+      margin-left: 2vw;
+    }
+  }
   .specials-list {
     display: flex;
     flex-direction: column;

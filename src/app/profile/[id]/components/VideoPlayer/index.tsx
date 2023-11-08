@@ -8,6 +8,7 @@ import type {Subtitle} from '@/types/comdian'
 import { Langs } from '@/types/comdian'
 import Button from '@mui/material/Button';
 import {useTimer} from '@/app/hooks/timer'
+import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -64,15 +65,35 @@ export default function VideoPlayer (props: VideoPlayerProps) {
   }, [totalSeconds])
 
   useEffect(() => {
-    if (currentComedian?.AIGeneratedContent?.wikiDetail && wikiElement?.current) {
-      const shadow = wikiElement?.current?.attachShadow({
-        mode: 'closed'
-      })
-      const wikiContainer = document.createElement("section");
-      wikiContainer.innerHTML = currentComedian?.AIGeneratedContent?.wikiDetail
-      shadow.appendChild(wikiContainer)
+    // Only proceed if the current comedian has wiki details and the ref is attached to an element
+    if (currentComedian?.AIGeneratedContent?.wikiDetail && wikiElement.current) {
+      // Check if the element can have a shadow root and doesn't already have one
+      if (wikiElement.current.shadowRoot === null) {
+        try {
+          const shadow = wikiElement.current.attachShadow({ mode: 'closed' });
+          const wikiContainer = document.createElement("section");
+          wikiContainer.innerHTML = currentComedian.AIGeneratedContent.wikiDetail;
+          shadow.appendChild(wikiContainer);
+
+          // Return a cleanup function
+          return () => {
+            // Ensure the shadow root still exists
+            if (wikiElement.current && wikiElement.current.shadowRoot) {
+              const shadowRoot = wikiElement.current.shadowRoot;
+              // Use shadowRoot.contains to ensure the element is still in the shadow DOM
+              if (shadowRoot.contains(wikiContainer)) {
+                shadowRoot.removeChild(wikiContainer);
+              }
+            }
+          };
+        } catch (error) {
+          console.error('Error attaching shadow root:', error);
+        }
+      } else {
+        console.warn('Shadow root already exists for this element.');
+      }
     }
-  }, [currentComedian])
+  }, [currentComedian]);
 
   useEffect(() => {
     if (currentSubtitle) {
@@ -162,6 +183,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
          : ''}
       </div>
       { currentSubtitle && playingSpecial ?  <div className='subtitle-container'>
+        <ClosedCaptionIcon />
         <ButtonGroup className='subtitles' color="secondary" aria-label="medium secondary button group">
           {playingSpecial.bilibiliInfo.subtitles.map(subtitle => {
             return <Button 

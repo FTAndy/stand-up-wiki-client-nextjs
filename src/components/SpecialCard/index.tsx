@@ -35,11 +35,10 @@ export default function MediaControlCard(props: Props) {
       >
         <CardMedia
           component="img"
-          sx={{ width: 151 }}
+          sx={{ width: 150 }}
           image={coverImgURL}
           // alt=""
         />
-
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <CardContent className='body' sx={{ flex: '1 0 auto' }}>
             <Typography component="div" variant="h5">

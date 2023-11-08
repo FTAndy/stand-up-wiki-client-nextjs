@@ -1,5 +1,8 @@
 'use client';
 import { SWRConfig } from 'swr'
+import axios from 'axios'
+
+// TODO: axios agent
 export const SWRProvider = ({ children }: any) => {
   return <SWRConfig
     value={{
@@ -8,7 +11,10 @@ export const SWRProvider = ({ children }: any) => {
       revalidateIfStale: false,
       revalidateOnReconnect: false,
       errorRetryCount: 3,
-      fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
+      fetcher: (resource, init) => {
+        return axios(resource, init)
+        .then(res => res.data)
+      }
     }}
   >{children}
   </SWRConfig>

@@ -35,7 +35,7 @@ export default function Profile (props: Props) {
 
 
   useEffect(() => {
-    if (currentComedian) {
+    if (currentComedian && !playingSpecial) {
       setPlayingSpecial(currentComedian.specials[0])
     }
   }, [currentComedian])

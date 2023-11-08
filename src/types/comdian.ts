@@ -46,6 +46,7 @@ export type Subtitle = {
 }
 
 export type Special = {
+  comedian_id: string
   specialDetail: {
     datetime: string
     netflixURL: string

@@ -20,6 +20,10 @@ const pages = [
     name: 'Comedians',
     path: '/comedians'
   },
+  {
+    name: 'Specials',
+    path: '/specials'
+  }
   // {
   //   name: 'Profile',
   //   path: '/profile'

@@ -3,13 +3,24 @@ import createCache from '@emotion/cache';
 import { useState } from 'react'
 import { useServerInsertedHTML } from 'next/navigation';
 import { CacheProvider } from '@emotion/react';
+import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import CssBaseline from '@mui/material/CssBaseline';
 // import theme from '/path/to/your/theme';
 
+const mainColor = '#121212'
+const fontColor = '#E8E6E3'
+
 const theme = createTheme({
   components: {
+    MuiTypography: {
+      styleOverrides: {
+        h1: {
+          // color: fontColor
+        }
+      }
+    },
     MuiCard: {
       styleOverrides: {
 
@@ -21,18 +32,41 @@ const theme = createTheme({
           'color': 'unset'
         }
       }
-    }
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        'input': {
+          color: 'black',
+        },
+      }
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: {
+          borderColor: mainColor,
+        },
+        root: {
+          [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
+            borderColor: mainColor,
+          },
+          [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+            borderColor: mainColor,
+          },
+        },
+      },
+    },
+
   },
   palette: {
     primary: {
-      main: '#121212'
+      main: mainColor
     },
     text: {
-      primary: '#FFFFFF'
+      primary: fontColor
     },
     background: {
-      paper: '#121212',
-      // default: '#121212'
+      paper: mainColor,
+      default: '#f9f3e5'
     }
   }
 })
@@ -80,8 +114,8 @@ export default function ThemeRegistry(props: {
         key={cache.key}
         data-emotion={`${cache.key} ${names.join(' ')}`}
         dangerouslySetInnerHTML={{
-          // __html: styles,
-          __html: options.prepend ? `@layer emotion {${styles}}` : styles,
+          __html: styles,
+          // __html: options.prepend ? `@layer emotion {${styles}}` : styles,
         }}
       />
     );

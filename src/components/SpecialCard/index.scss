@@ -1,6 +1,10 @@
 .comedian-card {
-  display: flex !important;
-  justify-content: flex-start !important;
+  display: flex;
+  flex-direction: row;
+  max-width: 50vw;
+  // max-height: 40vh;
+  // overflow-y: scroll;
+  justify-content: flex-start ;
   .MuiTypography-root {
     text-align: left;
   }
