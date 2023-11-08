@@ -1,5 +1,6 @@
 import './page.scss'
 import Typography from '@mui/material/Typography';
+import Link from 'next/link'
 import Button from '@mui/material/Button';
 
 export default function Home() {
@@ -14,8 +15,12 @@ export default function Home() {
           Specials For Free
         </Typography>
         <div className='buttons'>
-          <Button variant="contained">Find Comedians</Button>
-          <Button variant="contained">Watch Free Specials</Button>
+          <Link href='/comedians'>
+            <Button variant="contained">Find Comedians</Button>
+          </Link>
+          <Link href='/specials'>
+            <Button variant="contained">Watch Free Specials</Button>
+          </Link>
         </div>
       </div>
     </main>

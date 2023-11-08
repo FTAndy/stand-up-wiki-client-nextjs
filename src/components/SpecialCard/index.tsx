@@ -52,6 +52,7 @@ export default function MediaControlCard(props: Props) {
             </Typography>
             <Typography component="legend">{parseFloat(rating)} stars</Typography>
             <Rating 
+              size='large'
               name="half-rating-read" 
               defaultValue={parseFloat(rating)} 
               precision={0.5} 
