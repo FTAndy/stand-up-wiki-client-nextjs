@@ -7,6 +7,7 @@ import type { Special } from '@/types/comdian'
 import TextField from '@mui/material/TextField';
 import InfiniteScroll from 'react-infinite-scroller';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Link from 'next/link'
 import axios from 'axios'
 import debounce from 'lodash/debounce'
@@ -19,6 +20,7 @@ export default function App (props: IAppProps) {
   const [searchValue, setSearchValue] = useState('')
   const [specialList, setSpecialList] = useState<Array<Special>>([])
 
+  // TODO: remove this
   const {data: initedSpecialList, isLoading} = useSWR<Array<Special>>(
     `/api/specials?page=1${searchValue ? `&name=${searchValue}` : ''}`
   )
@@ -31,11 +33,12 @@ export default function App (props: IAppProps) {
     }
   }, [initedSpecialList])
 
+  console.log(specialList.length, 'specialList')
+
   const specialsComponent = useMemo(() => {
     return specialList?.map(s => {
-      return <Link href={`/profile/${s.comedian_id}`}>
+      return <Link key={s._id} href={`/profile/${s.comedian_id}`}>
         <SpecialCard
-          key={s.specialName}
           special={s}
         />
       </Link>
@@ -66,6 +69,7 @@ export default function App (props: IAppProps) {
         />        
       </div>
       { isLoading ? <GlobalLoading /> : 
+        // TODO: replace with https://github.com/ankeetmaini/react-infinite-scroll-component
         <InfiniteScroll
           key={`infinite-scroll-${searchValue}`}
           className='specials-list'
@@ -86,7 +90,7 @@ export default function App (props: IAppProps) {
             })
           }}
           hasMore={true}
-          loader={''}
+          loader={<CircularProgress style={{alignSelf: 'center'}} />}
       >
         {specialsComponent}
       </InfiniteScroll>

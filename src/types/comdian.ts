@@ -4,10 +4,10 @@ export type Comedian = {
   _id: string
   name: string,
   desc: string,
-  avatarImgURL: string,
   avatarUrl: string,
   wikiUrl: string,
   instagramURL: string,
+  IMDBURL: string,
   specials: Array<Special>,
   ranking: number,
   AIGeneratedContent?: {
@@ -46,6 +46,7 @@ export type Subtitle = {
 }
 
 export type Special = {
+  _id: string,
   comedian_id: string
   specialDetail: {
     datetime: string

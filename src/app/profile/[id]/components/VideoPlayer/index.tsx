@@ -183,7 +183,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
          : ''}
       </div>
       { currentSubtitle && playingSpecial ?  <div className='subtitle-container'>
-        <ClosedCaptionIcon />
+        <ClosedCaptionIcon className='cc-icon' />
         <ButtonGroup className='subtitles' color="secondary" aria-label="medium secondary button group">
           {playingSpecial.bilibiliInfo.subtitles.map(subtitle => {
             return <Button 

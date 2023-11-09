@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import MongoClient from '@/service/mongodb'
+import {getMongoDbClient} from '@/service/mongo-client'
 import {ObjectId} from 'mongodb'
 
 // TODO: Typescript
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query
 
-  await MongoClient.connect()
+  const MongoClient = await getMongoDbClient()
 
   const Database = MongoClient.db("standup-wiki");
   const Comedian = Database.collection("comedian");
@@ -40,6 +40,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       comedian
     })
   } else {
-
+    res
+    .status(404)
   }
 }

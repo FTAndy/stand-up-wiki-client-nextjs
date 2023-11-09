@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import MongoClient from '@/service/mongodb'
+import {getMongoDbClient} from '@/service/mongo-client'
 
 const PAGE_SIZE = 5
 
 
 export default async function handle(request: NextApiRequest, res: NextApiResponse) {
-  await MongoClient.connect()
+  const MongoClient = await getMongoDbClient()
 
   const Database = MongoClient.db("standup-wiki");
   const Comedian = Database.collection("comedian");

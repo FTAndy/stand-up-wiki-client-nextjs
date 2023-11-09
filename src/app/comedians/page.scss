@@ -15,7 +15,7 @@
       display: flex;
       flex-direction: row;
       width: 50vw;
-      max-height: 40vh;
+      max-height: 45vh;
       overflow-y: scroll;
       .brief {
         display: -webkit-box;
@@ -25,15 +25,25 @@
         overflow: hidden;
       }
       .avatar {
-        height: 40vh;
+        height: 45vh;
       }
       .card-content {
-        max-height: 40vh;
+        max-height: 45vh;
         overflow-y: scroll;
         display: flex;
         flex-direction: column;
         &:last-child {
           padding-bottom: 16px;
+        }
+        .external-websites {
+          margin-top: 2vh;
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+          img {
+            width: 30px;
+            height: 30px;
+          }
         }
         .name {
           margin-bottom: 2vh;

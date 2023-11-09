@@ -17,6 +17,7 @@ import GlobalLoading from '@/components/GlobalLoading'
 import axios from 'axios'
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography'
 import './page.scss'
 
@@ -62,6 +63,23 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
               {comedian?.AIGeneratedContent?.tags.map(tag => {
                 return <Chip className='tag' label={tag} variant="outlined" onClick={() => {}} />
               })}
+            </div>
+            
+            <div className='external-websites'>
+              { comedian.IMDBURL ? 
+                // TODO: high resolution icon
+                <Link target='_blank' href={comedian.IMDBURL}>
+                  <img src="https://m.media-amazon.com/images/G/01/imdb/images-ANDW73HA/favicon_desktop_32x32._CB1582158068_.png" alt="imdb" />
+                </Link>
+                :''
+              }
+              { comedian.wikiUrl ? 
+                // TODO: high resolution icon
+                <Link target='_blank' href={comedian.wikiUrl}>
+                  <img src="https://www.wikipedia.org/static/favicon/wikipedia.ico" alt="wikipedia" />
+                </Link>
+                :''
+              }
             </div>
             <Link href={`/profile/${comedian._id}`} className='play-area'>
               <PlayCircleIcon className='play-icon'></PlayCircleIcon>
@@ -125,7 +143,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
             })
           }}
           hasMore={true}
-          loader={''}
+          loader={<CircularProgress style={{alignSelf: 'center'}} />}
       >
         { comedianComponents }
       </InfiniteScroll>

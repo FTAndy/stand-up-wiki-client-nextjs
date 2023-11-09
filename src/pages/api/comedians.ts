@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import MongoClient from '@/service/mongodb'
+import {getMongoDbClient} from '@/service/mongo-client'
 
 const PAGE_SIZE = 5
 
 
 export default async function handle(request: NextApiRequest, res: NextApiResponse) {
-  await MongoClient.connect()
+  const MongoClient = await getMongoDbClient()
 
   const Database = MongoClient.db("standup-wiki");
   const Comedian = Database.collection("comedian");
@@ -19,10 +19,13 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
 
   if (typeof page === 'string' && parseInt(page) >= 1) {
     const filter: {
-      name?: string
+      name?: {
+      }
     } = {}
     if (name) {
-      filter.name = name
+      filter.name = {
+        $search: name
+      }
     }
     comedians = await Comedian
     .find(filter)
@@ -38,5 +41,4 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
   .json({
     comedians
   })
-
 }

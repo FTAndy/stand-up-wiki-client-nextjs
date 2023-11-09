@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import MongoClient from '@/service/mongodb'
+import {getMongoDbClient} from '@/service/mongo-client'
 
 const PAGE_SIZE = 5
 
 
 export default async function handle(request: NextApiRequest, res: NextApiResponse) {
-  await MongoClient.connect()
+  const MongoClient = await getMongoDbClient()
 
   const Database = MongoClient.db("standup-wiki");
   const Special = Database.collection("special");
@@ -29,7 +29,8 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
     specials = await Special
     .find(filter)
     .sort({ 
-      'specialDetail.rating': -1
+      'specialDetail.rating': -1,
+      '_id': 1
     })
     .skip(PAGE_SIZE * (parseInt(page) - 1))
     .limit(PAGE_SIZE)

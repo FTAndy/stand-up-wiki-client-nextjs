@@ -7,6 +7,7 @@ import VideoPlayer from '@/app/profile/[id]/components/VideoPlayer'
 import useSWR from 'swr'
 import { DiscussionEmbed } from 'disqus-react';
 import { useGlobalStore } from '@/store'
+import GlobalLoading from '@/components/GlobalLoading'
 import './page.scss'
 
 export interface Props {
@@ -48,10 +49,12 @@ export default function Profile (props: Props) {
   return (
     <div className='profile-container'>
       {/* <div>{ comedian.name }</div> */}
+      { isLoading ? <GlobalLoading></GlobalLoading> : '' }
       <div className='video-container'>
         <VideoPlayer
         />
         { playingSpecial &&  currentComedian &&
+        // TODO: wiki and comment become tabs section
         <div className='discuss-secion'>
           <DiscussionEmbed
               shortname='standupwiki'
