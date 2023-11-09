@@ -30,6 +30,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
 
   const [searchValue, setSearchValue] = useState('')
   const [comedianList, setComedianList] = useState<Array<Comedian>>([])
+  const [moreLoading, setMoreLoading] = useState(false)
 
   const { data: initedComedianData, error, isLoading } = useSWR<{
     comedians: Array<Comedian>
@@ -117,8 +118,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
       /> : '' }
     </div>
     
-    {/* { isLoading ? <GlobalLoading /> : ''
-    } */}
+    { isLoading ? <GlobalLoading /> : ''}
 
     { searchValue ? 
       <div key='search-result' className='comedians-list'>
@@ -130,6 +130,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
           pageStart={1}
           initialLoad={false}
           loadMore={(page: number) => {
+            setMoreLoading(true)
             axios<{comedians: Array<Comedian>}>(`/api/comedians?page=${page}`)
             .then((res) => {
               const {comedians} = res.data
@@ -140,9 +141,10 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
                 ])
               }
             })
+            .finally(() => setMoreLoading(false))
           }}
           hasMore={true}
-          loader={<CircularProgress style={{alignSelf: 'center'}} />}
+          loader={moreLoading && <CircularProgress style={{alignSelf: 'center'}} />}
       >
         { comedianComponents }
       </InfiniteScroll>

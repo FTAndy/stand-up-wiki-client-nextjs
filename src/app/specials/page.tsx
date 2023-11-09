@@ -19,6 +19,7 @@ export interface IAppProps {
 export default function App (props: IAppProps) {
   const [searchValue, setSearchValue] = useState('')
   const [specialList, setSpecialList] = useState<Array<Special>>([])
+  const [moreLoading, setMoreLoading] = useState(false)
 
   // TODO: remove this
   const {data: initedSpecialList, isLoading} = useSWR<Array<Special>>(
@@ -76,6 +77,7 @@ export default function App (props: IAppProps) {
           pageStart={1}
           initialLoad={false}
           loadMore={(page: number) => {
+            setMoreLoading(true)
             axios<Array<Special>>(
               `/api/specials?page=${page}${searchValue ? `&name=${searchValue}` : ''}`
             )
@@ -88,9 +90,12 @@ export default function App (props: IAppProps) {
                 ])
               }
             })
+            .finally(() => {
+              setMoreLoading(false)
+            })
           }}
           hasMore={true}
-          loader={<CircularProgress style={{alignSelf: 'center'}} />}
+          loader={moreLoading && <CircularProgress style={{alignSelf: 'center'}} />}
       >
         {specialsComponent}
       </InfiniteScroll>
