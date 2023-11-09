@@ -83,16 +83,12 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
             </div>
             <Link href={`/profile/${comedian._id}`} className='play-area'>
               <PlayCircleIcon className='play-icon'></PlayCircleIcon>
-              <span>Watch All Specials For Free</span>
+              <span>Watch All {comedian.specialSize || ''} Specials For Free</span>
             </Link>
           </CardContent>
       </Card>
     }) 
   }, [comedianList])
-
-  if (isLoading) {
-    return <GlobalLoading />
-  }
 
   // TODO: change to instant search
 
@@ -120,13 +116,16 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
         renderInput={(params) => <TextField {...params} label="Search Comedian" />}
       /> : '' }
     </div>
+    
+    {/* { isLoading ? <GlobalLoading /> : ''
+    } */}
 
     { searchValue ? 
       <div key='search-result' className='comedians-list'>
         {comedianComponents}
       </div> :
        <InfiniteScroll
-          key='infinite-scroll'
+          key={`infinite-scroll-${searchValue}`}
           className='comedians-list'
           pageStart={1}
           initialLoad={false}

@@ -10,6 +10,7 @@ export type Comedian = {
   IMDBURL: string,
   specials: Array<Special>,
   ranking: number,
+  specialSize: number,
   AIGeneratedContent?: {
     wikiDetail: string
     brief: string,
