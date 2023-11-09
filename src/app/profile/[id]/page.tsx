@@ -5,7 +5,7 @@ import { Comedian } from '@/types/comdian'
 import ComedianCard from '@/components/SpecialCard'
 import VideoPlayer from '@/app/profile/[id]/components/VideoPlayer'
 import useSWR from 'swr'
-import { DiscussionEmbed } from 'disqus-react';
+import TabComponent from './components/Tab'
 import { useGlobalStore } from '@/store'
 import GlobalLoading from '@/components/GlobalLoading'
 import './page.scss'
@@ -32,9 +32,6 @@ export default function Profile (props: Props) {
     }
   }, [data])
 
-  console.log(data, 'data')
-
-
   useEffect(() => {
     if (currentComedian && !playingSpecial) {
       setPlayingSpecial(currentComedian.specials[0])
@@ -53,22 +50,7 @@ export default function Profile (props: Props) {
       <div className='video-container'>
         <VideoPlayer
         />
-        { playingSpecial &&  currentComedian &&
-        // TODO: wiki and comment become tabs section
-        <div className='discuss-secion'>
-          <DiscussionEmbed
-              shortname='standupwiki'
-              config={
-                  {
-                      // url: this.props.article.url,
-                      identifier: `${currentComedian._id}_${playingSpecial.specialName}`,
-                      title: currentComedian.name,
-                      // language: 'zh_TW' //e.g. for Traditional Chinese (Taiwan)	
-                  }
-              }
-          />   
-        </div>
-        }
+        <TabComponent></TabComponent>
       </div>
       <div className='special-container'>{ currentComedian?.specials?.map(s => {
         return <ComedianCard

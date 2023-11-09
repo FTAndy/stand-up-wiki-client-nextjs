@@ -9,7 +9,6 @@ import { Langs } from '@/types/comdian'
 import Button from '@mui/material/Button';
 import {useTimer} from '@/app/hooks/timer'
 import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import './index.scss'
@@ -34,7 +33,6 @@ export default function VideoPlayer (props: VideoPlayerProps) {
   const { playingSpecial, currentComedian } = useGlobalStore()
   const [isMouseOvered, setIsMouseOvered] = useState<Boolean>(false)
   const [currentSubtitle, setCurrentSubtitle] = useState<Subtitle|null>(null)
-  const wikiElement = useRef<HTMLDivElement>(null) 
   const [curMin, setCurMin] = useState(0)
   const [curSecond, setCurSecond] = useState(0)
   const [iframeInited, setIframeInited] = useState(false)
@@ -64,36 +62,6 @@ export default function VideoPlayer (props: VideoPlayerProps) {
     }
   }, [totalSeconds])
 
-  useEffect(() => {
-    // Only proceed if the current comedian has wiki details and the ref is attached to an element
-    if (currentComedian?.AIGeneratedContent?.wikiDetail && wikiElement.current) {
-      // Check if the element can have a shadow root and doesn't already have one
-      if (wikiElement.current.shadowRoot === null) {
-        try {
-          const shadow = wikiElement.current.attachShadow({ mode: 'closed' });
-          const wikiContainer = document.createElement("section");
-          wikiContainer.innerHTML = currentComedian.AIGeneratedContent.wikiDetail;
-          shadow.appendChild(wikiContainer);
-
-          // Return a cleanup function
-          return () => {
-            // Ensure the shadow root still exists
-            if (wikiElement.current && wikiElement.current.shadowRoot) {
-              const shadowRoot = wikiElement.current.shadowRoot;
-              // Use shadowRoot.contains to ensure the element is still in the shadow DOM
-              if (shadowRoot.contains(wikiContainer)) {
-                shadowRoot.removeChild(wikiContainer);
-              }
-            }
-          };
-        } catch (error) {
-          console.error('Error attaching shadow root:', error);
-        }
-      } else {
-        console.warn('Shadow root already exists for this element.');
-      }
-    }
-  }, [currentComedian]);
 
   useEffect(() => {
     if (currentSubtitle) {
@@ -163,6 +131,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
   return (
     <div className='player-container'>
       <div ref={iframeContainerRef} className='iframe-container'>
+        <div className='slot'></div>
         {playingSpecial ? 
           <>
             <iframe 
@@ -184,7 +153,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
       </div>
       { currentSubtitle && playingSpecial ?  <div className='subtitle-container'>
         <ClosedCaptionIcon className='cc-icon' />
-        <ButtonGroup className='subtitles' color="secondary" aria-label="medium secondary button group">
+        <ButtonGroup className='subtitles' aria-label="large primary button group">
           {playingSpecial.bilibiliInfo.subtitles.map(subtitle => {
             return <Button 
               key={subtitle.lan}
@@ -194,7 +163,9 @@ export default function VideoPlayer (props: VideoPlayerProps) {
                   setCurrentSubtitle(subtitle)
                 }
               }}
-            >{subtitle.lan}</Button>
+            >
+              {subtitle.lan}
+            </Button>
           })}
         </ButtonGroup>
         <div className='jump-to'>
@@ -244,10 +215,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
       <Typography className='video-title' gutterBottom variant="h5" component="div">
         { playingSpecial?.specialName }
       </Typography>
-      <div ref={wikiElement}>
-        {/* <div dangerouslySetInnerHTML={{__html: currentComedian?.AIGeneratedContent?.wikiDetail || ''}}>
-        </div> */}
-      </div>
+
     </div>
   );
 }
