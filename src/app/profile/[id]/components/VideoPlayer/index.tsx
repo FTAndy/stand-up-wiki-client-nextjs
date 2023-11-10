@@ -18,13 +18,12 @@ export interface VideoPlayerProps {
 }
 
 const FontMap = (lang: Langs) => {
-  switch (lang) {
-    case Langs['enUS']:
-      return ['/Arial.ttf', '/TimesNewRoman.ttf']  
-    case Langs['zhs']:
-      return ['/zh-Hans.ttf']
-    case Langs['zht']:
-      return ['/zh-Hant.ttf']
+  if (lang === 'en-US') {
+    return ['/Arial.ttf', '/TimesNewRoman.ttf']  
+  } else if (['zh-Hant'].includes(lang)) {
+    return ['/zh-Hant.ttf']
+  } else if (['zh-CN', 'zh-Hans' , 'ai-zh'].includes(lang)) {
+    return ['/zh-Hans.ttf']
   }
 }
 
@@ -65,11 +64,13 @@ export default function VideoPlayer (props: VideoPlayerProps) {
 
   useEffect(() => {
     if (currentSubtitle) {
+      console.log(currentSubtitle?.lan, FontMap(currentSubtitle?.lan), 'lang')
+
       // Init subtitle
       var options = {
         canvas: document.getElementById('canvas'), // canvas element
         // prescaleFactor: 100,
-        fonts: FontMap(currentSubtitle?.lan || Langs['enUS']),
+        fonts: FontMap(currentSubtitle?.lan || 'en-US'),
         subUrl: currentSubtitle?.subtitleASSURL, // Link to subtitles
         // fonts: ['/test/font-1.ttf', '/test/font-2.ttf'], // Links to fonts (not required, default font already included in build)
         workerUrl: '/subtitles-octopus-worker.js' // Link to file "libassjs-worker.js"
@@ -86,7 +87,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
     } else {
       // destory subtitle
       if (subtitleRef.current) {
-        subtitleRef.current.dispose()
+        subtitleRef.current?.dispose()
       }
     }
   }, [currentSubtitle])
@@ -143,7 +144,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
               }}
               allowFullScreen={true}
             />
-            <canvas width='1000' height='800' className={`${isMouseOvered && 'hide'} canvas`} id="canvas" />
+            <canvas width='1000' height='800' className={`${(isMouseOvered || !currentSubtitle) && 'hide'} canvas`} id="canvas" />
             {/* TODO: add sidebar comment scroll */}
             {/* TODO: platform choose */}
             {/* TODO: figure mention */}

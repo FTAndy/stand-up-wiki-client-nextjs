@@ -45,30 +45,32 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
 
     if (name) {
       pipelines.unshift({
+        $sort: {
+          score: { $meta: "textScore" }, // Sort by text search relevance
+          otherField: 1 // Additional sorting criteria (optional)
+        }
+      })
+      pipelines.unshift({
         $match: {
           $text: {
             $search: name,
             $language: "english"
           }
-        }
+        },
       })
     }
 
     comedians = await Comedian.aggregate(pipelines)
     .toArray()
 
-    // comedians = await Comedian
-    // .find(filter)
-    // .skip(PAGE_SIZE * (parseInt(page) - 1))
-    // .limit(PAGE_SIZE)
-    // .toArray()
+    res
+    .status(200)
+    .json({
+      comedians
+    })
   } else {
-    comedians = await Comedian.find({}).toArray();
+    res
+    .status(404)
   }
 
-  res
-  .status(200)
-  .json({
-    comedians
-  })
 }

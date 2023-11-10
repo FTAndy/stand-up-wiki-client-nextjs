@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-height: calc(100vh - 64px);
+  overflow: auto;
   .search-area {
     margin-bottom: 10px;
     display: flex;

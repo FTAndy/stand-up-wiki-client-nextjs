@@ -14,12 +14,13 @@ import './index.scss'
 
 interface Props {
   className?: string
-  special: Special
+  special: Special,
+  onClick?: () => void
 }
 
 export default function MediaControlCard(props: Props) {
-  const { special, className } = props
-  const { specialDetail, specialName } = special
+  const { special, className, onClick } = props
+  const { specialDetail, specialName, comedianName } = special
   const { coverImgURL, datetime, runtimeDuration, rating } = specialDetail
   const theme = useTheme();
 
@@ -30,6 +31,7 @@ export default function MediaControlCard(props: Props) {
       <CardActionArea 
         onClick={() => {
           setPlayingSpecial(special)
+          onClick?.()
         }} 
         className='comedian-card'
       >
@@ -43,6 +45,9 @@ export default function MediaControlCard(props: Props) {
           <CardContent className='body' sx={{ flex: '1 0 auto' }}>
             <Typography component="div" variant="h5">
               { specialName }
+            </Typography>
+            <Typography component="div" variant="subtitle1">
+              { comedianName }
             </Typography>
             <Typography className='datetime' variant="subtitle1" component="div">
               { datetime }

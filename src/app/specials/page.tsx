@@ -8,9 +8,11 @@ import TextField from '@mui/material/TextField';
 import InfiniteScroll from 'react-infinite-scroller';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+// import InfiniteScroll from 'react-infinite-scroll-component'
 import Link from 'next/link'
 import axios from 'axios'
 import debounce from 'lodash/debounce'
+import throttle from 'lodash/throttle'
 import './page.scss'
 
 export interface IAppProps {
@@ -19,6 +21,7 @@ export interface IAppProps {
 export default function App (props: IAppProps) {
   const [searchValue, setSearchValue] = useState('')
   const [specialList, setSpecialList] = useState<Array<Special>>([])
+  const [page, setPage] = useState(1)
   const [moreLoading, setMoreLoading] = useState(false)
 
   // TODO: remove this
@@ -47,12 +50,12 @@ export default function App (props: IAppProps) {
   }, [specialList])
 
   const debouncedOnChange = useCallback(debounce((newValue: string) => {
-    console.log(newValue, 'newValue')
     if (newValue) {
       setSearchValue(newValue)
     } else {
       setSearchValue('')
     }
+    setPage(1)
   }, 500), [])
 
   return (
@@ -75,24 +78,29 @@ export default function App (props: IAppProps) {
           key={`infinite-scroll-${searchValue}`}
           className='specials-list'
           pageStart={1}
+          useWindow={false}
           initialLoad={false}
-          loadMore={(page: number) => {
-            setMoreLoading(true)
-            axios<Array<Special>>(
-              `/api/specials?page=${page}${searchValue ? `&name=${searchValue}` : ''}`
-            )
-            .then((res) => {
-              const { data } = res
-              if (data?.length) {
-                setSpecialList([
-                  ...specialList,
-                  ...data
-                ])
-              }
-            })
-            .finally(() => {
-              setMoreLoading(false)
-            })
+          loadMore={() => {
+            if (!moreLoading) {
+              console.log('loadMore')
+              setMoreLoading(true)
+              axios<Array<Special>>(
+                `/api/specials?page=${page + 1}${searchValue ? `&name=${searchValue}` : ''}`
+              )
+              .then((res) => {
+                const { data } = res
+                if (data?.length) {
+                  setSpecialList([
+                    ...specialList,
+                    ...data
+                  ])
+                }
+              })
+              .finally(() => {
+                setMoreLoading(false)
+                setPage(page + 1)
+              })
+            }
           }}
           hasMore={true}
           loader={moreLoading && <CircularProgress style={{alignSelf: 'center'}} />}

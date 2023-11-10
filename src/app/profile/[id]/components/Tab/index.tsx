@@ -102,7 +102,7 @@ const TabComponent: React.FunctionComponent<ITabProps> = (props: ITabProps) => {
                 config={
                     {
                         // url: this.props.article.url,
-                        identifier: `${currentComedian._id}_${playingSpecial.specialName}`,
+                        identifier: `${process.env.NEXT_PUBLIC_ENV}_${currentComedian._id}_${playingSpecial.specialName}`,
                         title: currentComedian.name,
                         // language: 'zh_TW' //e.g. for Traditional Chinese (Taiwan)	
                     }

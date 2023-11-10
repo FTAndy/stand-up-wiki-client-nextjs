@@ -28,11 +28,8 @@ type Role = {
   name: string,
 }
 
-export enum Langs {
-  "enUS" = "en-US",
-  "zhs" = "zh-Hans",
-  "zht" = "zh-Hant"
-}
+
+export type Langs = "en-US" | 'zh-CN' | 'zh-Hant' | "zh-Hans" | 'ai-zh'
 
 export type Subtitle = {
   ai_status: number
@@ -49,6 +46,7 @@ export type Subtitle = {
 export type Special = {
   _id: string,
   comedian_id: string
+  comedianName: string
   specialDetail: {
     datetime: string
     netflixURL: string

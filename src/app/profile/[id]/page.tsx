@@ -54,6 +54,9 @@ export default function Profile (props: Props) {
       </div>
       <div className='special-container'>{ currentComedian?.specials?.map(s => {
         return <ComedianCard
+            onClick={() => {
+              window.scrollTo(0, 0);
+            }}
             key={s.specialName}
             className='special'
             special={s}

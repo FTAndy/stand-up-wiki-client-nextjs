@@ -46,7 +46,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body style={{overflow: 'auto'}} className={inter.className}>
       <div className='App'>
         <SWRProvider>
           <ThemeProvider options={{ key: 'mui', prepend: true }}>

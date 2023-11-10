@@ -31,12 +31,14 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
   const [searchValue, setSearchValue] = useState('')
   const [comedianList, setComedianList] = useState<Array<Comedian>>([])
   const [moreLoading, setMoreLoading] = useState(false)
+  const [page, setPage] = useState(1)
 
   const { data: initedComedianData, error, isLoading } = useSWR<{
     comedians: Array<Comedian>
   }>(`/api/comedians?page=1&name=${searchValue}`)
 
   const { data: comedianNamesData } = useSWR<Array<Pick<Comedian, 'name'>>>('/api/comedianNames')
+
 
 
   useEffect(() => {
@@ -62,7 +64,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
             </div>
             <div className='tags'>
               {comedian?.AIGeneratedContent?.tags.map(tag => {
-                return <Chip className='tag' label={tag} variant="outlined" onClick={() => {}} />
+                return <Chip key={tag} className='tag' label={tag} variant="outlined" onClick={() => {}} />
               })}
             </div>
             
@@ -112,6 +114,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
           } else {
             setSearchValue('')
           }
+          setPage(1)
         }}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Search Comedian" />}
@@ -129,19 +132,24 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
           className='comedians-list'
           pageStart={1}
           initialLoad={false}
-          loadMore={(page: number) => {
-            setMoreLoading(true)
-            axios<{comedians: Array<Comedian>}>(`/api/comedians?page=${page}`)
-            .then((res) => {
-              const {comedians} = res.data
-              if (comedians?.length) {
-                setComedianList([
-                  ...comedianList,
-                  ...comedians
-                ])
-              }
-            })
-            .finally(() => setMoreLoading(false))
+          loadMore={() => {
+            if (!moreLoading) {
+              setMoreLoading(true)
+              axios<{comedians: Array<Comedian>}>(`/api/comedians?page=${page + 1}`)
+              .then((res) => {
+                const {comedians} = res.data
+                if (comedians?.length) {
+                  setComedianList([
+                    ...comedianList,
+                    ...comedians
+                  ])
+                }
+              })
+              .finally(() => {
+                setMoreLoading(false)
+                setPage(page + 1)
+              })              
+            }
           }}
           hasMore={true}
           loader={moreLoading && <CircularProgress style={{alignSelf: 'center'}} />}

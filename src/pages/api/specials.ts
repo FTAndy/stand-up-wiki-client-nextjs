@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {getMongoDbClient} from '@/service/mongo-client'
+import type { Document } from 'mongodb'
 
 const PAGE_SIZE = 5
 
@@ -16,24 +17,46 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
   })
 
   if (typeof page === 'string' && parseInt(page) >= 1) {
-    let specials = []
-    const filter: {
-      name?: {}
-    } = {}
+    const pipelines: Array<Document> = [
+      {
+        $sort: {
+          'specialDetail.rating': -1,
+          '_id': 1
+        }
+      },
+      {
+        $skip: PAGE_SIZE * (parseInt(page) - 1)
+      },
+      {
+        $limit: PAGE_SIZE
+      },
+      {
+        $lookup: {
+          from: "comedian", // The related collection you want to join with
+          localField: "comedian_id", // The field from collection A that holds the reference
+          foreignField: "_id", // The field from collection B that is referenced (usually the _id field)
+          as: "comedian" // The name of the new array field to hold the joined documents
+        }
+      },
+      {
+        $addFields: {
+          comedianName: "$comedian.name" 
+        }
+      },
+    ]
+
     if (name) {
-      filter.name = {
-        $regex: name, 
-        $options: 'i' // this makes the search case-insensitive
-      }
+      pipelines.unshift({
+        $match: {
+          $text: {
+            $search: name,
+            $language: "english"
+          }
+        }
+      })
     }
-    specials = await Special
-    .find(filter)
-    .sort({ 
-      'specialDetail.rating': -1,
-      '_id': 1
-    })
-    .skip(PAGE_SIZE * (parseInt(page) - 1))
-    .limit(PAGE_SIZE)
+
+    const specials = await Special.aggregate(pipelines)
     .toArray()
 
     res
