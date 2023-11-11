@@ -59,7 +59,7 @@ export default function RootLayout({
               <Toolbar>
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                   {pages.map((page) => (
-                    <Link className='link' href={page.path} underline="none">
+                    <Link key={page.path} className='link' href={page.path} underline="none">
                       {page.name}
                     </Link>            
                   ))}
