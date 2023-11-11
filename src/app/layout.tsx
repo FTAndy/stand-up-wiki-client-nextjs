@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
 import {SWRProvider} from './swr-provider'
 import ThemeProvider from './theme-provider'
+import GitHubIcon from '@mui/icons-material/GitHub';
 import './globals.scss'
 
 
@@ -23,6 +24,10 @@ const pages = [
   {
     name: 'Specials',
     path: '/specials'
+  },
+  {
+    name: 'About',
+    path: '/about'
   }
   // {
   //   name: 'Profile',
@@ -59,6 +64,9 @@ export default function RootLayout({
                     </Link>            
                   ))}
                 </Box>
+                <Link target='_blank' href="https://github.com/FTAndy/stand-up-wiki-client-nextjs">
+                  <GitHubIcon className='github-icon'></GitHubIcon>
+                </Link>
               </Toolbar>
             </AppBar>
             {children}        

@@ -11,8 +11,12 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mdx-js/loader": "^3.0.0",
+    "@mdx-js/react": "^3.0.0",
     "@mui/icons-material": "^5.14.13",
     "@mui/material": "^5.14.13",
+    "@next/mdx": "^14.0.2",
+    "@types/mdx": "^2.0.10",
     "axios": "^1.6.0",
     "disqus-react": "^1.1.5",
     "libass-wasm": "^4.1.0",
