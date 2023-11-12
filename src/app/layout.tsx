@@ -4,6 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
+import { Analytics } from '@vercel/analytics/react';
 import {SWRProvider} from './swr-provider'
 import ThemeProvider from './theme-provider'
 import Image from 'next/image'
@@ -83,6 +84,7 @@ export default function RootLayout({
           </ThemeProvider>
         </SWRProvider>
       </div>
+      <Analytics />
       </body>
     </html>
   )
