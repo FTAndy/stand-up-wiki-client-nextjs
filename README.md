@@ -20,6 +20,10 @@ Standup Wiki is a unique web platform dedicated to standup comedy enthusiasts. I
 
 Standup Wiki does not host or stream content illegally. This project leverage platforms like Bilibili, a US-listed Chinese company, for hosting specials. Users should be aware of the legal nuances of watching content from platforms like Netflix or HBO through third-party sites.
 
+## Where does the data come from?
+
+The data of this website are crawled from IMDB, Wikipedia, and Bilibili. The crawler source code is hosted in this [project](https://github.com/FTAndy/crawler-stand-up-wiki).
+
 ## Project Status
 
 Standup Wiki is currently in its early stages of development. Key features in progress include:
@@ -34,7 +38,7 @@ Standup Wiki is currently in its early stages of development. Key features in pr
 
 ## Contributing
 
-Welcome contributions to Standup Wiki! If you're interested in contributing, please check out [GitHub repository](link-to-your-repo). Looking for contributions in the following areas:
+Welcome contributions to Standup Wiki! If you're interested in contributing, please leave a message for further connection. Looking for contributions in the following areas:
 
 - Frontend development (especially with Next.js)
 - Backend development (APIs, database management)

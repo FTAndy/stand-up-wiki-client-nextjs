@@ -43,8 +43,13 @@ const pages = [
 ]
 
 export const metadata: Metadata = {
+  applicationName: 'Standup Wiki',
   title: 'Standup Wiki',
-  description: 'Standup Wiki',
+  referrer: 'origin-when-cross-origin',
+  description: 'Standup Wiki, watch standup specials for free',
+  keywords: ['standup comedy', 'standup comedians', 'free standup specials'],
+  creator: 'Andy Qin',
+
   icons: {
     icon: '/icon.jpeg'
   }
@@ -64,6 +69,7 @@ export default function RootLayout({
             <AppBar className='app-bar' position="fixed">
               <Toolbar>
                 <Image 
+                  priority={true}
                   src="/logo.jpeg"
                   width={50}
                   height={50}
