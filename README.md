@@ -2,12 +2,12 @@
 
 ## Live Website
 
-Experience Standup Wiki live at [www.standupwiki.com](https://www.standupwiki.com). Explore your favorite standup comedians and specials, and engage with a community of fellow comedy enthusiasts.
+[www.standupwiki.com](https://www.standupwiki.com). Explore your favorite standup comedians and specials, and watch free standup specials.
 
 
 ## Project Overview
 
-Standup Wiki is a unique web platform dedicated to standup comedy enthusiasts. It aggregates a comprehensive collection of standup comedians and their specials, offering a singular destination for fans to explore, watch, and engage with content. This project aims to fill the gap in the market where no existing platform provides a vertical focus exclusively on standup comedy.
+Standup Wiki is a unique web platform dedicated to standup comedy fans. It aggregates a comprehensive collection of standup comedians and their specials, offering a singular destination for fans to explore, watch, and engage with content. This project aims to fill the gap in the market where no existing platform provides a vertical focus exclusively on standup comedy.
 
 ## Why Standup Wiki?
 
@@ -49,14 +49,12 @@ Welcome contributions to Standup Wiki! If you're interested in contributing, ple
 
 ## Tech Stack
 
-Standup Wiki leverages a robust and modern tech stack to deliver a seamless and dynamic user experience. Here's a breakdown of the key technologies:
+Standup Wiki leverages a robust and modern tech stack to deliver a seamless and dynamic user experience.
 
-- **Next.js:** Powers our frontend, offering server-side rendering for faster load times and improved SEO.
-- **MongoDB:** Our database choice for flexible, scalable data storage and management.
+- **Next.js:** Offering server-side rendering for faster load times and improved SEO.
+- **MongoDB:** Database choice for flexible, scalable data storage and management.
 - **Material-UI (@mui):** Utilized for designing a sleek and responsive user interface.
-- **Disqus:** Integrated for a robust, ready-to-use commenting system, enhancing user engagement and community building.
-- **libass-wasm:** This library allows us to render advanced subtitle formats in the browser, ensuring a rich media viewing experience.
-- **SWR:** A React Hooks library for data fetching, allowing us to efficiently manage and cache server data.
-- **Zustand:** A minimalistic state management solution, helping us keep our application's state in sync across components.
-
-This combination of technologies ensures that Standup Wiki is not only a repository of standup comedy content but also a platform with rich, interactive user experiences.
+- **Disqus:** Commenting system, enhancing user engagement and community building.
+- **libass-wasm:** Render advanced subtitle formats in the browser, ensuring a rich media viewing experience.
+- **SWR:** Data fetching, efficiently manage and cache server data.
+- **Zustand:** State management solution.
