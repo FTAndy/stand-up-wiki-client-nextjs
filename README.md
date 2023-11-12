@@ -1,13 +1,13 @@
 # Standup Wiki
 
-## Project Overview
-
-Standup Wiki is a unique web platform dedicated to standup comedy enthusiasts. It aggregates a comprehensive collection of standup comedians and their specials, offering a singular destination for fans to explore, watch, and engage with content. This project aims to fill the gap in the market where no existing platform provides a vertical focus exclusively on standup comedy.
-
 ## Live Website
 
 Experience Standup Wiki live at [www.standupwiki.com](https://www.standupwiki.com). Explore your favorite standup comedians and specials, and engage with a community of fellow comedy enthusiasts.
 
+
+## Project Overview
+
+Standup Wiki is a unique web platform dedicated to standup comedy enthusiasts. It aggregates a comprehensive collection of standup comedians and their specials, offering a singular destination for fans to explore, watch, and engage with content. This project aims to fill the gap in the market where no existing platform provides a vertical focus exclusively on standup comedy.
 
 ### Why Standup Wiki?
 
