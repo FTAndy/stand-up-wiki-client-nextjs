@@ -8,6 +8,7 @@ import { Analytics } from '@vercel/analytics/react';
 import {SWRProvider} from './swr-provider'
 import ThemeProvider from './theme-provider'
 import Image from 'next/image'
+import Button from '@mui/material/Button';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import './globals.scss'
 
@@ -76,7 +77,9 @@ export default function RootLayout({
                   ))}
                 </Box>
                 <Link target='_blank' href="https://github.com/FTAndy/stand-up-wiki-client-nextjs">
-                  <GitHubIcon className='github-icon'></GitHubIcon>
+                  <Button variant="contained" startIcon={<GitHubIcon className='github-icon'></GitHubIcon>}>
+                    Github
+                  </Button>
                 </Link>
               </Toolbar>
             </AppBar>
