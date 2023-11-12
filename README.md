@@ -18,7 +18,7 @@ Standup Wiki is a unique web platform dedicated to standup comedy enthusiasts. I
 
 ## Legal Disclaimer
 
-Standup Wiki does not host or stream content illegally. We leverage platforms like Bilibili, a US-listed Chinese company, for hosting specials. Users should be aware of the legal nuances of watching content from platforms like Netflix or HBO through third-party sites.
+Standup Wiki does not host or stream content illegally. This project leverage platforms like Bilibili, a US-listed Chinese company, for hosting specials. Users should be aware of the legal nuances of watching content from platforms like Netflix or HBO through third-party sites.
 
 ## Project Status
 
@@ -34,7 +34,7 @@ Standup Wiki is currently in its early stages of development. Key features in pr
 
 ## Contributing
 
-We welcome contributions to Standup Wiki! If you're interested in contributing, please check out our [GitHub repository](link-to-your-repo). We are looking for contributions in the following areas:
+Welcome contributions to Standup Wiki! If you're interested in contributing, please check out [GitHub repository](link-to-your-repo). Looking for contributions in the following areas:
 
 - Frontend development (especially with Next.js)
 - Backend development (APIs, database management)
@@ -43,7 +43,7 @@ We welcome contributions to Standup Wiki! If you're interested in contributing, 
 
 ## Tech Stack
 
-Standup Wiki leverages a robust and modern tech stack to deliver a seamless and dynamic user experience. Here's a breakdown of the key technologies we use:
+Standup Wiki leverages a robust and modern tech stack to deliver a seamless and dynamic user experience. Here's a breakdown of the key technologies:
 
 - **Next.js:** Powers our frontend, offering server-side rendering for faster load times and improved SEO.
 - **MongoDB:** Our database choice for flexible, scalable data storage and management.
