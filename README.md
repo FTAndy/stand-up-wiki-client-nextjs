@@ -9,7 +9,7 @@ Experience Standup Wiki live at [www.standupwiki.com](https://www.standupwiki.co
 
 Standup Wiki is a unique web platform dedicated to standup comedy enthusiasts. It aggregates a comprehensive collection of standup comedians and their specials, offering a singular destination for fans to explore, watch, and engage with content. This project aims to fill the gap in the market where no existing platform provides a vertical focus exclusively on standup comedy.
 
-### Why Standup Wiki?
+## Why Standup Wiki?
 
 - **Centralized Hub:** Unlike official platforms like Comedy Central, Netflix, and HBO, which are limited to their in-house content, Standup Wiki encompasses a wide range of comedians and specials.
 - **Reliability and Maintenance:** Addresses the issues of existing platforms like dead-frog and comedybuff, which suffer from maintenance and reliability issues.
@@ -28,13 +28,15 @@ The data of this website are crawled from IMDB, Wikipedia, and Bilibili. The cra
 
 Standup Wiki is currently in its early stages of development. Key features in progress include:
 
-- User System
-- Upvote and Collect Specials
-- Customizable Special Lists
-- Self-hosted Commenting System
-- Comedian and Special Ratings
-- Advanced Filtering Options
-- GPT Integration for Interactive Comedy Experience
+- [ ] User system
+- [ ] Upvote and downvote specials/comedians
+- [ ] Collect and customizable special lists
+- [ ] Self-hosted commenting system
+- [ ] Comedian and special ratings
+- [ ] Advanced filtering options
+- [ ] Correct the wrong video resource
+- [ ] GPT integration for interactive comedy experience
+- [ ] Flow bullet-comment setion
 
 ## Contributing
 
