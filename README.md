@@ -12,7 +12,8 @@ Standup Wiki is a unique web platform dedicated to standup comedy fans. It aggre
 ## Why Standup Wiki?
 
 - **Centralized Hub:** Unlike official platforms like Comedy Central, Netflix, and HBO, which are limited to their in-house content, Standup Wiki encompasses a wide range of comedians and specials.
-- **Reliability and Maintenance:** Addresses the issues of existing platforms like dead-frog and comedybuff, which suffer from maintenance and reliability issues.
+- **Reliability and Maintenance:** Addresses the issues of existing platforms like [dead-frog.com](dead-frog.com) and [comedybuff.com](comedybuff.com), which suffer from maintenance and reliability issues.
+- **Watch Free Specials**: Watch specials for free, no illegal problems from Netflix and HBO.
 - **Community Features:** Allows fans to watch, upvote, comment on, and collect specials, fostering a vibrant community of standup comedy lovers.
 - **Innovative Content Interaction:** Plans to integrate features like inputting special material into GPT to create a virtual standup figure for interactive experiences.
 
@@ -29,12 +30,12 @@ The data of this website are crawled from IMDB, Wikipedia, and Bilibili. The cra
 Standup Wiki is currently in its early stages of development. Key features in progress include:
 
 - [ ] User system
-- [ ] Upvote and downvote specials/comedians
 - [ ] Collect and customizable special lists
 - [ ] Self-hosted commenting system
+- [ ] Upvote and downvote specials/comedians
 - [ ] Comedian and special ratings
-- [ ] Advanced filtering options
-- [ ] Correct the wrong video resource
+- [ ] Advanced specials/comedians filtering options
+- [ ] Approachs to correct the wrong video resource
 - [ ] GPT integration for interactive comedy experience
 - [ ] Flow bullet-comment setion
 
