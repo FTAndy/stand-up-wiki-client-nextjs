@@ -16,7 +16,7 @@
       flex-direction: row;
       width: 50vw;
       max-height: 45vh;
-      overflow-y: scroll;
+      overflow-y: auto;
       .brief {
         display: -webkit-box;
         max-width: 100%;
@@ -29,7 +29,7 @@
       }
       .card-content {
         max-height: 45vh;
-        overflow-y: scroll;
+        overflow-y: auto;
         display: flex;
         flex-direction: column;
         &:last-child {

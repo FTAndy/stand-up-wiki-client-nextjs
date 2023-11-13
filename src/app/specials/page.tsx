@@ -78,7 +78,6 @@ export default function App (props: IAppProps) {
           key={`infinite-scroll-${searchValue}`}
           className='specials-list'
           pageStart={1}
-          useWindow={false}
           initialLoad={false}
           loadMore={() => {
             if (!moreLoading) {
