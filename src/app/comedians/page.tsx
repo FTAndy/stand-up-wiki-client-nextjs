@@ -24,8 +24,23 @@ import './page.scss'
 interface IComediansProps {
 }
 
+// TODO: SSR
+async function getData<T>() {
+  const res = await fetch('/api/comedianNames')
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+ 
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+ 
+  return {
+    data: (res.json() as T)
+  }
+}
 
-// TODO: SWR SSR
+
 const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
 
   const [searchValue, setSearchValue] = useState('')
@@ -38,8 +53,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
   }>(`/api/comedians?page=1&name=${searchValue}`)
 
   const { data: comedianNamesData } = useSWR<Array<Pick<Comedian, 'name'>>>('/api/comedianNames')
-
-
+  // const { data: comedianNamesData } = await getData<Array<Pick<Comedian, 'name'>>>()
 
   useEffect(() => {
     if (initedComedianData?.comedians) {
@@ -53,7 +67,9 @@ const Comedians: React.FunctionComponent<IComediansProps> = (props) => {
           <CardMedia
             className='avatar'
             component="img"
-            sx={{ width: 200 }}
+            sx={{ 
+              width: '30%'
+            }}
             image={comedian.avatarUrl}
             alt={comedian.name}
           />
