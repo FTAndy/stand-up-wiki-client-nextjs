@@ -41,7 +41,7 @@ Standup Wiki is currently in its early stages of development. Key features in pr
 
 ## Contributing
 
-Welcome contributions to Standup Wiki! If you're interested in contributing, please leave a message for further connection. Looking for contributions in the following areas:
+Welcome contributions to Standup Wiki! If you're interested in contributing, please read [CONTRIBUTING.md](https://github.com/FTAndy/stand-up-wiki-client-nextjs/blob/main/CONTRIBUTING.md). Looking for contributions in the following areas:
 
 - Frontend development (especially with Next.js)
 - Backend development (APIs, database management)
@@ -52,10 +52,8 @@ Welcome contributions to Standup Wiki! If you're interested in contributing, ple
 
 Standup Wiki leverages a robust and modern tech stack to deliver a seamless and dynamic user experience.
 
-- **Next.js:** Offering server-side rendering for faster load times and improved SEO.
-- **MongoDB:** Database choice for flexible, scalable data storage and management.
-- **Material-UI (@mui):** Utilized for designing a sleek and responsive user interface.
-- **Disqus:** Commenting system, enhancing user engagement and community building.
-- **libass-wasm:** Render advanced subtitle formats in the browser, ensuring a rich media viewing experience.
-- **SWR:** Data fetching, efficiently manage and cache server data.
-- **Zustand:** State management solution.
+- **[Next.js](https://github.com/vercel/next.js):** Offering server-side rendering for faster load times and improved SEO.
+- **[MongoDB](https://github.com/mongodb/node-mongodb-native):** Database choice for flexible, scalable data storage and management.
+- **[Material-UI (@mui)](https://mui.com/material-ui):** Utilized for designing a sleek and responsive user interface.
+- **[Disqus](https://disqus.com/):** Commenting system, enhancing user engagement and community building.
+- **[libass-wasm](https://github.com/libass/JavascriptSubtitlesOctopus):** Render advanced subtitle formats in the browser, ensuring a rich media viewing experience.
