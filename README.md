@@ -53,6 +53,7 @@ Welcome contributions to Standup Wiki! If you're interested in contributing, ple
 Standup Wiki leverages a robust and modern tech stack to deliver a seamless and dynamic user experience.
 
 - **[Next.js](https://github.com/vercel/next.js):** Offering server-side rendering for faster load times and improved SEO.
+- **[Vercel](https://vercel.com/):** Host for Frontend and Backend.
 - **[MongoDB](https://github.com/mongodb/node-mongodb-native):** Database choice for flexible, scalable data storage and management.
 - **[Material-UI (@mui)](https://mui.com/material-ui):** Utilized for designing a sleek and responsive user interface.
 - **[Disqus](https://disqus.com/):** Commenting system, enhancing user engagement and community building.

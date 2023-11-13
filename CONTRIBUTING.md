@@ -25,5 +25,6 @@ NEXT_PUBLIC_ENV='local'
 ## Submitting Your Changes
 
 1. Push your changes to your fork.
-2. Open a pull request to the main repository.
+2. Open a pull request to the main repository main branch.
 3. In your pull request, clearly describe the problem and solution. Include the relevant issue number if applicable.
+4. Once the pull request is merged, it will automately deploy the latest code to Vercel.
