@@ -18,6 +18,7 @@
     "@next/mdx": "^14.0.2",
     "@types/mdx": "^2.0.10",
     "@vercel/analytics": "^1.1.1",
+    "@vercel/kv": "^1.0.0",
     "axios": "^1.6.0",
     "disqus-react": "^1.1.5",
     "libass-wasm": "^4.1.0",

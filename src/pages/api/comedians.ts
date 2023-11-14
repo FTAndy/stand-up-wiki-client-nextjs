@@ -19,11 +19,16 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
 
   let comedians = []
 
-  if (typeof page === 'string' && parseInt(page) >= 1) {
+  if (typeof page === 'string' && parseInt(page) >= 0) {
 
     const pipelines: Array<Document> = [
       {
-        $skip: PAGE_SIZE * (parseInt(page) - 1)
+        $sort: {
+          '_id': 1
+        }
+      },
+      {
+        $skip: PAGE_SIZE * (parseInt(page))
       },
       {
         $limit: PAGE_SIZE
@@ -66,7 +71,7 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
     res
     .status(200)
     .json({
-      comedians
+      data: comedians
     })
   } else {
     res
