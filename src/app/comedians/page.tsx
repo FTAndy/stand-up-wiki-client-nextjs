@@ -30,14 +30,14 @@ async function getData<T>() {
 
 const Comedians: React.FunctionComponent<IComediansProps> = async (props) => {
 
-  const {data} = await getData<Array<Comedian>>()
+  // const {data} = await getData<Array<Comedian>>()
 
   // TODO: change to instant search
 
   return <main className='comedians-container'>
     <Search />
     <ComedianList 
-      initedComedianList={data}
+      initedComedianList={[]}
     />
   </main>;
 };
