@@ -11,7 +11,7 @@ interface IComediansProps {
 
 // TODO: SSR
 async function getData<T>() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comedians?page=0`)
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comedians?page=1`)
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
  
