@@ -11,7 +11,7 @@ interface IComediansProps {
 
 // TODO: SSR
 async function getData<T>() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comedians?page=1`)
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comedians?page=0`)
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
  
@@ -30,14 +30,14 @@ async function getData<T>() {
 
 const Comedians: React.FunctionComponent<IComediansProps> = async (props) => {
 
-  // const {data} = await getData<Array<Comedian>>()
+  const {data} = await getData<Array<Comedian>>()
 
   // TODO: change to instant search
 
   return <main className='comedians-container'>
     <Search />
     <ComedianList 
-      initedComedianList={[]}
+      initedComedianList={data}
     />
   </main>;
 };
