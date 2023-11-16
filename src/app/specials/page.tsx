@@ -43,9 +43,7 @@ export default async function App (props: IAppProps) {
       <SearchSpecial />
       <SpecialList
         initedSpecialList={[]}
-      >
-      </SpecialList>
-      
+      />      
     </div>
   );
 }
