@@ -33,16 +33,16 @@ async function getData<T>() {
 export default async function App (props: IAppProps) {
 
   // TODO: remove this
-  // const {data: specialList} = await getData<{
-  //   data: Array<Special>
-  // }>()
+  const {data: specialList} = await getData<{
+    data: Array<Special>
+  }>()
 
 
   return (
     <div className='specials-container'>
       <SearchSpecial />
       <SpecialList
-        initedSpecialList={[]}
+        initedSpecialList={specialList}
       />      
     </div>
   );
