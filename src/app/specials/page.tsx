@@ -33,9 +33,9 @@ async function getData<T>() {
 export default async function App (props: IAppProps) {
 
   // TODO: remove this
-  const {data: specialList} = await getData<{
-    data: Array<Special>
-  }>()
+  // const {data: specialList} = await getData<{
+  //   data: Array<Special>
+  // }>()
 
 
   return (
