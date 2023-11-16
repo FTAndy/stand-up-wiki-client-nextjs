@@ -16,7 +16,7 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
     name: string
   })
 
-  if (typeof page === 'string' && parseInt(page) >= 1) {
+  if (typeof page === 'string' && parseInt(page) >= 0) {
     const pipelines: Array<Document> = [
       {
         $sort: {
@@ -25,7 +25,7 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
         }
       },
       {
-        $skip: PAGE_SIZE * (parseInt(page) - 1)
+        $skip: PAGE_SIZE * (parseInt(page))
       },
       {
         $limit: PAGE_SIZE
@@ -61,7 +61,9 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
 
     res
     .status(200)
-    .json(specials)
+    .json({
+      data: specials
+    })
   } else {
     res
     .status(404)
