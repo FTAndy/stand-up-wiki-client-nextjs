@@ -5,6 +5,7 @@ import Search from './components/Search'
 // import { kv } from '@vercel/kv';
 import ComedianList from './components/ComedianList'
 import './page.scss'
+import type {Metadata, ResolvingMetadata} from 'next'
 import type { Comedians, Comedian } from '@/types/comdian'
 
 interface IComediansProps {
@@ -31,6 +32,32 @@ async function getData<T>() {
   return (json as T)
 
 }
+
+type Props = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const {data: comedianList} = await getData<{
+    data: Array<Comedian>
+  }>()
+
+  const previousKeywords = (await parent).keywords || []
+
+  return {
+    title: 'Standup comedians list',
+    keywords: [
+      ...previousKeywords,
+      ...comedianList.map(s => s.name)
+    ]
+  }
+}
+
 
 
 const Comedians: React.FunctionComponent<IComediansProps> = async (props) => {

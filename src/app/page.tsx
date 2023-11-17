@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 
 export default function Home() {
   return (
+    // TODO: Image optimization
     <main className='main'>
       <div className='cover'></div>
       <div className='headline'>

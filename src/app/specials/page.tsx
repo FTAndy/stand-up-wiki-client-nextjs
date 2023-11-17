@@ -2,9 +2,15 @@
 import type { Special } from '@/types/comdian'
 import SpecialList from './components/SpecialList';
 import SearchSpecial from './components/Search';
+import type {Metadata, ResolvingMetadata} from 'next'
 import './page.scss'
 
 export interface IAppProps {
+}
+
+type Props = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 async function getData<T>() {
@@ -15,8 +21,6 @@ async function getData<T>() {
       revalidate: 60 * 60 * 24
     }
   })
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
@@ -27,6 +31,25 @@ async function getData<T>() {
 
   return (json as T)
 
+}
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const {data: specialList} = await getData<{
+    data: Array<Special>
+  }>()
+
+  const previousKeywords = (await parent).keywords || []
+
+  return {
+    title: 'Standup comedians specials list',
+    keywords: [
+      ...previousKeywords,
+      ...specialList.map(s => s.comedianName)
+    ]
+  }
 }
 
 

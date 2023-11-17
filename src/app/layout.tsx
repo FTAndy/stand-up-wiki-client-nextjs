@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   title: 'Standup Wiki',
   referrer: 'origin-when-cross-origin',
   description: 'Standup Wiki, watch standup specials for free',
-  keywords: ['standup comedy', 'standup comedians', 'free standup specials'],
+  keywords: ['standup comedy', 'standup comedians', 'standup specials', 'free standup specials'],
   creator: 'Andy Qin',
 
   icons: {
