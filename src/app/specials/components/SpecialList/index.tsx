@@ -15,39 +15,27 @@ interface ISpecialListProps {
 
 const SpecialList: React.FunctionComponent<ISpecialListProps> = (props) => {
   const {initedSpecialList} = props;
-  const [inited, setInited] = useState(false)
 
   const { specialList, isGlobalLoading, searchValue, moreLoading, setMoreLoading, page, setSpecialList, setPage } = useSpecial()
 
 
   useEffect(() => {
-    setInited(true)
     setSpecialList(initedSpecialList)
   }, [initedSpecialList])
 
-  const noData = () => {
-    if (!inited) {
-      return false
-    } else {
-      return specialList.length === 0
-    }
-  }
-
   const renderSpecialsComponent = () => {
-    if (noData()) {
-      return <h1 style={{margin: '0 auto'}}>No Data</h1>
-    } else {
-      return (specialList.length ? specialList : initedSpecialList).map(s => {
-        return <Link key={s._id} href={`/profile/${s.comedian_id}`}>
-          <SpecialCard
-            special={s}
-          />
-        </Link>
-      })
-    }
-  }
+    const specialsToShow = specialList.length > 0 ? specialList : initedSpecialList;
 
-  console.log(noData(), 'noData')
+    if (specialsToShow.length === 0) {
+      return <h1 style={{ margin: '0 auto' }}>No Data</h1>;
+    }
+
+    return specialsToShow.map(s => (
+      <Link key={s._id} href={`/profile/${s.comedian_id}`}>
+        <SpecialCard special={s} />
+      </Link>
+    ));
+  }
 
   return <>
     { isGlobalLoading ? <GlobalLoading /> : 
