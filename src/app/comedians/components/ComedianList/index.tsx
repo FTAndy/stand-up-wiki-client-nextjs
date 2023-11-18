@@ -94,7 +94,7 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
                     label={tag} 
                     variant="outlined" 
                     onClick={() => {
-                      if (tagList && !tagList?.includes(tag)) {
+                      if (!tagList || (tagList && !tagList?.includes(tag))) {
                         setTagList([
                           ...(tagList || []),
                           tag
