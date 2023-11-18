@@ -6,17 +6,27 @@ interface ComediansState {
   searchValue: string
   setPage: (page: number) => void,
   setSearchValue: (value: string) => void,
-  comedianList: Array<Comedian>,
+  comedianList: Array<Comedian> | null,
   globalLoading: boolean,
   setGlobalLoading: (globalLoading: boolean) => void
   setComedianList: (comedians: Array<Comedian>) => void
+  tagList: Array<string> | null
+  setTagList: (tagList: Array<string>) => void
 }
 
 export const useComediansStore = create<ComediansState>()((set) => ({
   page: 1,
   searchValue: '',
-  comedianList: [],
+  comedianList: null,
   globalLoading: false,
+  tagList: null,
+  setTagList: (tagList) => {
+    set(() => {
+      return {
+        tagList
+      }
+    })
+  },
   setGlobalLoading: (globalLoading) => {
     set(() => {
       return {

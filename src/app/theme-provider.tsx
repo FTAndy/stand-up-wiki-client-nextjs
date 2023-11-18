@@ -11,9 +11,22 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 const mainColor = '#121212'
 const fontColor = '#E8E6E3'
+const backgroundColor = '#f9f3e5'
 
 const theme = createTheme({
   components: {
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: {
+          [`.MuiChip-root`]: {
+            color: mainColor,
+          },
+          [`.MuiChip-root > svg`]: {
+            color: mainColor
+          },
+        } 
+      }
+    },
     MuiTypography: {
       styleOverrides: {
         h1: {
@@ -66,7 +79,7 @@ const theme = createTheme({
     },
     background: {
       paper: mainColor,
-      default: '#f9f3e5'
+      default: backgroundColor
     }
   }
 })

@@ -4,7 +4,7 @@ import type { Special } from '@/types/comdian';
 type SpecialState = {
   page: number,
   setPage: (page: number) => void,
-  specialList: Array<Special>,
+  specialList: Array<Special> | null,
   setSpecialList: (specials: Array<Special>) => void
   searchValue: string
   setSearchValue: (value: string) => void,
@@ -39,7 +39,7 @@ const useSpecial = create<SpecialState>((set) => ({
       };
     });
   },
-  specialList: [],
+  specialList: null,
   setSpecialList: (specials) => {
     set(() => {
       return {

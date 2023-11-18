@@ -3,7 +3,10 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  .search-area {
+  .filters {
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
     margin-bottom: 3vh;
   }
   .comedians-list {

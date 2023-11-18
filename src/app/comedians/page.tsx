@@ -7,6 +7,7 @@ import ComedianList from './components/ComedianList'
 import './page.scss'
 import type {Metadata, ResolvingMetadata} from 'next'
 import type { Comedians, Comedian } from '@/types/comdian'
+import TagFilter from './components/TagFilter'
 
 interface IComediansProps {
 }
@@ -67,7 +68,10 @@ const Comedians: React.FunctionComponent<IComediansProps> = async (props) => {
   }>()
 
   return <main className='comedians-container'>
-    <Search />
+    <div className='filters'>
+      <Search />
+      <TagFilter />
+    </div>
     <ComedianList 
       initedComedianList={data}
     />
