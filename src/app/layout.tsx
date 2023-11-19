@@ -70,7 +70,7 @@ export default function RootLayout({
               <Toolbar>
                 <Image 
                   priority={true}
-                  src="/logo.jpeg"
+                  src="/logo.jpg"
                   width={50}
                   height={50}
                   alt="Logo"
