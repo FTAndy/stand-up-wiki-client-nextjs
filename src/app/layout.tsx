@@ -9,7 +9,10 @@ import {SWRProvider} from './swr-provider'
 import ThemeProvider from './theme-provider'
 import Image from 'next/image'
 import Button from '@mui/material/Button';
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import GitHubIcon from '@mui/icons-material/GitHub';
+import UserAvatar from '@/components/UserAvatar';
 import './globals.scss'
 
 
@@ -55,11 +58,13 @@ export const metadata: Metadata = {
   }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const session = await getServerSession(authOptions)
+
   return (
     <html lang="en">
       <body style={{overflow: 'auto'}} className={inter.className}>
@@ -87,6 +92,9 @@ export default function RootLayout({
                     Github
                   </Button>
                 </Link>
+                <UserAvatar
+                  session={session}
+                />
               </Toolbar>
             </AppBar>
             {children}        
