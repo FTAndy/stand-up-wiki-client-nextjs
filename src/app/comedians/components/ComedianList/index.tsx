@@ -28,7 +28,7 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
 
   useEffect(() => {
     setComedianList(initedComedianList)
-  }, [initedComedianList])
+  }, [])
 
 
   const renderComedianComponents = () => {

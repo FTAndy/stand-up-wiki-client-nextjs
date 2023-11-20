@@ -21,7 +21,7 @@ const SpecialList: React.FunctionComponent<ISpecialListProps> = (props) => {
 
   useEffect(() => {
     setSpecialList(initedSpecialList)
-  }, [initedSpecialList])
+  }, [])
 
   const renderSpecialsComponent = () => {
     const specialsToShow = specialList !== null ? specialList : initedSpecialList;
