@@ -1,14 +1,16 @@
+'use client'
 import type {Session} from 'next-auth'
-import Link from 'next/link'
-import Signin from '@/components/Signin'
-import Image from 'next/image'
+import Button from '@mui/material/Button';
+import { useGlobalStore } from '@/store';
 import * as React from 'react';
+import './index.scss'
 
 interface IUserAvatarProps {
   session: Session | null
 }
 
 const UserAvatar: React.FunctionComponent<IUserAvatarProps> = (props) => {
+  const { setToggleGlobalSignin } = useGlobalStore()
   const { session } = props;
 
   const avatarUrl = session?.user?.image || ''
@@ -26,7 +28,11 @@ const UserAvatar: React.FunctionComponent<IUserAvatarProps> = (props) => {
         //   alt={session?.user?.name || ''} 
         //   width={30} height={30} 
         // /> */}
-      : <Signin /> 
+      : <Button onClick={() => {
+        setToggleGlobalSignin(true)
+      }} variant="contained" className='login-icon'>
+        Sign in
+      </Button>
     }
   </>;
 };

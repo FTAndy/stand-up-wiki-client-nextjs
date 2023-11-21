@@ -12,7 +12,9 @@ import Button from '@mui/material/Button';
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { SessionProvider } from "next-auth/react"
 import UserAvatar from '@/components/UserAvatar';
+import GlobalLogin from '@/components/GlobalSignin';
 import './globals.scss'
 
 
@@ -95,6 +97,7 @@ export default async function RootLayout({
                 <UserAvatar
                   session={session}
                 />
+                <GlobalLogin />
               </Toolbar>
             </AppBar>
             {children}        
