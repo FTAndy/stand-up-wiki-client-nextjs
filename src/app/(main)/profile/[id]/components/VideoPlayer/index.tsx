@@ -213,9 +213,6 @@ export default function VideoPlayer (props: VideoPlayerProps) {
           >Subtitle Jump To</Button>
         </div>
       </div> : '' }
-      <Typography className='video-title' gutterBottom variant="h5" component="div">
-        { playingSpecial?.specialName }
-      </Typography>
 
     </div>
   );

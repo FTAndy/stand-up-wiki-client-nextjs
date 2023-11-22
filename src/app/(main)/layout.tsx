@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { SessionProvider } from "next-auth/react"
+import SessionProvider from './session-provider'
 import UserAvatar from '@/components/UserAvatar';
 import GlobalLogin from '@/components/GlobalSignin';
 import './globals.scss'
@@ -71,38 +71,40 @@ export default async function RootLayout({
     <html lang="en">
       <body style={{overflow: 'auto'}} className={inter.className}>
       <div className='App'>
-        <SWRProvider>
-          <ThemeProvider options={{ key: 'mui', prepend: true }}>
-            <AppBar className='app-bar' position="fixed">
-              <Toolbar>
-                <Image 
-                  priority={true}
-                  src="/logo.jpg"
-                  width={50}
-                  height={50}
-                  alt="Logo"
-                />
-                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                  {pages.map((page) => (
-                    <Link key={page.path} className='link' href={page.path} underline="none">
-                      {page.name}
-                    </Link>            
-                  ))}
-                </Box>
-                <Link target='_blank' href="https://github.com/FTAndy/stand-up-wiki-client-nextjs">
-                  <Button variant="contained" startIcon={<GitHubIcon className='github-icon'></GitHubIcon>}>
-                    Github
-                  </Button>
-                </Link>
-                <UserAvatar
-                  session={session}
-                />
-                <GlobalLogin />
-              </Toolbar>
-            </AppBar>
-            {children}        
-          </ThemeProvider>
-        </SWRProvider>
+        <SessionProvider session={session}>
+          <SWRProvider>
+            <ThemeProvider options={{ key: 'mui', prepend: true }}>
+              <AppBar className='app-bar' position="fixed">
+                <Toolbar>
+                  <Image 
+                    priority={true}
+                    src="/logo.jpg"
+                    width={50}
+                    height={50}
+                    alt="Logo"
+                  />
+                  <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    {pages.map((page) => (
+                      <Link key={page.path} className='link' href={page.path} underline="none">
+                        {page.name}
+                      </Link>            
+                    ))}
+                  </Box>
+                  <Link target='_blank' href="https://github.com/FTAndy/stand-up-wiki-client-nextjs">
+                    <Button variant="contained" startIcon={<GitHubIcon className='github-icon'></GitHubIcon>}>
+                      Github
+                    </Button>
+                  </Link>
+                  <UserAvatar
+                    session={session}
+                  />
+                  <GlobalLogin />
+                </Toolbar>
+              </AppBar>
+              {children}        
+            </ThemeProvider>
+          </SWRProvider>
+        </SessionProvider>
       </div>
       <Analytics />
       </body>

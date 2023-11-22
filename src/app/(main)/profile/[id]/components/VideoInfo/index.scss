@@ -1,0 +1,19 @@
+.video-info-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .video-title {
+    color: $mainColor;
+    margin-top: 3vh !important;
+    font-weight: bold;
+  }  
+  .thumbs {
+    display: flex;
+    flex-direction: row;
+    // justify-content: center;
+    align-items: center;
+    svg {
+      // color: $mainColor;
+    }
+  }
+}

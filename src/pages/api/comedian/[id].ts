@@ -37,7 +37,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     res
     .status(200)
     .json({
-      comedian
+      data: comedian
     })
   } else {
     res

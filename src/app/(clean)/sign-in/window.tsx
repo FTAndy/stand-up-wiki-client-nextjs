@@ -7,6 +7,7 @@ interface IWindowProps {
   session: Session | null
 }
 
+// TODO: optimize to https://github.com/arye321/nextauth-google-popup-login/blob/main/pages/index.js
 const Window: React.FunctionComponent<IWindowProps> = (props) => {
   const { session } = props
 

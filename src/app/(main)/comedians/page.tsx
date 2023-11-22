@@ -5,7 +5,7 @@ import Search from './components/Search'
 // import { kv } from '@vercel/kv';
 import ComedianList from './components/ComedianList'
 import './page.scss'
-import type {Metadata, ResolvingMetadata} from 'next'
+import type { Metadata, ResolvingMetadata } from 'next'
 import type { Comedians, Comedian } from '@/types/comdian'
 import TagFilter from './components/TagFilter'
 
@@ -60,13 +60,13 @@ export async function generateMetadata(
 }
 
 
-
 const Comedians: React.FunctionComponent<IComediansProps> = async (props) => {
 
   const {data} = await getData<{
     data: Array<Comedian>
   }>()
 
+  // TODO: init store value with provider
   return <main className='comedians-container'>
     <div className='filters'>
       <Search />

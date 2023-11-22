@@ -23,6 +23,7 @@
     "axios": "^1.6.0",
     "disqus-react": "^1.1.5",
     "global-agent": "^3.0.0",
+    "jotai": "^2.5.1",
     "libass-wasm": "^4.1.0",
     "lodash": "^4.17.21",
     "mongodb": "^6.2.0",

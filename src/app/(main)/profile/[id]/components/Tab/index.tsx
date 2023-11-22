@@ -93,7 +93,6 @@ const TabComponent: React.FunctionComponent<ITabProps> = (props: ITabProps) => {
       </Box>
       <CustomTabPanel value={curTab} index={0}>
         { playingSpecial && currentComedian &&
-          // TODO: wiki and comment become tabs section
           <div className='discuss-secion'>
             <DiscussionEmbed
                 shortname='standupwiki'
