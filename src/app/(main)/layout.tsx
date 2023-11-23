@@ -67,6 +67,8 @@ export default async function RootLayout({
 }) {
   const session = await getServerSession(authOptions)
 
+
+  // TODO: add srcset for low resolution device, windows and mac is different
   return (
     <html lang="en">
       <body style={{overflow: 'auto'}} className={inter.className}>

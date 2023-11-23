@@ -66,7 +66,7 @@ const Comedians: React.FunctionComponent<IComediansProps> = async (props) => {
     data: Array<Comedian>
   }>()
 
-  // TODO: init store value with provider
+  // TODO: init store value with provider, https://github.com/pmndrs/zustand/blob/main/docs/previous-versions/zustand-v3-create-context.md
   return <main className='comedians-container'>
     <div className='filters'>
       <Search />
