@@ -22,9 +22,6 @@ const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
 
   const { trigger, isMutating } = useSWRMutation('/api/special/upVote', specialUpVote)
 
-  
-  console.log(session, 'session')
-
   if (!playingSpecial || !session) {
     return null
   }

@@ -12,7 +12,6 @@ interface IUserAvatarProps {
 const UserAvatar: React.FunctionComponent<IUserAvatarProps> = (props) => {
   const { setToggleGlobalSignin } = useGlobalStore()
   const { session } = props;
-
   const avatarUrl = session?.user?.image || ''
   const alt = session?.user?.name || ''
   return <>
