@@ -21,6 +21,17 @@ export const authOptions: AuthOptions = {
   adapter: MongoDBAdapter(getMongoClient(), {
     databaseName: 'standup-wiki'
   }),
+  callbacks: {
+    async session({ session, user, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          userId: user.id
+        }
+      }
+    },
+  }
 }
 
 export default NextAuth(authOptions)

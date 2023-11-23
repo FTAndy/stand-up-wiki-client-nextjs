@@ -12,10 +12,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   const Comedian = Database.collection("comedian");
 
   if (id && typeof id === 'string') {
-    // const comedian = await Comedian.findOne({
-    //   _id: new ObjectId(id) 
-    // })
-
     const comedians = await Comedian.aggregate([
       {
         $match: {
@@ -29,7 +25,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
           foreignField: 'comedian_id',
           as: 'specials'
         }
-      }
+      },
+      {
+        $unwind: "$specials" // Deconstructs the specials array
+      },
     ]).toArray()
 
     const comedian = comedians.length > 0 ? comedians[0] : null

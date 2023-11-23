@@ -6,9 +6,11 @@ import Button from '@mui/material/Button';
 export default function Home() {
   return (
     // TODO: Image optimization
+    // TODO: hover on and highlight
     <main className='main'>
       <div className='cover'></div>
       <div className='headline'>
+        
         <Typography variant="h1" gutterBottom>
           Just Standup
         </Typography>

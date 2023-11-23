@@ -46,7 +46,9 @@ export type Subtitle = {
 export type Special = {
   _id: string,
   comedian_id: string
-  comedianName: string
+  comedianName: string,
+  upVoteCount: number,
+  isUpVoted?: boolean
   specialDetail: {
     datetime: string
     netflixURL: string

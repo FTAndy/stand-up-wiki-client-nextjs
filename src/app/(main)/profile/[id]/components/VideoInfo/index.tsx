@@ -5,13 +5,29 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import './index.scss'
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import useSWRMutation from 'swr/mutation'
+import { specialUpVote } from '../../service/index'
+import { useSession } from "next-auth/react"
+import type { Session} from 'next-auth'
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 
 interface IVideoInfoProps {
 }
 
 const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
-  const { playingSpecial, currentComedian } = useGlobalStore()
+  const { data: session, status } = useSession()
+
+  const { playingSpecial, setPlayingSpecial, currentComedian, setSpecialUpVoted } = useGlobalStore()
+
+  const { trigger, isMutating } = useSWRMutation('/api/special/upVote', specialUpVote)
+
+  
+  console.log(session, 'session')
+
+  if (!playingSpecial || !session) {
+    return null
+  }
 
   return <div className='video-info-container'>
     <Typography className='video-title' gutterBottom variant="h5" component="div">
@@ -19,12 +35,24 @@ const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
     </Typography>
 
     <div className='thumbs'>
-      <IconButton aria-label="thumb-up" color="primary">
-        <ThumbUpOffAltIcon />
+      <IconButton onClick={() => {
+        if (playingSpecial?.isUpVoted) {
+          setSpecialUpVoted(playingSpecial, false)
+        } else {
+          setSpecialUpVoted(playingSpecial, true)
+        }
+        trigger({
+          userId: session.user.userId,
+          specialId: playingSpecial._id,
+          isUpVoted: Boolean(!playingSpecial?.isUpVoted)
+        })
+      }} aria-label="thumb-up" color="primary">
+        { playingSpecial?.isUpVoted ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon /> }
+        <span className='upVote-count'>{playingSpecial?.upVoteCount || "23"} </span>
       </IconButton>
-      <IconButton aria-label="thumb-down" color="primary">
+      {/* <IconButton aria-label="thumb-down" color="primary">
         <ThumbDownOffAltIcon />
-      </IconButton>
+      </IconButton> */}
     </div>
   </div>;
 };

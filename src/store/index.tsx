@@ -12,6 +12,7 @@ interface GlobalState {
   setCurrentComedian: (comedian: Comedian) => void
   playingSpecial: Special | null,
   setPlayingSpecial: (special: Special) => void
+  setSpecialUpVoted: (special: Special, upVote: boolean) => void
 }
 
 export const useGlobalStore = create<GlobalState>()((set) => ({
@@ -36,6 +37,27 @@ export const useGlobalStore = create<GlobalState>()((set) => ({
     set((state) => {
       return {
         playingSpecial: special
+      }
+    })
+  },
+  setSpecialUpVoted: (playingSpecial, upVote) => {
+    set((state) => {
+      if (upVote) {
+        return {
+          playingSpecial: {
+            ...playingSpecial,
+            upVoteCount: playingSpecial.upVoteCount + 1,
+            isUpVoted: true
+          }
+        }
+      } else {
+        return {
+          playingSpecial: {
+            ...playingSpecial,
+            upVoteCount: playingSpecial.upVoteCount - 1,
+            isUpVoted: false
+          }
+        }
       }
     })
   }
