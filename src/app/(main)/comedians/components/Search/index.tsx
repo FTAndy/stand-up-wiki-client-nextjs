@@ -1,9 +1,10 @@
 'use client'
 import {useState} from 'react';
-import useSWR from 'swr'
+import { useQuery } from '@tanstack/react-query'
 import type {Comedian} from '@/types/comdian'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { getComedianNames } from '../../service'
 import {useComediansStore} from  '../../store/index'
 import {getComedians} from '@/service/comedian'
 
@@ -14,7 +15,10 @@ const Search: React.FunctionComponent<ISearchProps> = (props) => {
 
   const {setPage, searchValue, comedianList, setComedianList, setGlobalLoading, setSearchValue} = useComediansStore()
 
-  const { data: comedianNamesData = [] } = useSWR<Array<Pick<Comedian, 'name'>>>('/api/comedianNames')
+  const { data: comedianNamesData = [] } = useQuery<Array<Pick<Comedian, 'name'>>>({
+    queryKey: ['comedianName'],
+    queryFn: getComedianNames
+  })
 
   return <div className='search-area'>
     <Autocomplete

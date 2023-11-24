@@ -4,14 +4,12 @@ import {ObjectId} from 'mongodb'
 import { z } from "zod";
 
 const UserUpVoteSpecialSchema = z.object({
-  userId: z.string(),
   specialId: z.string(),
-  isUpVoted: z.boolean()
 });
 
 
 export default async function handle(request: NextApiRequest, res: NextApiResponse) {
-  const { userId, specialId, isUpVoted } = request.body
+  const { specialId } = request.body
 
   const MongoClient = await getMongoDbClient()
 
@@ -19,34 +17,19 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
   const UserUpVoteSpecial = Database.collection("userUpVoteSpecial");
 
   const isValidated = UserUpVoteSpecialSchema.safeParse({
-    userId,
     specialId,
-    isUpVoted
   })
 
   if (isValidated.success) {
-    await UserUpVoteSpecial.findOneAndUpdate({
-      userId: new ObjectId(userId),
-      specialId: new ObjectId(specialId),
-    }, {
-      $set: {
-        isUpVoted,
-        updatedAt: new Date()
-      },
-      $setOnInsert: {
-        createdAt: new Date(),
-        userId: new ObjectId(userId),
-        specialId: new ObjectId(specialId),
-      }
+    const count = await UserUpVoteSpecial.countDocuments({
+      specialId: new ObjectId(specialId)
     })
-
-    console.log('update', isUpVoted)
-
-
 
     res
     .status(200)
-    .end()
+    .json({
+      data: count
+    })
   
   } else {
     res.status(400)

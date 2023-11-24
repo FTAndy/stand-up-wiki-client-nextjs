@@ -26,9 +26,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
           as: 'specials'
         }
       },
-      {
-        $unwind: "$specials" // Deconstructs the specials array
-      },
     ]).toArray()
 
     const comedian = comedians.length > 0 ? comedians[0] : null

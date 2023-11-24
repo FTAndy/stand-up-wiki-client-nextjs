@@ -1,11 +1,16 @@
-import axios from 'axios'
+import request from '@/service'
 
-export function specialUpVote(url: string, { arg }: {
-  arg: {
-    userId: string,
-    specialId: string,
-    isUpVoted: boolean
-  }
+export function specialUpVote(data: {
+  userId: string,
+  specialId: string,
+  isUpVoted: boolean
 }) {
-  return axios.post(url, arg)
+  return request.post('/api/special/upVote', data)
+}
+
+export async function getSpecialUpVotes(data: {
+  specialId: string,
+}): Promise<number> {
+  const res = await request.post('/api/special/getUpVotesCount', data)
+  return res.data.data
 }

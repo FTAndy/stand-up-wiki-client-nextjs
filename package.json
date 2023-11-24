@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.14.13",
     "@mui/material": "^5.14.13",
     "@next/mdx": "^14.0.2",
+    "@tanstack/react-query": "^5.8.4",
     "@types/mdx": "^2.0.10",
     "@vercel/analytics": "^1.1.1",
     "@vercel/kv": "^1.0.0",
@@ -36,7 +37,6 @@
     "react-new-window": "^1.0.1",
     "react-timer-hook": "^3.0.7",
     "sass": "^1.69.2",
-    "swr": "^2.2.4",
     "zod": "^3.22.4",
     "zustand": "^4.4.3"
   },

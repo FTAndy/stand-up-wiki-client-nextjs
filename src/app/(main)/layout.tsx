@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
 import { Analytics } from '@vercel/analytics/react';
-import {SWRProvider} from './swr-provider'
+import {ReactQueryProvider} from './react-query-provider'
 import ThemeProvider from './theme-provider'
 import Image from 'next/image'
 import Button from '@mui/material/Button';
@@ -69,12 +69,13 @@ export default async function RootLayout({
 
 
   // TODO: add srcset for low resolution device, windows and mac is different
+  // TODO: add Sentry
   return (
     <html lang="en">
       <body style={{overflow: 'auto'}} className={inter.className}>
       <div className='App'>
         <SessionProvider session={session}>
-          <SWRProvider>
+          <ReactQueryProvider>
             <ThemeProvider options={{ key: 'mui', prepend: true }}>
               <AppBar className='app-bar' position="fixed">
                 <Toolbar>
@@ -105,7 +106,7 @@ export default async function RootLayout({
               </AppBar>
               {children}        
             </ThemeProvider>
-          </SWRProvider>
+          </ReactQueryProvider>
         </SessionProvider>
       </div>
       <Analytics />
