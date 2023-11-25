@@ -47,7 +47,10 @@ export const useGlobalStore = create<GlobalState>()((set) => ({
           playingSpecial: {
             ...playingSpecial,
             upVoteCount: playingSpecial.upVoteCount + 1,
-            isUpVoted: true
+            userUpVote: {
+              ...playingSpecial.userUpVote,
+              isUpVoted: true
+            }
           }
         }
       } else {
@@ -55,7 +58,10 @@ export const useGlobalStore = create<GlobalState>()((set) => ({
           playingSpecial: {
             ...playingSpecial,
             upVoteCount: playingSpecial.upVoteCount - 1,
-            isUpVoted: false
+            userUpVote: {
+              ...playingSpecial.userUpVote,
+              isUpVoted: false
+            }
           }
         }
       }

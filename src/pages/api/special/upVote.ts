@@ -38,7 +38,7 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
         userId: new ObjectId(userId),
         specialId: new ObjectId(specialId),
       }
-    })
+    }, {upsert: true})
 
     console.log('update', isUpVoted)
 

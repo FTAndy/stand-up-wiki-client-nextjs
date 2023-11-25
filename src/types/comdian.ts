@@ -48,7 +48,9 @@ export type Special = {
   comedian_id: string
   comedianName: string,
   upVoteCount: number,
-  isUpVoted?: boolean
+  userUpVote?: {
+    isUpVoted?: boolean
+  }
   specialDetail: {
     datetime: string
     netflixURL: string

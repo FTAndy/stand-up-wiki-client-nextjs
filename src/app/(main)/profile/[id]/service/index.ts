@@ -8,9 +8,10 @@ export function specialUpVote(data: {
   return request.post('/api/special/upVote', data)
 }
 
-export async function getSpecialUpVotes(data: {
+export async function getSpecialDetail(data: {
   specialId: string,
-}): Promise<number> {
-  const res = await request.post('/api/special/getUpVotesCount', data)
+  userId: string | undefined
+}) {
+  const res = await request.post('/api/special/getDetail', data)
   return res.data.data
 }

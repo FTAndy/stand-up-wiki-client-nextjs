@@ -1,14 +1,15 @@
 'use client'
-import {useMemo} from 'react';
+import {useEffect, useMemo} from 'react';
 import { useGlobalStore } from '@/store'
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import './index.scss'
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { specialUpVote, getSpecialUpVotes } from '../../service/index'
+import { specialUpVote, getSpecialDetail } from '../../service/index'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useSession } from "next-auth/react"
+import type {Special} from '@/types/comdian'
 import type { Session} from 'next-auth'
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 
@@ -24,23 +25,35 @@ const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
     mutationFn: specialUpVote
   })
 
-  const { data: specialUpVotesCount = 0 } = useQuery<number>({
-    queryKey: [playingSpecial?._id],
-    queryFn: () => {
+
+  const { data: specialDetail } = useQuery<Special>({
+    queryKey: ['specialDetail', playingSpecial?._id, session?.user?.userId],
+    queryFn: async () => {
       if (playingSpecial) {
-        return getSpecialUpVotes({
-          specialId: playingSpecial?._id
+        return getSpecialDetail({
+          specialId: playingSpecial?._id,
+          userId: session?.user?.userId
         })
       }
-      return 0
+      return null
     },
   })    
 
-  const fakeSpecialUpVotesCount = useMemo(() => {
-    return playingSpecial?.isUpVoted ? specialUpVotesCount + 1: specialUpVotesCount
-  }, [playingSpecial?.isUpVoted, specialUpVotesCount])
+  useEffect(() => {
+    if (playingSpecial && specialDetail) {
+      setPlayingSpecial({
+        ...playingSpecial,
+        userUpVote: {
+          ...(specialDetail?.userUpVote || {})
+        },
+        upVoteCount: specialDetail?.upVoteCount || 0
+      })
+    }
+  }, [specialDetail])
 
-  // console.log(specialUpVotesCount, fakeSpecialUpVotesCount, 'specialUpVotesCount')
+  const isUpVoted = useMemo(() => {
+    return playingSpecial?.userUpVote?.isUpVoted
+  }, [playingSpecial?.userUpVote?.isUpVoted])
 
   if (!playingSpecial || !session) {
     return null
@@ -54,8 +67,7 @@ const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
     <div className='thumbs'>
       <IconButton onClick={() => {
 
-        // TODO: playing special is isUpVote field
-        if (playingSpecial?.isUpVoted) {
+        if (isUpVoted) {
           setSpecialUpVoted(playingSpecial, false)
         } else {
           setSpecialUpVoted(playingSpecial, true)
@@ -63,11 +75,11 @@ const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
         triggerUpVote({
           userId: session.user.userId,
           specialId: playingSpecial._id,
-          isUpVoted: Boolean(!playingSpecial?.isUpVoted)
+          isUpVoted: Boolean(!isUpVoted)
         })
       }} aria-label="thumb-up" color="primary">
-        { playingSpecial?.isUpVoted ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon /> }
-        <span className='upVote-count'>{fakeSpecialUpVotesCount} </span>
+        { isUpVoted ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon /> }
+        <span className='upVote-count'>{playingSpecial.upVoteCount} </span>
       </IconButton>
       {/* <IconButton aria-label="thumb-down" color="primary">
         <ThumbDownOffAltIcon />
