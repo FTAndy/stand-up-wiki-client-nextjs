@@ -1,5 +1,4 @@
-import { create } from 'zustand'
-import { createProvider } from 'next-zustand';
+import { createProvider } from 'next-with-zustand';
 import type { Comedian } from '@/types/comdian'
 
 interface ComediansState {
