@@ -20,11 +20,11 @@ a {
 }
 .app-bar {
   .link {
-    color: white;
+    color: $fontColor;
     margin: 0 20px;
   }
   .github-icon {
-    color: white;
+    color: $fontColor;
   }
   .MuiToolbar-root {
     // padding-left: 25vw;

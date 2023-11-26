@@ -60,7 +60,7 @@ export default async function App (props: IAppProps) {
     data: Array<Special>
   }>()
 
-
+  // TODO: store provider
   return (
     <div className='specials-container'>
       <SearchSpecial />

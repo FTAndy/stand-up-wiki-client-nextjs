@@ -16,30 +16,22 @@ import type { Comedian } from '@/types/comdian'
 import { getComedians } from '@/service/comedian';
 
 interface IComedianListProps {
-  initedComedianList: Array<Comedian>
 }
 
 const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
-  const { initedComedianList } = props
 
   const [moreLoading, setMoreLoading] = useState(false)
 
-  const { setTagList, tagList, searchValue, page, setPage, comedianList, setComedianList, globalLoading, setGlobalLoading } = useComediansStore()
-
-  useEffect(() => {
-    setComedianList(initedComedianList)
-  }, [])
-
+  const { setTagList, tagList, searchValue, page, setPage, comedianList, setComedianList, globalLoading, setGlobalLoading } = useComediansStore(store => store)
 
   const renderComedianComponents = () => {
-    const comediansToShow = comedianList ? comedianList : initedComedianList;
 
-    if (comediansToShow.length === 0) {
+    if (comedianList.length === 0) {
       return <h1 style={{margin: '0 auto'}}>No Data</h1>;
     }
 
     return <InfiniteScroll
-          dataLength={comediansToShow.length}
+          dataLength={comedianList.length}
           key={`infinite-scroll-${searchValue}`}
           className='comedians-list'
           endMessage={
@@ -70,7 +62,7 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
           hasMore={true}
           loader={moreLoading && <CircularProgress style={{alignSelf: 'center'}} />}
       >
-      { comediansToShow.map((comedian, index) => {
+      { comedianList.map((comedian, index) => {
           return <Card key={`${comedian._id}_${index}`} className='card-container'>
             <CardMedia
               className='avatar'

@@ -1,6 +1,6 @@
 'use client'
 import {useEffect, useMemo} from 'react';
-import { useGlobalStore } from '@/store'
+import { useGlobalStore } from '@/app/(main)/store'
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import './index.scss'
@@ -59,6 +59,8 @@ const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
     return null
   }
 
+
+  // TODO: login to add upVote
   return <div className='video-info-container'>
     <Typography className='video-title' gutterBottom variant="h5" component="div">
         { playingSpecial?.specialName }

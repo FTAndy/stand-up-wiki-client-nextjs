@@ -8,6 +8,7 @@ import './page.scss'
 import type { Metadata, ResolvingMetadata } from 'next'
 import type { Comedians, Comedian } from '@/types/comdian'
 import TagFilter from './components/TagFilter'
+import StoreProvider from './StoreProvider'
 
 interface IComediansProps {
 }
@@ -66,15 +67,16 @@ const Comedians: React.FunctionComponent<IComediansProps> = async (props) => {
     data: Array<Comedian>
   }>()
 
-  // TODO: init store value with provider, https://github.com/pmndrs/zustand/blob/main/docs/previous-versions/zustand-v3-create-context.md
   return <main className='comedians-container'>
-    <div className='filters'>
-      <Search />
-      <TagFilter />
-    </div>
-    <ComedianList 
-      initedComedianList={data}
-    />
+    <StoreProvider
+      comedians={data}
+    >
+      <div className='filters'>
+        <Search />
+        <TagFilter />
+      </div>
+      <ComedianList />
+    </StoreProvider>
   </main>;
 };
 

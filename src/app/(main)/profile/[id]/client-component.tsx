@@ -1,6 +1,6 @@
 'use client'
 import {useEffect} from 'react';
-import { useGlobalStore } from '@/store'
+import { useGlobalStore } from '@/app/(main)/store'
 import VideoPlayer from './components/VideoPlayer'
 import VideoInfo from './components/VideoInfo'
 import TabComponent from './components/Tab'
@@ -15,8 +15,6 @@ const Client: React.FunctionComponent<IClientProps> = (props) => {
   const { comedian } = props
 
   const { setPlayingSpecial, playingSpecial, currentComedian, setCurrentComedian } = useGlobalStore()
-
-  console.log(comedian, 'comedian')
 
   useEffect(() => {
     if (comedian) {

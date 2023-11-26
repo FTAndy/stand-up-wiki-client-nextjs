@@ -1,6 +1,6 @@
 import {useRef, useState, useEffect} from 'react';
 import { DiscussionEmbed } from 'disqus-react';
-import { useGlobalStore } from '@/store'
+import { useGlobalStore } from '@/app/(main)/store'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Tabs from '@mui/material/Tabs';

@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { createProvider } from 'next-zustand';
 import type { Comedian } from '@/types/comdian'
 
 interface ComediansState {
@@ -6,7 +7,7 @@ interface ComediansState {
   searchValue: string
   setPage: (page: number) => void,
   setSearchValue: (value: string) => void,
-  comedianList: Array<Comedian> | null,
+  comedianList: Array<Comedian>,
   globalLoading: boolean,
   setGlobalLoading: (globalLoading: boolean) => void
   setComedianList: (comedians: Array<Comedian>) => void
@@ -14,10 +15,11 @@ interface ComediansState {
   setTagList: (tagList: Array<string>) => void
 }
 
-export const useComediansStore = create<ComediansState>()((set) => ({
+// export const useComediansStore = create<ComediansState>()((set) => ({
+export const { Provider, useStore: useComediansStore } = createProvider<ComediansState>()((set) => ({
   page: 1,
   searchValue: '',
-  comedianList: null,
+  comedianList: [],
   globalLoading: false,
   tagList: null,
   setTagList: (tagList) => {
@@ -42,7 +44,6 @@ export const useComediansStore = create<ComediansState>()((set) => ({
     })
   },
   setSearchValue: (value) => {
-    console.log(value, 'value')
     set((state) => {
       return {
         searchValue: value,

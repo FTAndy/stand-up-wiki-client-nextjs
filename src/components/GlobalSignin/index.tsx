@@ -2,7 +2,7 @@
 import * as React from 'react';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { useGlobalStore } from '@/store';
+import { useGlobalStore } from '@/app/(main)/store';
 import Signin from '../Signin';
 import NewWindow from 'react-new-window';
 import './index.scss'

@@ -4,7 +4,7 @@ import './index.scss'
 import GoogleIcon from '@mui/icons-material/Google';
 import { signIn } from "next-auth/react"
 import Button from '@mui/material/Button';
-import {useGlobalStore, SigninType} from '@/store';
+import {useGlobalStore, SigninType} from '@/app/(main)/store';
 
 export interface ISigninProps {
 }

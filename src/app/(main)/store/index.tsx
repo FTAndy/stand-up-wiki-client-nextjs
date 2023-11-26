@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import { Comedian, Special } from '../types/comdian'
+import { createContext } from 'zustand-utils';
+import { Comedian, Special } from '../../../types/comdian'
 
 export enum SigninType {
   google = 'google',
@@ -14,6 +15,8 @@ interface GlobalState {
   setPlayingSpecial: (special: Special) => void
   setSpecialUpVoted: (special: Special, upVote: boolean) => void
 }
+
+
 
 export const useGlobalStore = create<GlobalState>()((set) => ({
   toggleGlobalSignin: false,

@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect, useMemo, useRef, useState} from 'react';
-import { useGlobalStore } from '@/store'
+import { useGlobalStore } from '@/app/(main)/store'
 import Typography from '@mui/material/Typography';
 import SubtitlesOctopus from 'libass-wasm'
 import type {Subtitle} from '@/types/comdian'

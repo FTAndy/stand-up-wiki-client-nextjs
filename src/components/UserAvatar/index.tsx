@@ -1,7 +1,7 @@
 'use client'
 import type {Session} from 'next-auth'
 import Button from '@mui/material/Button';
-import { useGlobalStore } from '@/store';
+import { useGlobalStore } from '@/app/(main)/store';
 import * as React from 'react';
 import './index.scss'
 

@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Link from '@mui/material/Link';
+import Link from 'next/link'
 import { Analytics } from '@vercel/analytics/react';
 import {ReactQueryProvider} from './react-query-provider'
 import ThemeProvider from './theme-provider'
@@ -88,7 +88,7 @@ export default async function RootLayout({
                   />
                   <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                     {pages.map((page) => (
-                      <Link key={page.path} className='link' href={page.path} underline="none">
+                      <Link key={page.path} className='link' href={page.path} >
                         {page.name}
                       </Link>            
                     ))}

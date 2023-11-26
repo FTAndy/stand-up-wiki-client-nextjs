@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Rating from '@mui/material/Rating';
 import { Special } from '@/types/comdian'
-import { useGlobalStore } from '@/store'
+import { useGlobalStore } from '@/app/(main)/store'
 import { CardActionArea } from '@mui/material';
 import './index.scss'
 
