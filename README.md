@@ -29,7 +29,7 @@ The data of this website are crawled from IMDB, Wikipedia, and Bilibili. The cra
 
 Standup Wiki is currently in its early stages of development. Key features in progress include:
 
-- [ x ] User system
+- [x] User system
 - [ ] Collect and customizable special lists
 - [ ] Self-hosted commenting system
 - [ ] Upvote and downvote specials/comedians
