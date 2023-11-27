@@ -2,6 +2,7 @@
 import type { Special } from '@/types/comdian'
 import SpecialList from './components/SpecialList';
 import SearchSpecial from './components/Search';
+import StoreProvider from './StoreProvider';
 import type {Metadata, ResolvingMetadata} from 'next'
 import './page.scss'
 
@@ -55,18 +56,16 @@ export async function generateMetadata(
 
 export default async function App (props: IAppProps) {
 
-  // TODO: remove this
   const {data: specialList} = await getData<{
     data: Array<Special>
   }>()
 
-  // TODO: store provider
-  return (
+  return <StoreProvider
+    specials={specialList}
+  >
     <div className='specials-container'>
       <SearchSpecial />
-      <SpecialList
-        initedSpecialList={specialList}
-      />      
+      <SpecialList />      
     </div>
-  );
+  </StoreProvider>
 }

@@ -2,7 +2,7 @@
 import {useCallback} from 'react';
 import TextField from '@mui/material/TextField';
 import debounce from 'lodash/debounce'
-import useSpecial from '../../store';
+import {useSpecials} from '../../store';
 import axios from 'axios';
 import type {Special} from '@/types/comdian'
 
@@ -10,7 +10,7 @@ interface ISearchSpecialProps {
 }
 
 const SearchSpecial: React.FunctionComponent<ISearchSpecialProps> = (props) => {
-  const {setSearchValue, setPage, setIsGlobalLoading, setSpecialList } = useSpecial()
+  const {setSearchValue, setPage, setIsGlobalLoading, setSpecialList } = useSpecials()
 
   const debouncedOnChange = useCallback(debounce(async (newValue: string) => {
     const value = newValue || ''

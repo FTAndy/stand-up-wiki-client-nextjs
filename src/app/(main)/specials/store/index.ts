@@ -1,10 +1,10 @@
-import {create} from 'zustand';
+import {createProvider} from 'next-with-zustand';
 import type { Special } from '@/types/comdian';
 
 type SpecialState = {
   page: number,
   setPage: (page: number) => void,
-  specialList: Array<Special> | null,
+  specialList: Array<Special>,
   setSpecialList: (specials: Array<Special>) => void
   searchValue: string
   setSearchValue: (value: string) => void,
@@ -14,7 +14,8 @@ type SpecialState = {
   setIsGlobalLoading: (isGlobalLoading: boolean) => void
 };
 
-const useSpecial = create<SpecialState>((set) => ({
+// const useSpecial = create<SpecialState>((set) => ({
+export const { Provider, useStore: useSpecials } = createProvider<SpecialState>()((set) => ({
   isGlobalLoading: false,
   setIsGlobalLoading: (isGlobalLoading) => {
     set(() => {
@@ -39,7 +40,7 @@ const useSpecial = create<SpecialState>((set) => ({
       };
     });
   },
-  specialList: null,
+  specialList: [],
   setSpecialList: (specials) => {
     set(() => {
       return {
@@ -56,5 +57,3 @@ const useSpecial = create<SpecialState>((set) => ({
     });
   }
 }));
-
-export default useSpecial;
