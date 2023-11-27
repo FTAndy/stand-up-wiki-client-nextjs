@@ -3,6 +3,11 @@ import type {Session} from 'next-auth'
 import Button from '@mui/material/Button';
 import { useGlobalStore } from '@/app/(main)/store';
 import * as React from 'react';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Avatar from '@mui/material/Avatar';
+import {signOut} from 'next-auth/react'
 import './index.scss'
 
 interface IUserAvatarProps {
@@ -10,23 +15,49 @@ interface IUserAvatarProps {
 }
 
 const UserAvatar: React.FunctionComponent<IUserAvatarProps> = (props) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const userSignOut = () => {
+    signOut()
+  }
+
   const { setToggleGlobalSignin } = useGlobalStore()
   const { session } = props;
   const avatarUrl = session?.user?.image || ''
   const alt = session?.user?.name || ''
   return <>
-    { session ? 
-        <img 
-          src={avatarUrl} 
-          alt={alt} 
-          width={30} height={30}
-        />
-        // {/* <Image
-        //   // TODO: default avatar
-        //   src={session?.user?.image || ''} 
-        //   alt={session?.user?.name || ''} 
-        //   width={30} height={30} 
-        // /> */}
+    { session ? <>
+        <IconButton
+          onClick={handleClick}
+          size="small"
+          sx={{ ml: 2 }}
+        >
+
+          <Avatar 
+            src={avatarUrl}
+            alt={alt} 
+            sx={{ width: 30, height: 30 }}
+          />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          >
+            <MenuItem onClick={userSignOut}>
+              Sign Out
+            </MenuItem>
+        </Menu>
+        </>
       : <Button onClick={() => {
         setToggleGlobalSignin(true)
       }} variant="contained" className='login-icon'>

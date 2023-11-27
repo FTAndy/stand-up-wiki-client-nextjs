@@ -19,7 +19,7 @@ interface IVideoInfoProps {
 const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
   const { data: session, status } = useSession()
 
-  const { playingSpecial, setPlayingSpecial, currentComedian, setSpecialUpVoted } = useGlobalStore()
+  const { playingSpecial, setPlayingSpecial, currentComedian, setSpecialUpVoted, setToggleGlobalSignin } = useGlobalStore()
 
   const { mutate: triggerUpVote } = useMutation({
     mutationFn: specialUpVote
@@ -55,7 +55,7 @@ const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
     return playingSpecial?.userUpVote?.isUpVoted
   }, [playingSpecial?.userUpVote?.isUpVoted])
 
-  if (!playingSpecial || !session) {
+  if (!playingSpecial) {
     return null
   }
 
@@ -68,17 +68,20 @@ const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
 
     <div className='thumbs'>
       <IconButton onClick={() => {
-
-        if (isUpVoted) {
-          setSpecialUpVoted(playingSpecial, false)
+        if (session) {
+          if (isUpVoted) {
+            setSpecialUpVoted(playingSpecial, false)
+          } else {
+            setSpecialUpVoted(playingSpecial, true)
+          }
+          triggerUpVote({
+            userId: session.user.userId,
+            specialId: playingSpecial._id,
+            isUpVoted: Boolean(!isUpVoted)
+          })
         } else {
-          setSpecialUpVoted(playingSpecial, true)
+          setToggleGlobalSignin(true)
         }
-        triggerUpVote({
-          userId: session.user.userId,
-          specialId: playingSpecial._id,
-          isUpVoted: Boolean(!isUpVoted)
-        })
       }} aria-label="thumb-up" color="primary">
         { isUpVoted ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon /> }
         <span className='upVote-count'>{playingSpecial.upVoteCount} </span>
