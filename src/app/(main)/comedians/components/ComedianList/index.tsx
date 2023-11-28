@@ -34,6 +34,7 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
           dataLength={comedianList.length}
           key={`infinite-scroll-${searchValue}`}
           className='comedians-list'
+          scrollThreshold="1px"
           endMessage={
             <p style={{ textAlign: 'center' }}>
               <b>Yay! You have seen it all</b>
