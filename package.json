@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^2.0.5",
@@ -49,6 +50,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vercel/node": "^3.0.7",
+    "cypress": "^13.6.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.0",
     "typescript": "^5"
