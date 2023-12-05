@@ -27,7 +27,6 @@ const SpecialList: React.FunctionComponent<ISpecialListProps> = (props) => {
         dataLength={specialList.length}
         key={`infinite-scroll-${searchValue}`}
         className='specials-list'
-        scrollThreshold="1px"
         endMessage={
           <p style={{ textAlign: 'center' }}>
             <b>Yay! You have seen it all</b>
