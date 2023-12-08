@@ -1,5 +1,6 @@
 import './page.scss'
 import Typography from '@mui/material/Typography';
+import Image from 'next/image'
 import Link from 'next/link'
 import Button from '@mui/material/Button';
 
@@ -8,7 +9,17 @@ export default function Home() {
     // TODO: Image optimization
     // TODO: hover on and highlight figure
     <main className='main'>
-      <div className='cover'></div>
+      <Image
+        fill={true}
+        priority={true}
+        src="https://andycdn-fndbfaewgxbve2ha.z01.azurefd.net/images/background-1-min.webp"
+        style={{
+          objectFit: 'cover',
+        }}
+        alt="Picture of the comedians"
+      />
+      <div className='cover'>
+      </div>
       <div className='headline'>
         <Typography variant="h1" gutterBottom>
           Just Standup

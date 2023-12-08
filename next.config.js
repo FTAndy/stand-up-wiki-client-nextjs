@@ -8,9 +8,11 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '*.googleusercontent.com',
-        port: '',
-        pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: 'andycdn-fndbfaewgxbve2ha.z01.azurefd.net',
+      }
     ],
   },
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
