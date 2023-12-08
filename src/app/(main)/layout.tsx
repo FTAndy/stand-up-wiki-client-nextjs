@@ -1,51 +1,16 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Link from 'next/link'
 import { Analytics } from '@vercel/analytics/react';
 import {ReactQueryProvider} from './react-query-provider'
 import ThemeProvider from './theme-provider'
-import Image from 'next/image'
-import Button from '@mui/material/Button';
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
-import GitHubIcon from '@mui/icons-material/GitHub';
 import SessionProvider from './session-provider'
-import UserAvatar from '@/components/UserAvatar';
-import GlobalLogin from '@/components/GlobalSignin';
+import HeaderBar from '@/components/HeaderBar'
 import './globals.scss'
 
 
 const inter = Inter({ subsets: ['latin'] })
-
-const pages = [
-  {
-    name: 'Home',
-    path: '/'
-  },
-  {
-    name: 'Comedians',
-    path: '/comedians'
-  },
-  {
-    name: 'Specials',
-    path: '/specials'
-  },
-  {
-    name: 'About',
-    path: '/about'
-  }
-  // {
-  //   name: 'Profile',
-  //   path: '/profile'
-  // },
-  // {
-  //   name: 'Forum',
-  //   path: '/forrm'
-  // }
-]
 
 export const metadata: Metadata = {
   applicationName: 'Standup Wiki',
@@ -77,33 +42,9 @@ export default async function RootLayout({
         <SessionProvider session={session}>
           <ReactQueryProvider>
             <ThemeProvider options={{ key: 'mui', prepend: true }}>
-              <AppBar className='app-bar' position="fixed">
-                <Toolbar>
-                  <Image 
-                    priority={true}
-                    src="/logo.jpg"
-                    width={50}
-                    height={50}
-                    alt="Logo"
-                  />
-                  <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                    {pages.map((page) => (
-                      <Link key={page.path} className='link' href={page.path} >
-                        {page.name}
-                      </Link>            
-                    ))}
-                  </Box>
-                  <Link target='_blank' href="https://github.com/FTAndy/stand-up-wiki-client-nextjs">
-                    <Button variant="contained" startIcon={<GitHubIcon className='github-icon'></GitHubIcon>}>
-                      Github
-                    </Button>
-                  </Link>
-                  <UserAvatar
-                    session={session}
-                  />
-                  <GlobalLogin />
-                </Toolbar>
-              </AppBar>
+              <HeaderBar 
+                session={session}
+               />
               {children}        
             </ThemeProvider>
           </ReactQueryProvider>

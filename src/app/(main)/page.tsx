@@ -16,7 +16,7 @@ export default function Home() {
         style={{
           objectFit: 'cover',
         }}
-        alt="Picture of the comedians"
+        alt="Picture of great comedians"
       />
       <div className='cover'>
       </div>
