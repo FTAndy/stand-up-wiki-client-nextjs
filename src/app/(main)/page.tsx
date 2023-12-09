@@ -12,7 +12,7 @@ export default function Home() {
       <Image
         fill={true}
         priority={true}
-        src="https://andycdn-fndbfaewgxbve2ha.z01.azurefd.net/images/background-1-min.webp"
+        src="https://standup-wiki.azureedge.net/images/background-1-min.webp"
         style={{
           objectFit: 'cover',
         }}

@@ -11,7 +11,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'andycdn-fndbfaewgxbve2ha.z01.azurefd.net',
+        hostname: 'standup-wiki.azureedge.net',
       }
     ],
   },
