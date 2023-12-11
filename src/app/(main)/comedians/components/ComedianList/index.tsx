@@ -12,6 +12,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useComediansStore } from '../../store'
 import GlobalLoading from '@/components/GlobalLoading'
 import CircularProgress from '@mui/material/CircularProgress';
+import { useDidUpdate } from '@mantine/hooks';
 import Image from 'next/image'
 import type { Comedian } from '@/types/comdian'
 import { getComedians } from '@/service/comedian';
@@ -27,10 +28,9 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
   const { setTagList, tagList, searchValue, page, setPage, comedianList, setComedianList, globalLoading, setGlobalLoading } = useComediansStore(store => store)
 
 
-  useEffect(() => {
+  useDidUpdate(() => {
     async function fetchData() {
       setGlobalLoading(true)
-      setPage(1)
       const comedians = await getComedians({
         tags: tagList,
         name: searchValue
@@ -38,6 +38,7 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
       setComedianList([
         ...comedians
       ])
+      setPage(1)
       setGlobalLoading(false)
     }
     fetchData()
