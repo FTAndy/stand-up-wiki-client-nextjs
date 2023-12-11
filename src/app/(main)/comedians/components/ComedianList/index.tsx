@@ -24,6 +24,23 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
 
   const { setTagList, tagList, searchValue, page, setPage, comedianList, setComedianList, globalLoading, setGlobalLoading } = useComediansStore(store => store)
 
+
+  useEffect(() => {
+    async function fetchData() {
+      setGlobalLoading(true)
+      setPage(1)
+      const comedians = await getComedians({
+        tags: tagList,
+        name: searchValue
+      })
+      setComedianList([
+        ...comedians
+      ])
+      setGlobalLoading(false)
+    }
+    fetchData()
+  }, [searchValue, tagList])
+
   const renderComedianComponents = () => {
 
     if (comedianList.length === 0) {

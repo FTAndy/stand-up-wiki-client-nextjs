@@ -47,6 +47,19 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
     },
   ]
 
+  if (tags && tags.length > 0) {
+    const filterTags = tags.split(',')
+    if (filterTags.length > 0) {
+      pipelines.unshift({
+        $match: {
+          'AIGeneratedContent.tags': {
+            $in: filterTags
+          }
+        },
+      })
+    }
+  }
+
   if (name) {
     pipelines.unshift({
       $sort: {
@@ -62,19 +75,6 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
         }
       },
     })
-  }
-
-  if (tags && tags.length > 0) {
-    const filterTags = tags.split(',')
-    if (filterTags.length > 0) {
-      pipelines.unshift({
-        $match: {
-          'AIGeneratedContent.tags': {
-            $in: filterTags
-          }
-        },
-      })
-    }
   }
 
   comedians = await Comedian.aggregate(pipelines)

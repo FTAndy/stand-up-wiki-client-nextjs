@@ -34,15 +34,6 @@ const Search: React.FunctionComponent<ISearchProps> = (props) => {
       onChange={async (event, newValue) => {
         const value = newValue?.label || ''
         setSearchValue(value)
-        setPage(1)
-        setGlobalLoading(true)
-        const comedians = await getComedians({
-          name: value
-        })
-        setComedianList([
-          ...comedians,
-        ])
-        setGlobalLoading(false)
       }}
       sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Search Comedian" />}

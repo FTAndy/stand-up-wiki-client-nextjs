@@ -4,7 +4,7 @@ import Home from '@/app/(main)/page'
 import HeaderBar from '@/components/HeaderBar'
 
 describe('Home Page', () => {
-  test('render', () => {
+  test('content', () => {
     render(<Home />)
     expect(
       screen.getByRole('heading', { level: 1, name: 'Just Standup' })

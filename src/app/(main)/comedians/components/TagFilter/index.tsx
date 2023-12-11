@@ -41,24 +41,6 @@ const limitedGenres = [
 const TagFilter: React.FunctionComponent<ITagFilterProps> = (props) => {
   const {tagList, setTagList, setGlobalLoading, setComedianList, setPage} = useComediansStore()
 
-  React.useEffect(() => {
-    async function fetch() {
-      if (tagList) {
-        console.log('fetch tag comedians')
-        setGlobalLoading(true)
-        setPage(1)
-        const comedians = await getComedians({
-          tags: tagList
-        })
-        setComedianList([
-          ...comedians
-        ])
-        setGlobalLoading(false)
-      }
-    }
-    fetch()      
-  }, [tagList])
-
   return <div className='tagFilter-container'>
     <Autocomplete
       multiple

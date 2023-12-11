@@ -4,7 +4,7 @@ import type { Comedian } from "@/types/comdian";
 type getComediansProps = {
   page?: number;
   name?: string;
-  tags?: Array<string>
+  tags: Array<string> | null
 };
 
 export const getComedians = async (props: getComediansProps) => {
