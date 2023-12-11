@@ -2,6 +2,9 @@
   "name": "stand-up-wiki-client-nextjs",
   "version": "0.1.0",
   "private": true,
+  "bin": {
+    "codegptcommit": "./bin/codegpt.sh"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
