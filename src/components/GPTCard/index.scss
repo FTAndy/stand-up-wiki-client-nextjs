@@ -1,0 +1,12 @@
+.GPT-card-container {
+  display: flex;
+  flex-direction: row;
+  padding-left: 20px;
+  align-items: center;
+  .card-content {
+    width: 200px;
+    .description {
+      @include ellipsis-text;
+    }
+  }
+}

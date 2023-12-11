@@ -1,0 +1,16 @@
+.gpt-container {
+  width: 60vw;
+  margin: 20px auto;
+  .title {
+    color: $mainColor;
+    margin-bottom: 20px;
+  }
+  .card-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1vw;
+    justify-content: center;
+  }
+}

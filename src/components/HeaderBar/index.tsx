@@ -29,6 +29,10 @@ const pages = [
     path: '/specials'
   },
   {
+    name: 'Comedian GPTs',
+    path: '/gpts'
+  },
+  {
     name: 'About',
     path: '/about'
   }

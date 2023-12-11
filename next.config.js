@@ -12,6 +12,14 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'standup-wiki.azureedge.net',
+      },
+      {
+        protocol: 'https',
+        hostname: "*.wikimedia.org"
+      },
+      {
+        protocol: 'https',
+        hostname: '*.oaiusercontent.com'
       }
     ],
   },

@@ -12,8 +12,10 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useComediansStore } from '../../store'
 import GlobalLoading from '@/components/GlobalLoading'
 import CircularProgress from '@mui/material/CircularProgress';
+import Image from 'next/image'
 import type { Comedian } from '@/types/comdian'
 import { getComedians } from '@/service/comedian';
+import './index.scss'
 
 interface IComedianListProps {
 }
@@ -81,6 +83,15 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
       >
       { comedianList.map((comedian, index) => {
           return <Card key={`${comedian._id}_${index}`} className='card-container'>
+            {/* <Image 
+              src={comedian.avatarUrl}
+              alt={comedian.name}
+              className='avatar'
+              fill={true}
+              style={{
+                objectFit: 'cover',
+              }}
+            /> */}
             <CardMedia
               className='avatar'
               component="img"

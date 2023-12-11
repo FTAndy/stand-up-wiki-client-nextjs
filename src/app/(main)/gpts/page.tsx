@@ -1,6 +1,9 @@
 import * as React from 'react';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import GPTCard from '@/components/GPTCard';
-import './index.scss';
+import Typography from '@mui/material/Typography';
+import './page.scss';
 
 interface IGPTSProps {
 }
@@ -63,15 +66,25 @@ const cardList = [
 
 const GPTS: React.FunctionComponent<IGPTSProps> = (props) => {
   return <div className='gpt-container'>
-    { cardList.map(card => {
-      return <GPTCard 
-        key={card.id} 
-        description={card.display.description}
-        name={card.display.name}
-        avatarUrl={card.display.profile_picture_url}
-        url={`https://chat.openai.com/g/${card.short_url}}`}
-      />
-    }) }
+    <Typography variant="h3" className='title' >
+      Standup Comedian GPTs
+    </Typography>
+    <Alert severity="info">
+      <AlertTitle>Info</AlertTitle>
+      All digital figures are created using material as background from special subtitles to reinforce the style of each standup comedian. Subtitles are fetched from https://www.opensubtitles.com/ API.
+    </Alert>
+    <div className='card-list'>
+      { cardList.map(card => {
+        return <GPTCard 
+          key={card.id} 
+          description={card.display.description}
+          name={card.display.name}
+          avatarUrl={card.display.profile_picture_url}
+          url={`https://chat.openai.com/g/${card.short_url}}`}
+          id={card.id}
+        />
+      }) }
+    </div>
   </div>;
 };
 
