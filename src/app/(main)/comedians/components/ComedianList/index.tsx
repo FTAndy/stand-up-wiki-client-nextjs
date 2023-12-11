@@ -44,6 +44,8 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
     fetchData()
   }, [searchValue, tagList])
 
+  console.log('add')
+
   const renderComedianComponents = () => {
 
     if (comedianList.length === 0) {
