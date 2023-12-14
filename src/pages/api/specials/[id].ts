@@ -10,7 +10,9 @@ const GetDetail = z.object({
 
 
 export default async function handle(request: NextApiRequest, res: NextApiResponse) {
-  const { specialId, userId } = request.body
+  const { id: specialId } = request.query as { id: string}
+
+  const { userId } = request.body
 
   console.log(specialId, userId, 'specialId, userId')
 
@@ -52,7 +54,6 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
       }
     ]
 
-    // TODO: integrate upVote Counts
     if (userId) {
       pipeline = [
         ...pipeline,

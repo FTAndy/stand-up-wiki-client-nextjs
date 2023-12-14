@@ -86,16 +86,21 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
       >
       { comedianList.map((comedian, index) => {
           return <Card key={`${comedian._id}_${index}`} className='card-container'>
-            {/* <Image 
-              src={comedian.avatarUrl}
-              alt={comedian.name}
-              className='avatar'
-              fill={true}
-              style={{
-                objectFit: 'cover',
-              }}
-            /> */}
-            <CardMedia
+            <div className='image-container'>
+              <Image 
+                src={comedian.avatarUrl}
+                alt={comedian.name}
+                className='avatar'
+                width={500} // The intrinsic width of the source image (not display size)
+                height={300} // The intrinsic height of the source image (not display size)
+                layout="responsive" // This will make the image scale with the container
+                // fill={true}
+                // style={{
+                //   objectFit: 'cover',
+                // }}
+              />
+            </div>
+            {/* <CardMedia
               className='avatar'
               component="img"
               sx={{ 
@@ -103,7 +108,7 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
               }}
               image={comedian.avatarUrl}
               alt={comedian.name}
-            />
+            /> */}
             <CardContent className='card-content'>
               <h1 className='name'>{comedian.name}</h1>
               <div className='brief'>

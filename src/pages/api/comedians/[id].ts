@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import {getMongoDbClient} from '@/service/mongo-client'
 import {ObjectId} from 'mongodb'
 
-// TODO: Typescript
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query
 

@@ -12,6 +12,6 @@ export async function getSpecialDetail(data: {
   specialId: string,
   userId: string | undefined
 }) {
-  const res = await request.post('/api/special/getDetail', data)
+  const res = await request.post(`/api/specials/${data.specialId}`, data)
   return res.data.data
 }

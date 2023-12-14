@@ -60,7 +60,6 @@ const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
   }
 
 
-  // TODO: login to add upVote
   return <div className='video-info-container'>
     <Typography className='video-title' gutterBottom variant="h5" component="div">
         { playingSpecial?.specialName }

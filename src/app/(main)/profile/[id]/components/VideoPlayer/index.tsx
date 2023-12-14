@@ -27,7 +27,6 @@ const FontMap = (lang: Langs) => {
   }
 }
 
-// TODO: server side render https://github.com/vercel/next.js/blob/canary/examples/with-zustand/src/lib/StoreProvider.tsx
 export default function VideoPlayer (props: VideoPlayerProps) {
   const { playingSpecial, currentComedian } = useGlobalStore()
   const [isMouseOvered, setIsMouseOvered] = useState<Boolean>(false)
@@ -109,7 +108,6 @@ export default function VideoPlayer (props: VideoPlayerProps) {
       setTimeout(() => {
         // TODO: unable to get video init event,
         // TODO: hover 5s to mouseleave
-        // TODO: thumb up
         iframeContainerRef.current?.addEventListener('mouseover', mouseOverDone)
         iframeContainerRef.current?.addEventListener('mouseleave', mouseLeaveDone)
       }, 3000)
