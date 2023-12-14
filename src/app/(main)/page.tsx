@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 
 export default function Home() {
   return (
-    // TODO: Image optimization
+    // TODO: make a very high quality picture for Image optimization
     // TODO: hover on and highlight figure
     <main className='main'>
       <Image

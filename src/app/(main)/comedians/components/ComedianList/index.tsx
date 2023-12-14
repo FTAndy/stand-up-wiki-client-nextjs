@@ -86,8 +86,8 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
       >
       { comedianList.map((comedian, index) => {
           return <Card key={`${comedian._id}_${index}`} className='card-container'>
-            <div className='image-container'>
-              <Image 
+            { <div className='image-container'>
+              {/* <Image 
                 src={comedian.avatarUrl}
                 // src={'https://standup-wiki.azureedge.net/images/background-1-min.webp'}
                 alt={comedian.name}
@@ -96,17 +96,18 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
                 style={{
                   objectFit: 'cover',
                 }}
+              /> */}
+              <CardMedia
+                className='avatar'
+                component="img"
+                sx={{ 
+                  width: '100%',
+                  height: '100%',
+                }}
+                image={comedian.avatarUrl}
+                alt={comedian.name}
               />
-            </div>
-            {/* <CardMedia
-              className='avatar'
-              component="img"
-              sx={{ 
-                width: '30%'
-              }}
-              image={comedian.avatarUrl}
-              alt={comedian.name}
-            /> */}
+            </div> }
             <CardContent className='card-content'>
               <h1 className='name'>{comedian.name}</h1>
               <div className='brief'>
