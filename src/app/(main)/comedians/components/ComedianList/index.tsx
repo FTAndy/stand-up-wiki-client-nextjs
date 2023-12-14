@@ -89,15 +89,13 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
             <div className='image-container'>
               <Image 
                 src={comedian.avatarUrl}
+                // src={'https://standup-wiki.azureedge.net/images/background-1-min.webp'}
                 alt={comedian.name}
                 className='avatar'
-                width={500} // The intrinsic width of the source image (not display size)
-                height={300} // The intrinsic height of the source image (not display size)
-                layout="responsive" // This will make the image scale with the container
-                // fill={true}
-                // style={{
-                //   objectFit: 'cover',
-                // }}
+                fill={true}
+                style={{
+                  objectFit: 'cover',
+                }}
               />
             </div>
             {/* <CardMedia
