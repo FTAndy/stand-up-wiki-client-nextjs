@@ -1,13 +1,31 @@
 import './page.scss'
 import Typography from '@mui/material/Typography';
 import Image from 'next/image'
+import {getMongoDbClient} from '@/service/mongo-client'
 import Link from 'next/link'
 import Button from '@mui/material/Button';
 
-export default function Home() {
+export const dynamic = 'force-static'
+
+export default async function Home() {
+  const MongoClient = await getMongoDbClient()
+
+  const Database = MongoClient.db("standup-wiki");
+  const Comedian = Database.collection("comedian");
+
+  const comedians = await Comedian.find({
+    name: { $in: ['George Carlin', 'Dave Chappelle', 'Louis C.K.', 'Bill Burr', 'Richard Pryor'] }
+  }).toArray()
+
+  const comedianCovers = comedians.map((s, index) => {
+    return {
+      id: index,
+      comedianId: s._id.toString(),
+    }
+  })
+
   return (
     // TODO: make a very high quality picture for Image optimization
-    // TODO: hover on and highlight figure
     <main className='main'>
       <Image
         fill={true}
@@ -18,8 +36,17 @@ export default function Home() {
         }}
         alt="Picture of great comedians"
       />
-      <div className='cover'>
-      </div>
+      { comedianCovers.map(c => {
+        return <Link
+          href={`/profile/${c.comedianId}`} 
+          key={c.id} 
+          className='cover' 
+          style={{
+            left: `${(c.id) * 20}%`,
+          }}
+        />
+      }) }
+      <div className='content'></div>
       <div className='headline'>
         <Typography variant="h1" gutterBottom>
           Just Standup
