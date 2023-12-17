@@ -37,7 +37,7 @@ export default async function Home() {
       <Image
         fill={true}
         priority={true}
-        src="https://standup-wiki.azureedge.net/images/comedians-x2-min.jpeg"
+        src="https://standup-wiki.azureedge.net/images/comedians-4x-min.jpeg"
         style={{
           objectFit: 'cover',
         }}
