@@ -10,9 +10,9 @@ interface GlobalState {
   toggleGlobalSignin: boolean
   setToggleGlobalSignin: (toggle: boolean) => void
   currentComedian: Comedian| null
-  setCurrentComedian: (comedian: Comedian) => void
+  setCurrentComedian: (comedian: Comedian | null) => void
   playingSpecial: Special | null,
-  setPlayingSpecial: (special: Special) => void
+  setPlayingSpecial: (special: Special | null) => void
   setSpecialUpVoted: (special: Special, upVote: boolean) => void
 }
 

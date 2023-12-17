@@ -4,6 +4,7 @@ import Image from 'next/image'
 import {getMongoDbClient} from '@/service/mongo-client'
 import Link from 'next/link'
 import Button from '@mui/material/Button';
+import { Comedian } from '@/types/comdian';
 
 export const dynamic = 'force-static'
 
@@ -13,16 +14,22 @@ export default async function Home() {
   const Database = MongoClient.db("standup-wiki");
   const Comedian = Database.collection("comedian");
 
-  const comedians = await Comedian.find({
-    name: { $in: ['George Carlin', 'Dave Chappelle', 'Louis C.K.', 'Bill Burr', 'Richard Pryor'] }
+  const orderedNames = ['George Carlin', 'Dave Chappelle', 'Louis C.K.', 'Bill Burr', 'Richard Pryor'];
+
+  const comedians = await Comedian.find<Comedian>({
+    name: { $in: orderedNames }
   }).toArray()
 
-  const comedianCovers = comedians.map((s, index) => {
+  const sortedComedians = orderedNames.map(name => comedians.find(comedian => comedian.name === name)).filter(comedian => comedian !== undefined);
+
+  const comedianCovers = sortedComedians.map((s, index) => {
     return {
       id: index,
-      comedianId: s._id.toString(),
+      comedianId: s?._id.toString(),
     }
   })
+
+  console.log(comedianCovers, 'comedianCovers')
 
   return (
     // TODO: make a very high quality picture for Image optimization

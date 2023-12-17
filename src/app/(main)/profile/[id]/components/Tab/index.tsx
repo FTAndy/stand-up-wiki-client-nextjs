@@ -43,7 +43,7 @@ interface ITabProps {
 }
 
 const TabComponent: React.FunctionComponent<ITabProps> = (props: ITabProps) => {
-  const { setPlayingSpecial, playingSpecial, currentComedian, setCurrentComedian } = useGlobalStore()
+  const { playingSpecial, currentComedian, setCurrentComedian } = useGlobalStore()
   const [curTab, setCurTab] = useState<tabState>(tabState.comment)
   const wikiElement = useRef<HTMLDivElement>(null) 
 

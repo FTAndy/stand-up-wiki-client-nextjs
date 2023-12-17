@@ -46,5 +46,7 @@ export default async function Profile (props: Props) {
     data: Comedian
   }>(params.id)
 
+  console.log(data, 'data')
+
   return <ClientComponent comedian={data} />;
 }

@@ -29,6 +29,13 @@ const Client: React.FunctionComponent<IClientProps> = (props) => {
     }
   }, [currentComedian])
 
+  useEffect(() => {
+    return () => {
+      setPlayingSpecial(null)
+      setCurrentComedian(null)
+    }
+  }, [])
+
   return <div className='profile-container'>
     {/* { isLoading ? <GlobalLoading></GlobalLoading> : '' } */}
     <div className='video-container'>
