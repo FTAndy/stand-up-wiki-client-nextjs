@@ -16,7 +16,7 @@ const CardPlayButton: React.FunctionComponent<ICardPlayButtonProps> = (props) =>
     className='play-button'
     onClick={() => {
     setCurrentAudioList(props.audioList)
-  }}>Play Jokes with AI!</Button>;
+  }}>Play Jokes with AI Voice!</Button>;
 };
 
 export default CardPlayButton;
