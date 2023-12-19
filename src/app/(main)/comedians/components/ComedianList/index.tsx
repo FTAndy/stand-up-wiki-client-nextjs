@@ -8,12 +8,12 @@ import Chip from '@mui/material/Chip';
 import CardMedia from '@mui/material/CardMedia';
 import Link from 'next/link'
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useComediansStore } from '../../store'
 import GlobalLoading from '@/components/GlobalLoading'
 import CircularProgress from '@mui/material/CircularProgress';
 import { useDidUpdate } from '@mantine/hooks';
 import Image from 'next/image'
+import { Virtuoso } from 'react-virtuoso'
 import type { Comedian } from '@/types/comdian'
 import { getComedians } from '@/service/comedian';
 import './index.scss'
@@ -44,117 +44,112 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
     fetchData()
   }, [searchValue, tagList])
 
-  console.log('add')
-
   const renderComedianComponents = () => {
 
     if (comedianList.length === 0) {
       return <h1 style={{margin: '0 auto'}}>No Data</h1>;
     }
 
-    return <InfiniteScroll
-          dataLength={comedianList.length}
-          key={`infinite-scroll-${searchValue}`}
-          className='comedians-list'
-          endMessage={
-            <p style={{ textAlign: 'center' }}>
-              <b>Yay! You have seen it all</b>
-            </p>
+    return <Virtuoso
+      style={{ width: '50vw' }}
+      useWindowScroll
+      data={comedianList}
+      endReached={async () => {
+        if (!moreLoading) {
+          setMoreLoading(true)
+          const comedians = await getComedians({
+            page,
+            name: searchValue, 
+            tags: tagList || []
+          })
+          if (comedians?.length) {
+            setComedianList([
+              ...(comedianList || []),
+              ...comedians
+            ])
+          } else {
+            
           }
-          next={async () => {
-            if (!moreLoading) {
-              setMoreLoading(true)
-              const comedians = await getComedians({
-                page,
-                name: searchValue, 
-                tags: tagList || []
-              })
-              if (comedians?.length) {
-                setComedianList([
-                  ...(comedianList || []),
-                  ...comedians
-                ])
-              } else {
-                
-              }
-              setMoreLoading(false)
-              setPage(page + 1)
-            }
-          }}
-          hasMore={true}
-          loader={moreLoading && <CircularProgress style={{alignSelf: 'center'}} />}
-      >
-      { comedianList.map((comedian, index) => {
-          return <Card key={`${comedian._id}_${index}`} className='card-container'>
-            { <div className='image-container'>
-              {/* <Image 
-                src={comedian.avatarUrl}
-                // src={'https://standup-wiki.azureedge.net/images/background-1-min.webp'}
-                alt={comedian.name}
-                className='avatar'
-                fill={true}
-                style={{
-                  objectFit: 'cover',
-                }}
-              /> */}
-              <CardMedia
-                className='avatar'
-                component="img"
-                sx={{ 
-                  width: '100%',
-                  height: '100%',
-                }}
-                image={comedian.avatarUrl}
-                alt={comedian.name}
+          setMoreLoading(false)
+          setPage(page + 1)
+        }
+      }}
+      overscan={200}
+      itemContent={(index, comedian) => {
+        return <Card key={`${comedian._id}_${index}`} className='card-container'>
+        { <div className='image-container'>
+          
+          {/* <Image 
+            src={comedian.avatarUrl}
+            // src={'https://standup-wiki.azureedge.net/images/background-1-min.webp'}
+            alt={comedian.name}
+            className='avatar'
+            fill={true}
+            style={{
+              objectFit: 'cover',
+            }}
+          /> */}
+          {/* TODO: change wiki image source to solid cdn source */}
+          <CardMedia
+            className='avatar'
+            component="img"
+            sx={{ 
+              width: '100%',
+              height: '100%',
+            }}
+            image={comedian.avatarUrl}
+            alt={comedian.name}
+          />
+        </div> }
+        <CardContent className='card-content'>
+          <h1 className='name'>{comedian.name}</h1>
+          <div className='brief'>
+            {comedian?.AIGeneratedContent?.brief}
+          </div>
+          <div className='tags'>
+            {comedian?.AIGeneratedContent?.tags.map(tag => {
+              return <Chip 
+                key={tag} 
+                className='tag' 
+                label={tag} 
+                variant="outlined" 
+                onClick={() => {
+                  if (!tagList || (tagList && !tagList?.includes(tag))) {
+                    setTagList([
+                      ...(tagList || []),
+                      tag
+                    ])
+                  }
+                }} 
               />
-            </div> }
-            <CardContent className='card-content'>
-              <h1 className='name'>{comedian.name}</h1>
-              <div className='brief'>
-                {comedian?.AIGeneratedContent?.brief}
-              </div>
-              <div className='tags'>
-                {comedian?.AIGeneratedContent?.tags.map(tag => {
-                  return <Chip 
-                    key={tag} 
-                    className='tag' 
-                    label={tag} 
-                    variant="outlined" 
-                    onClick={() => {
-                      if (!tagList || (tagList && !tagList?.includes(tag))) {
-                        setTagList([
-                          ...(tagList || []),
-                          tag
-                        ])
-                      }
-                    }} 
-                  />
-                })}
-              </div>
-              
-              <div className='external-websites'>
-                { comedian.IMDBURL ? 
-                  // TODO: high resolution icon
-                  <Link target='_blank' href={comedian.IMDBURL}>
-                    <img src="https://m.media-amazon.com/images/G/01/imdb/images-ANDW73HA/favicon_desktop_32x32._CB1582158068_.png" alt="imdb" />
-                  </Link>
-                  :''
-                }
-                { comedian.wikiUrl ? 
-                  // TODO: high resolution icon
-                  <Link target='_blank' href={comedian.wikiUrl}>
-                    <img src="https://www.wikipedia.org/static/favicon/wikipedia.ico" alt="wikipedia" />
-                  </Link>
-                  :''
-                }
-              </div>
-              <Link href={`/profile/${comedian._id}`} className='play-area'>
-                <PlayCircleIcon className='play-icon'></PlayCircleIcon>
-                <span>Watch All {comedian.specialSize || ''} Specials For Free</span>
+            })}
+          </div>
+          
+          <div className='external-websites'>
+            { comedian.IMDBURL ? 
+              // TODO: high resolution icon
+              <Link target='_blank' href={comedian.IMDBURL}>
+                <img src="https://m.media-amazon.com/images/G/01/imdb/images-ANDW73HA/favicon_desktop_32x32._CB1582158068_.png" alt="imdb" />
               </Link>
-            </CardContent>
-          </Card> })}
-    </InfiniteScroll>
+              :''
+            }
+            { comedian.wikiUrl ? 
+              // TODO: high resolution icon
+              <Link target='_blank' href={comedian.wikiUrl}>
+                <img src="https://www.wikipedia.org/static/favicon/wikipedia.ico" alt="wikipedia" />
+              </Link>
+              :''
+            }
+          </div>
+          <Link href={`/profile/${comedian._id}`} className='play-area'>
+            <PlayCircleIcon className='play-icon'></PlayCircleIcon>
+            <span>Watch All {comedian.specialSize || ''} Specials For Free</span>
+          </Link>
+        </CardContent>
+      </Card>
+      }}
+      components={{ Footer: () => moreLoading && <CircularProgress style={{alignSelf: 'center', margin: '0 auto', display: 'block'}} /> }}
+    />
   }
 
   return <>

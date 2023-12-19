@@ -37,7 +37,7 @@ export default async function RootLayout({
   // TODO: add Sentry
   return (
     <html lang="en">
-      <body style={{overflow: 'auto'}} className={inter.className}>
+      <body className={inter.className}>
       <div className='App'>
         <SessionProvider session={session}>
           <ReactQueryProvider>

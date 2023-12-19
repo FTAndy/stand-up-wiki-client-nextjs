@@ -11,7 +11,7 @@
     "start": "next start",
     "lint": "next lint",
     "cypress:open": "cypress open",
-    "test:precommit": "vitest run",
+    "test:once": "vitest run",
     "test": "vitest",
     "prepare": "husky install"
   },
@@ -48,6 +48,7 @@
     "react-jinke-music-player": "^4.24.2",
     "react-new-window": "^1.0.1",
     "react-timer-hook": "^3.0.7",
+    "react-virtuoso": "^4.6.2",
     "sass": "^1.69.2",
     "zod": "^3.22.4",
     "zustand": "^4.4.3",
@@ -68,5 +69,11 @@
     "jsdom": "^23.0.1",
     "typescript": "^5",
     "vitest": "^1.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test:once",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
