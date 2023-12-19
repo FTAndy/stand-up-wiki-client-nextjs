@@ -1,0 +1,1 @@
+declare module "react-jinke-music-player/lib/config/locale";

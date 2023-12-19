@@ -12,5 +12,9 @@
     flex-wrap: wrap;
     gap: 1vw;
     justify-content: center;
+    .card-container {
+      display: flex;
+      flex-direction: row;
+    }
   }
 }

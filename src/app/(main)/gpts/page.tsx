@@ -2,9 +2,14 @@ import * as React from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import GPTCard from '@/components/GPTCard';
+import dynamic from 'next/dynamic'
 import Typography from '@mui/material/Typography';
+import Button from './components/CardPlayButton'
 import './page.scss';
 
+const PlayerWithNoSSR = dynamic(() => import('./components/Player'), {
+  ssr: false,
+})
 interface IGPTSProps {
 }
 
@@ -13,6 +18,13 @@ const cardList = [
     "id": "g-FBBkX1MDo",
     "organization_id": "org-PVPtDBcBpwWe7pssBLJZQHgT",
     "short_url": "g-FBBkX1MDo-dave-chappelle",
+    "jokes_audios": [{
+      name: "Dave Chappelle - Internet",
+      musicSrc: "https://standup-wiki.azureedge.net/comedian-ai-voices/dave-chappelle-jokes.mp3"
+    }, {
+      name: "Dave Chappelle - Gun",
+      musicSrc: "https://standup-wiki.azureedge.net/comedian-ai-voices/dave-chappelle-jokes-2.mp3"
+    }],
     "author": {
         "user_id": "user-XevOuTleNjs7LTtyVgJNSNeF",
         "display_name": "Andy Liu",
@@ -65,6 +77,7 @@ const cardList = [
 ]
 
 const GPTS: React.FunctionComponent<IGPTSProps> = (props) => {
+
   return <div className='gpt-container'>
     <Typography variant="h3" className='title' >
       Standup Comedian GPTs
@@ -75,16 +88,21 @@ const GPTS: React.FunctionComponent<IGPTSProps> = (props) => {
     </Alert>
     <div className='card-list'>
       { cardList.map(card => {
-        return <GPTCard 
-          key={card.id} 
-          description={card.display.description}
-          name={card.display.name}
-          avatarUrl={card.display.profile_picture_url}
-          url={`https://chat.openai.com/g/${card.short_url}}`}
-          id={card.id}
-        />
+        return <div className='card-container' key={card.id}>
+          <GPTCard 
+            description={card.display.description}
+            name={card.display.name}
+            avatarUrl={card.display.profile_picture_url}
+            url={`https://chat.openai.com/g/${card.short_url}}`}
+            id={card.id}
+          />
+          <Button
+            audioList={card.jokes_audios}
+          />
+        </div>
       }) }
     </div>
+    <PlayerWithNoSSR />
   </div>;
 };
 
