@@ -154,6 +154,11 @@ const config = {
   // The test environment that will be used for testing
   testEnvironment: "jsdom",
 
+  setupFiles: ['./jest.polyfills.js'],
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
+
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
 

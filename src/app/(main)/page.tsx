@@ -29,10 +29,7 @@ export default async function Home() {
     }
   })
 
-  console.log(comedianCovers, 'comedianCovers')
-
   return (
-    // TODO: make a very high quality picture for Image optimization
     <main className='main'>
       <Image
         fill={true}

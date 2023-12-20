@@ -13,7 +13,7 @@ interface ISearchProps {
 
 const Search: React.FunctionComponent<ISearchProps> = (props) => {
 
-  const {setPage, searchValue, comedianList, setComedianList, setGlobalLoading, setSearchValue} = useComediansStore()
+  const {searchValue, setSearchValue} = useComediansStore()
 
   const { data: comedianNamesData = [] } = useQuery<Array<Pick<Comedian, 'name'>>>({
     queryKey: ['comedianName'],

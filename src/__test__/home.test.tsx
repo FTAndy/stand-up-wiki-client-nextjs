@@ -1,3 +1,8 @@
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+import Home from '@/app/(main)/page'
+import HeaderBar from '@/components/HeaderBar'
+
 jest.mock('@/service/mongo-client', () => ({
   getMongoDbClient: jest.fn().mockResolvedValue({
     db: () => ({
@@ -15,12 +20,6 @@ jest.mock('@/service/mongo-client', () => ({
     }),
   }),
 }));
-
-import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
-import Home from '@/app/(main)/page'
-import HeaderBar from '@/components/HeaderBar'
-import { getMongoDbClient } from '@/service/mongo-client'
 
 // Jest does not have a global describe function, so we don't need to import it.
 describe('Home Page', () => {
