@@ -41,6 +41,13 @@ type Props = {
 }
 
 
+/**
+ * Generates metadata for the stand-up comedians page.
+ * 
+ * @param {Props} params - The parameters for generating metadata.
+ * @param {ResolvingMetadata} parent - The parent metadata.
+ * @returns {Promise<Metadata>} The generated metadata.
+ */
 export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata
