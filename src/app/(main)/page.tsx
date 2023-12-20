@@ -4,9 +4,7 @@ import Image from 'next/image'
 import {getMongoDbClient} from '@/service/mongo-client'
 import Link from 'next/link'
 import Button from '@mui/material/Button';
-import { Suspense } from 'react'
 import { Comedian } from '@/types/comdian';
-import App from './test'
 
 export const dynamic = 'force-static'
 
@@ -70,9 +68,6 @@ export default async function Home() {
           <Link href='/specials'>
             <Button variant="contained">Watch Free Specials</Button>
           </Link>
-          {/* <Suspense fallback={<p>Loading feed...</p>}>
-            <App />
-          </Suspense> */}
         </div>
       </div>
     </main>

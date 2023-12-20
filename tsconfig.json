@@ -15,6 +15,7 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
+    "types": ["jest"],
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
