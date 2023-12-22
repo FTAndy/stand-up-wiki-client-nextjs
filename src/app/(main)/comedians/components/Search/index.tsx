@@ -22,6 +22,7 @@ const Search: React.FunctionComponent<ISearchProps> = (props) => {
 
   return <div className='search-area'>
     <Autocomplete
+      id='search-comedian'
       disablePortal
       options={comedianNamesData?.map(s => {
         return {
