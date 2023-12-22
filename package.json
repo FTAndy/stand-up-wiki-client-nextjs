@@ -73,11 +73,5 @@
     "jsdom": "^23.0.1",
     "msw": "^2.0.11",
     "typescript": "^5"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm test:once",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   }
 }

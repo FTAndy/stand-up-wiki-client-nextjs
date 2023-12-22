@@ -3,9 +3,7 @@ import * as React from 'react';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { getComedians } from '@/service/comedian';
 import {useComediansStore} from '../../store';
-import { set } from 'lodash';
 
 interface ITagFilterProps {
 }
