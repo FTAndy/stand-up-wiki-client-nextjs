@@ -8,7 +8,7 @@ export type Comedian = {
   wikiUrl?: string,
   instagramURL?: string,
   IMDBURL?: string,
-  specials?: Array<Special>,
+  specials: Array<Special>,
   ranking?: number,
   specialSize?: number,
   AIGeneratedContent: {
@@ -60,7 +60,7 @@ export type Special = {
     presentTime: Date
     coverImgURL: string
   }
-  bilibiliInfo: {
+  bilibiliInfo?: {
     aid: number,
     bvid: string,
     cid: string,

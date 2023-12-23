@@ -136,7 +136,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
           <>
             <iframe 
               className='iframe'
-              src={`${playingSpecial.bilibiliInfo.iframeUrl}&danmaku=0`}
+              src={`${playingSpecial?.bilibiliInfo?.iframeUrl}&danmaku=0`}
               onLoad={() => {
                 console.log('onload!!!')
                 setIframeInited(true)
@@ -154,7 +154,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
       { currentSubtitle && playingSpecial ?  <div className='subtitle-container'>
         <ClosedCaptionIcon className='cc-icon' />
         <ButtonGroup className='subtitles' aria-label="large primary button group">
-          {playingSpecial.bilibiliInfo.subtitles.map(subtitle => {
+          {playingSpecial?.bilibiliInfo?.subtitles?.map(subtitle => {
             return <Button 
               key={subtitle.lan}
               variant={currentSubtitle?.lan === subtitle.lan ? "contained" : 'outlined'}
