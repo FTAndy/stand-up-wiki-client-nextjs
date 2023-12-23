@@ -9,10 +9,20 @@ interface IPlayerProps {
 }
 
 const Player: React.FunctionComponent<IPlayerProps> = (props) => {
+  const musicPlayerRef = React.useRef(null)
+
   const {currentAudioList} = useGPTSStore()
   
+  React.useEffect(() => {
+    if (currentAudioList.length && musicPlayerRef.current) {
+      (musicPlayerRef.current as { play: () => void }).play()
+    }
+  }, [currentAudioList])
+
   return <div> 
     <ReactJkMusicPlayer 
+      ref={musicPlayerRef}
+      mode='full'
       defaultPosition={{
         bottom: 20,
         right: 20
@@ -20,7 +30,6 @@ const Player: React.FunctionComponent<IPlayerProps> = (props) => {
       style={{
         zIndex: 10001
       }}
-      autoPlay={true}
       showMediaSession
       audioLists={currentAudioList}
       locale={'en_US'}

@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { useGPTSStore, AudioList } from '../../store';
 import Button from '@mui/material/Button';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import './index.scss'
 
 interface ICardPlayButtonProps {
@@ -16,7 +17,10 @@ const CardPlayButton: React.FunctionComponent<ICardPlayButtonProps> = (props) =>
     className='play-button'
     onClick={() => {
     setCurrentAudioList(props.audioList)
-  }}>Play Jokes with AI Voice!</Button>;
+  }}>
+    <PlayCircleIcon />
+    Play Jokes with trained AI Voice!
+  </Button>;
 };
 
 export default CardPlayButton;
