@@ -51,9 +51,10 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
     }
 
     return <Virtuoso
-      style={{ width: '50vw' }}
+      style={{ minWidth: '50vw' }}
       useWindowScroll
       data={comedianList}
+      role='virtual-list'
       endReached={async () => {
         if (!moreLoading) {
           setMoreLoading(true)
@@ -74,11 +75,18 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
           setPage(page + 1)
         }
       }}
+      {...(process.env.NODE_ENV === 'test'
+        ? {
+          initialItemCount: comedianList.length,
+          key: comedianList.length
+        }
+        : {}
+      )}
+      totalCount={comedianList.length}
       overscan={200}
       itemContent={(index, comedian) => {
-        return <Card key={`${comedian._id}_${index}`} className='card-container'>
+        return <Card role='card' key={`${comedian._id}_${index}`} className='card-container'>
         { <div className='image-container'>
-          
           {/* <Image 
             src={comedian.avatarUrl}
             // src={'https://standup-wiki.azureedge.net/images/background-1-min.webp'}

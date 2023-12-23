@@ -5,18 +5,18 @@ export type Comedian = {
   name: string,
   desc: string,
   avatarUrl: string,
-  wikiUrl: string,
-  instagramURL: string,
-  IMDBURL: string,
-  specials: Array<Special>,
-  ranking: number,
-  specialSize: number,
-  AIGeneratedContent?: {
+  wikiUrl?: string,
+  instagramURL?: string,
+  IMDBURL?: string,
+  specials?: Array<Special>,
+  ranking?: number,
+  specialSize?: number,
+  AIGeneratedContent: {
     wikiDetail: string
     brief: string,
     tags: Array<string>
   },
-  news: Array<New>,
+  news?: Array<New>,
 }
 
 type New = {
@@ -65,7 +65,7 @@ export type Special = {
     bvid: string,
     cid: string,
     iframeUrl: string,
-    subtitles: Array<Subtitle>
+    subtitles?: Array<Subtitle>
   }
   specialName: string,
   comments: Array<CommentContent>
