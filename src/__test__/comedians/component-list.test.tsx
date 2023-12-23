@@ -1,7 +1,21 @@
 import '@testing-library/jest-dom'
+import { ElementType, Component as mockComponent } from 'react'
 import { render, screen } from '@testing-library/react'
 import StoreProvider from '@/app/(main)/comedians/StoreProvider'
 import ComedianList from '@/app/(main)/comedians/components/ComedianList/index'
+// import { Virtuoso, VirtuosoMockContext } from 'react-virtuoso'
+
+jest.mock('react-virtuoso', () => {
+  const { Virtuoso } = jest.requireActual('react-virtuoso')
+
+  const mockVirtuoso = (WrappedVirtuoso: ElementType) =>
+    class extends mockComponent<{ totalCount: number }, unknown> {
+      render() {
+        return <WrappedVirtuoso initialItemCount={this.props?.totalCount} {...this.props} />
+      }
+    }
+  return { Virtuoso: mockVirtuoso(Virtuoso) }
+})
 
 const mockComedian = {
   _id: "1",
@@ -59,11 +73,13 @@ const mockComedian = {
 describe('ComedianList Component', () => {
   test('renders without crashing', () => {
     render(
-        <StoreProvider comedians={[
-          mockComedian
-        ]}>
-          <ComedianList />
-        </StoreProvider>
+        // <VirtuosoMockContext.Provider value={{ viewportHeight: 300, itemHeight: 100 }}>
+          <StoreProvider comedians={[
+            mockComedian
+          ]}>
+            <ComedianList />
+          </StoreProvider>
+        // {/* </VirtuosoMockContext.Provider> */}
     )
     expect(screen.getByRole('virtual-list')).toBeInTheDocument()
   })

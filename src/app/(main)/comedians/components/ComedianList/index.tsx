@@ -75,13 +75,6 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
           setPage(page + 1)
         }
       }}
-      {...(process.env.NODE_ENV === 'test'
-        ? {
-          initialItemCount: comedianList.length,
-          key: comedianList.length
-        }
-        : {}
-      )}
       totalCount={comedianList.length}
       overscan={200}
       itemContent={(index, comedian) => {
