@@ -48,6 +48,8 @@ const pages = [
 
 const HeaderBar: React.FunctionComponent<IHeaderBarProps> = (props) => {
   const { session } = props
+
+  console.log(session, 'session')
   return <AppBar className='app-bar' position="fixed">
     <Toolbar>
       <Image 

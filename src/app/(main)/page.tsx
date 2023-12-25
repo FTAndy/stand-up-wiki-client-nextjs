@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Button from '@mui/material/Button';
 import { Comedian } from '@/types/comdian';
 
-export const dynamic = 'force-static'
+// export const dynamic = 'force-static'
 
 export default async function Home() {
   const MongoClient = await getMongoDbClient()
