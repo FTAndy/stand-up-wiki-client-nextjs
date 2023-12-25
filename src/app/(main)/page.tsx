@@ -29,6 +29,7 @@ export default async function Home() {
     }
   })
 
+  // TODO: add check https://vercel.com/docs/observability/checks-overview
   return (
     <main className='main'>
       <Image

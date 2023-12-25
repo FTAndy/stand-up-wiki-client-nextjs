@@ -1,8 +1,8 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google";
 import type {AuthOptions} from 'next-auth';
-import { MongoDBAdapter } from "@auth/mongodb-adapter"
-import {getMongoClient} from '@/service/mongo-client'
+// import { MongoDBAdapter } from "@auth/mongodb-adapter"
+// import {getMongoClient} from '@/service/mongo-client'
 import 'global-agent/bootstrap';
 
 
@@ -18,9 +18,9 @@ export const authOptions: AuthOptions = {
     })
     // ...add more providers here
   ],
-  adapter: MongoDBAdapter(getMongoClient(), {
-    databaseName: 'standup-wiki'
-  }),
+  // adapter: MongoDBAdapter(getMongoClient(), {
+  //   databaseName: 'standup-wiki'
+  // }),
   callbacks: {
     async session({ session, user, token }) {
       return {
