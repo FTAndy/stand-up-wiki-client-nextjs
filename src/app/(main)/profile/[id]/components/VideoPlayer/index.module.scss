@@ -48,9 +48,6 @@
     flex-direction: row;
     margin-top: 3vh;
     align-items: center;
-    .MuiButtonBase-root {
-      padding: 4px 8px;
-    }
     .cc-icon {
       width: 50px;
       height: 50px;
@@ -58,6 +55,9 @@
     }
     .subtitles {
       margin-right: 3vw;
+    }
+    .sustitle-button {
+      padding: 4px 8px !important;
     }
     .jump-to {
       display: flex;
@@ -68,6 +68,7 @@
         width: 10vw;
       }
       .jump-to-button {
+        padding: 4px 8px !important;
         margin-left: 1vw;
       }
     }

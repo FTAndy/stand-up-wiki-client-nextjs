@@ -151,11 +151,12 @@ export default function VideoPlayer (props: VideoPlayerProps) {
           </>
          : ''}
       </div>
-      { currentSubtitle && playingSpecial ?  <div className={styles['subtitle-container']}>
+      { currentSubtitle && playingSpecial ? <div key={playingSpecial?._id} className={styles['subtitle-container']}>
         <ClosedCaptionIcon className={styles['cc-icon']} />
         <ButtonGroup className={styles['subtitles']} aria-label="large primary button group">
           {playingSpecial?.bilibiliInfo?.subtitles?.map(subtitle => {
             return <Button 
+              className={styles['sustitle-button']}
               key={subtitle.lan}
               variant={currentSubtitle?.lan === subtitle.lan ? "contained" : 'outlined'}
               onClick={() => {
