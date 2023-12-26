@@ -1,4 +1,5 @@
-import './page.scss'
+
+import styles from './page.module.scss'
 import Typography from '@mui/material/Typography';
 import Image from 'next/image'
 import {getMongoDbClient} from '@/service/mongo-client'
@@ -32,7 +33,7 @@ export default async function Home() {
 
   // TODO: add check https://vercel.com/docs/observability/checks-overview
   return (
-    <main className='main'>
+    <main className={styles.main}>
       <Image
         fill={true}
         priority={true}
@@ -46,21 +47,21 @@ export default async function Home() {
         return <Link
           href={`/profile/${c.comedianId}`} 
           key={c.id} 
-          className='cover' 
+          className={styles.cover} 
           style={{
             left: `${(c.id) * 20}%`,
           }}
         />
       }) }
-      <div className='content'></div>
-      <div className='headline'>
+      <div className={styles.content}></div>
+      <div className={styles.headline}>
         <Typography variant="h1" gutterBottom>
           Just Standup
         </Typography>
         <Typography variant="h1" gutterBottom>
           Specials For Free
         </Typography>
-        <div className='buttons'>
+        <div className={styles.buttons}>
           <Link href='/comedians'>
             <Button variant="contained">Find Comedians</Button>
           </Link>

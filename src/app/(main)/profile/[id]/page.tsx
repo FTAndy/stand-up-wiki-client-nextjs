@@ -3,7 +3,7 @@
 import { Comedian } from '@/types/comdian'
 import type { Metadata, ResolvingMetadata } from 'next'
 import ClientComponent from './client-component'
-import './page.scss'
+import './page.module.scss'
 
 export type Props = {
   params: { id: string }
@@ -45,8 +45,6 @@ export default async function Profile (props: Props) {
   const {data} = await getData<{
     data: Comedian
   }>(params.id)
-
-  console.log(data, 'data')
 
   return <ClientComponent comedian={data} />;
 }

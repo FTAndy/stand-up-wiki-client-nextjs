@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useGPTSStore, AudioList } from '../../store';
 import Button from '@mui/material/Button';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import './index.scss'
+import styles from './index.module.scss'
 
 interface ICardPlayButtonProps {
   audioList: AudioList
@@ -14,7 +14,7 @@ const CardPlayButton: React.FunctionComponent<ICardPlayButtonProps> = (props) =>
 
   return <Button 
     variant="contained"
-    className='play-button'
+    className={styles['play-button']}
     onClick={() => {
     setCurrentAudioList(props.audioList)
   }}>

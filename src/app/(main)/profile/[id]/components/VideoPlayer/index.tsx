@@ -11,7 +11,7 @@ import {useTimer} from '@/app/hooks/timer'
 import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
 import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import './index.scss'
+import styles from './index.module.scss'
 
 export interface VideoPlayerProps {
   
@@ -129,13 +129,13 @@ export default function VideoPlayer (props: VideoPlayerProps) {
 
 
   return (
-    <div className='player-container'>
-      <div ref={iframeContainerRef} className='iframe-container'>
-        <div className='slot'></div>
+    <div className={styles['player-container']}>
+      <div ref={iframeContainerRef} className={styles['iframe-container']}>
+        <div className={styles['slot']}></div>
         {playingSpecial ? 
           <>
             <iframe 
-              className='iframe'
+              className={styles['iframe']}
               src={`${playingSpecial?.bilibiliInfo?.iframeUrl}&danmaku=0`}
               onLoad={() => {
                 console.log('onload!!!')
@@ -143,7 +143,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
               }}
               allowFullScreen={true}
             />
-            <canvas width='1000' height='800' className={`${(isMouseOvered || !currentSubtitle) && 'hide'} canvas`} id="canvas" />
+            <canvas width='1000' height='800' className={`${(isMouseOvered || !currentSubtitle) && styles['hide']} ${styles['canvas']}`} id="canvas" />
             {/* TODO: add sidebar comment scroll */}
             {/* TODO: platform choose */}
             {/* TODO: figure mention */}
@@ -151,9 +151,9 @@ export default function VideoPlayer (props: VideoPlayerProps) {
           </>
          : ''}
       </div>
-      { currentSubtitle && playingSpecial ?  <div className='subtitle-container'>
-        <ClosedCaptionIcon className='cc-icon' />
-        <ButtonGroup className='subtitles' aria-label="large primary button group">
+      { currentSubtitle && playingSpecial ?  <div className={styles['subtitle-container']}>
+        <ClosedCaptionIcon className={styles['cc-icon']} />
+        <ButtonGroup className={styles['subtitles']} aria-label="large primary button group">
           {playingSpecial?.bilibiliInfo?.subtitles?.map(subtitle => {
             return <Button 
               key={subtitle.lan}
@@ -168,9 +168,9 @@ export default function VideoPlayer (props: VideoPlayerProps) {
             </Button>
           })}
         </ButtonGroup>
-        <div className='jump-to'>
+        <div className={styles['jump-to']}>
           <TextField 
-            className='minute'
+            className={styles['minute']}
             id="outlined-basic" 
             inputProps={{
               type: 'number',
@@ -185,7 +185,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
             variant="outlined" 
           />
           <TextField
-            className='second'
+            className={styles['second']}
             inputProps={{
               type: 'number',
               min: "0",
@@ -197,7 +197,7 @@ export default function VideoPlayer (props: VideoPlayerProps) {
             }}
             id="outlined-basic" label="Second" variant="outlined" />
           <Button 
-            className='jump-to-button'
+            className={styles['jump-to-button']}
             size='large'
             variant={"contained" }
             onClick={() => {

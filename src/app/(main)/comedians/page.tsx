@@ -4,7 +4,7 @@
 import Search from './components/Search'
 // import { kv } from '@vercel/kv';
 import ComedianList from './components/ComedianList'
-import './page.scss'
+import styles from './page.module.scss'
 import type { Metadata, ResolvingMetadata } from 'next'
 import type { Comedians, Comedian } from '@/types/comdian'
 import TagFilter from './components/TagFilter'
@@ -74,11 +74,11 @@ const Comedians: React.FunctionComponent<IComediansProps> = async (props) => {
     data: Array<Comedian>
   }>()
 
-  return <main className='comedians-container'>
+  return <main className={styles['comedians-container']}>
     <StoreProvider
       comedians={data}
     >
-      <div className='filters'>
+      <div className={styles['filters']}>
         <Search />
         <TagFilter />
       </div>

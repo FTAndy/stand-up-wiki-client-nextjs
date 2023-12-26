@@ -1,10 +1,9 @@
-
 import type { Special } from '@/types/comdian'
 import SpecialList from './components/SpecialList';
 import SearchSpecial from './components/Search';
 import StoreProvider from './StoreProvider';
 import type {Metadata, ResolvingMetadata} from 'next'
-import './page.scss'
+import styles from './page.module.scss'
 
 export interface IAppProps {
 }
@@ -63,7 +62,7 @@ export default async function App (props: IAppProps) {
   return <StoreProvider
     specials={specialList}
   >
-    <div className='specials-container'>
+    <div className={styles['specials-container']}>
       <SearchSpecial />
       <SpecialList />      
     </div>

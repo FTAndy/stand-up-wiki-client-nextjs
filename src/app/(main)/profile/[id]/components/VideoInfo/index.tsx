@@ -3,7 +3,7 @@ import {useEffect, useMemo} from 'react';
 import { useGlobalStore } from '@/app/(main)/store'
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import './index.scss'
+import styles from './index.module.scss'
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { specialUpVote, getSpecialDetail } from '../../service/index'
@@ -60,12 +60,12 @@ const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
   }
 
 
-  return <div className='video-info-container'>
-    <Typography className='video-title' gutterBottom variant="h5" component="div">
+  return <div className={styles['video-info-container']}>
+    <Typography className={styles['video-title']} gutterBottom variant="h5" component="div">
         { playingSpecial?.specialName }
     </Typography>
 
-    <div className='thumbs'>
+    <div className={styles['thumbs']}>
       <IconButton onClick={() => {
         if (session) {
           if (isUpVoted) {
@@ -83,7 +83,7 @@ const VideoInfo: React.FunctionComponent<IVideoInfoProps> = (props) => {
         }
       }} aria-label="thumb-up" color="primary">
         { isUpVoted ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon /> }
-        <span className='upVote-count'>{playingSpecial.upVoteCount} </span>
+        <span className={styles['upVote-count']}>{playingSpecial.upVoteCount} </span>
       </IconButton>
       {/* <IconButton aria-label="thumb-down" color="primary">
         <ThumbDownOffAltIcon />

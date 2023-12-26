@@ -16,7 +16,7 @@ import Image from 'next/image'
 import { Virtuoso } from 'react-virtuoso'
 import type { Comedian } from '@/types/comdian'
 import { getComedians } from '@/service/comedian';
-import './index.scss'
+import styles from './index.module.scss'
 
 interface IComedianListProps {
 }
@@ -78,13 +78,13 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
       totalCount={comedianList.length}
       overscan={200}
       itemContent={(index, comedian) => {
-        return <Card role='card' key={`${comedian._id}_${index}`} className='card-container'>
-        { <div className='image-container'>
+        return <Card role='card' key={`${comedian._id}_${index}`} className={styles['card-container']}>
+        { <div className={styles['image-container']}>
           {/* <Image 
             src={comedian.avatarUrl}
             // src={'https://standup-wiki.azureedge.net/images/background-1-min.webp'}
             alt={comedian.name}
-            className='avatar'
+            className={styles['avatar']}
             fill={true}
             style={{
               objectFit: 'cover',
@@ -92,7 +92,7 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
           /> */}
           {/* TODO: change wiki image source to solid cdn source */}
           <CardMedia
-            className='avatar'
+            className={styles['avatar']}
             component="img"
             sx={{ 
               width: '100%',
@@ -102,16 +102,16 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
             alt={comedian.name}
           />
         </div> }
-        <CardContent className='card-content'>
-          <h1 className='name'>{comedian.name}</h1>
-          <div className='brief'>
+        <CardContent className={styles['card-content']}>
+          <h1 className={styles['name']}>{comedian.name}</h1>
+          <div className={styles['brief']}>
             {comedian?.AIGeneratedContent?.brief}
           </div>
-          <div className='tags'>
+          <div className={styles['tags']}>
             {comedian?.AIGeneratedContent?.tags.map(tag => {
               return <Chip 
                 key={tag} 
-                className='tag' 
+                className={styles['tag']} 
                 label={tag} 
                 variant="outlined" 
                 onClick={() => {
@@ -126,7 +126,7 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
             })}
           </div>
           
-          <div className='external-websites'>
+          <div className={styles['external-websites']}>
             { comedian.IMDBURL ? 
               // TODO: high resolution icon
               <Link target='_blank' href={comedian.IMDBURL}>
@@ -142,8 +142,8 @@ const ComedianList: React.FunctionComponent<IComedianListProps> = (props) => {
               :''
             }
           </div>
-          <Link href={`/profile/${comedian._id}`} className='play-area'>
-            <PlayCircleIcon className='play-icon'></PlayCircleIcon>
+          <Link href={`/profile/${comedian._id}`} className={styles['play-area']}>
+            <PlayCircleIcon className={styles['play-icon']}></PlayCircleIcon>
             <span>Watch All {comedian.specialSize || ''} Specials For Free</span>
           </Link>
         </CardContent>

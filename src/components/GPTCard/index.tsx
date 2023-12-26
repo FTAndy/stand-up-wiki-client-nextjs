@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link'
-import './index.scss'
+import styles from './index.module.scss'
 
 interface IGPTCardProps {
   description: string;
@@ -24,7 +24,7 @@ const GPTCard: React.FunctionComponent<IGPTCardProps> = (props) => {
     id
   } = props;
   return <Link target='_blank' href={url}>
-    <Card key={id} className='GPT-card-container'>
+    <Card key={id} className={styles['GPT-card-container']}>
       <Image 
         src={avatarUrl}
         width={100}
@@ -34,11 +34,11 @@ const GPTCard: React.FunctionComponent<IGPTCardProps> = (props) => {
         }}
         alt={name}
       />
-      <CardContent className='card-content'>
+      <CardContent className={styles['card-content']}>
         <Typography variant="subtitle1" gutterBottom>
           {name}
         </Typography>
-        <Typography className='description' variant="subtitle1" gutterBottom>
+        <Typography className={styles['description']} variant="subtitle1" gutterBottom>
           {description}
         </Typography>
         

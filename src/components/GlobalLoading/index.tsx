@@ -1,13 +1,13 @@
 import * as React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import './index.scss'
+import styles from './index.module.scss';
 
 interface IAppProps {
 }
 
 const App: React.FunctionComponent<IAppProps> = (props) => {
-  return <div className='gloabl-loading-container'>
-    <CircularProgress className='loading' />
+  return <div className={styles['gloabl-loading-container']}>
+    <CircularProgress className={styles['loading']} />
   </div>;
 };
 

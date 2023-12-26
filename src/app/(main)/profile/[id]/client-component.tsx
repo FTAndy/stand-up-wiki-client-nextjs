@@ -6,6 +6,7 @@ import VideoInfo from './components/VideoInfo'
 import TabComponent from './components/Tab'
 import ComedianCard from '@/components/SpecialCard'
 import type { Comedian } from '@/types/comdian'
+import styles from './page.module.scss'
 
 interface IClientProps {
   comedian: Comedian
@@ -36,21 +37,21 @@ const Client: React.FunctionComponent<IClientProps> = (props) => {
     }
   }, [])
 
-  return <div className='profile-container'>
+  return <div className={styles['profile-container']}>
     {/* { isLoading ? <GlobalLoading></GlobalLoading> : '' } */}
-    <div className='video-container'>
+    <div className={styles['video-container']}>
       <VideoPlayer
       />
       <VideoInfo />
       <TabComponent />
     </div>
-    <div className='special-container'>{ currentComedian?.specials?.map(s => {
+    <div className={styles['special-container']}>{ currentComedian?.specials?.map(s => {
       return <ComedianCard
           onClick={() => {
             window.scrollTo(0, 0);
           }}
           key={s.specialName}
-          className='special'
+          className={styles['special']}
           special={s}
         />
     }) }</div>

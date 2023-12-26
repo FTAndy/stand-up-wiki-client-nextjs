@@ -10,7 +10,7 @@ import Rating from '@mui/material/Rating';
 import { Special } from '@/types/comdian'
 import { useGlobalStore } from '@/app/(main)/store'
 import { CardActionArea } from '@mui/material';
-import './index.scss'
+import styles from './index.module.scss'
 
 interface Props {
   className?: string
@@ -27,13 +27,13 @@ export default function MediaControlCard(props: Props) {
   const {setPlayingSpecial} = useGlobalStore(state => state)
 
   return (
-    <Card className={` ${className}`} sx={{ display: 'flex' }}>
+    <Card className={`${className}`} sx={{ display: 'flex' }}>
       <CardActionArea 
         onClick={() => {
           setPlayingSpecial(special)
           onClick?.()
         }} 
-        className='comedian-card'
+        className={styles['comedian-card']}
       >
         <CardMedia
           component="img"
@@ -42,17 +42,17 @@ export default function MediaControlCard(props: Props) {
           // alt=""
         />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <CardContent className='body' sx={{ flex: '1 0 auto' }}>
+          <CardContent className={styles['body']} sx={{ flex: '1 0 auto' }}>
             <Typography component="div" variant="h5">
               { specialName }
             </Typography>
             <Typography component="div" variant="subtitle1">
               { comedianName }
             </Typography>
-            <Typography className='datetime' variant="subtitle1" component="div">
+            <Typography className={styles['datetime']} variant="subtitle1" component="div">
               { datetime }
             </Typography>
-            <Typography className='duration' variant="subtitle1" component="div">
+            <Typography className={styles['duration']} variant="subtitle1" component="div">
               { runtimeDuration }
             </Typography>
             <Typography component="legend">{parseFloat(rating)} stars</Typography>

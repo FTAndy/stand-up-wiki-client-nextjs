@@ -31,9 +31,12 @@ const nextConfig = {
   reactStrictMode: false,
   // TODO: add global prefix and classname compress
   sassOptions: {
-    includePaths: [path.join(__dirname, 'src/app/styles')],
-    prependData: `@import "variables.scss";`
-  }
+    includePaths: [
+      path.join(__dirname, 'src/app/styles'),
+    ],
+    prependData: `@import "variables.scss";`,
+  },
+  
 }
 
 module.exports = withMDX(nextConfig)
