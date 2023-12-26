@@ -98,9 +98,9 @@ const TabComponent: React.FunctionComponent<ITabProps> = (props: ITabProps) => {
                 shortname='standupwiki'
                 config={
                     {
-                        // url: this.props.article.url,
-                        identifier: `${process.env.NEXT_PUBLIC_ENV}_${currentComedian._id}_${playingSpecial.specialName}`,
-                        title: currentComedian.name,
+                        url: window.location.href,
+                        identifier: `${currentComedian._id}_${playingSpecial.specialName}`,
+                        title: `${currentComedian.name}_${playingSpecial.specialName}`,
                         // language: 'zh_TW' //e.g. for Traditional Chinese (Taiwan)	
                     }
                 }
