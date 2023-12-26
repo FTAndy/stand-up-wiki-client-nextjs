@@ -5,7 +5,7 @@ import GPTCard from '@/components/GPTCard';
 import dynamic from 'next/dynamic'
 import Typography from '@mui/material/Typography';
 import Button from './components/CardPlayButton'
-import './page.scss';
+import styles from './page.module.scss';
 
 const PlayerWithNoSSR = dynamic(() => import('./components/Player'), {
   ssr: false,
@@ -78,17 +78,17 @@ const cardList = [
 
 const GPTS: React.FunctionComponent<IGPTSProps> = (props) => {
 
-  return <div className='gpt-container'>
-    <Typography variant="h3" className='title' >
+  return <div className={styles['gpt-container']}>
+    <Typography variant="h3" className={styles['title']} >
       Standup Comedian GPTs
     </Typography>
     <Alert severity="info">
       <AlertTitle>Info</AlertTitle>
       All digital figures are created using material as background from special subtitles to reinforce the style of each standup comedian. Subtitles are fetched from https://www.opensubtitles.com/ API.
     </Alert>
-    <div className='card-list'>
+    <div className={styles['card-list']}>
       { cardList.map(card => {
-        return <div className='card-container' key={card.id}>
+        return <div className={styles['card-container']} key={card.id}>
           <GPTCard 
             description={card.display.description}
             name={card.display.name}

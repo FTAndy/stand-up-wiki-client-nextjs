@@ -16,6 +16,7 @@ export default async function Home() {
 
   const orderedNames = ['George Carlin', 'Dave Chappelle', 'Louis C.K.', 'Bill Burr', 'Richard Pryor'];
 
+  // TODO: cache to redis
   const comedians = await Comedian.find<Comedian>({
     name: { $in: orderedNames }
   }).toArray()
