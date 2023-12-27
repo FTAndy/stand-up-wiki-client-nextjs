@@ -70,7 +70,6 @@ export default function VideoPlayer (props: VideoPlayerProps) {
         canvas: document.getElementById('canvas'), // canvas element
         // prescaleFactor: 100,
         fonts: FontMap(currentSubtitle?.lan || 'en-US'),
-        // TODO: CDN replace to cloudflare; use customize domain
         subUrl: currentSubtitle?.subtitleASSURL?.replace('https://andycdn-fndbfaewgxbve2ha.z01.azurefd.net', 'https://standup-wiki.azureedge.net'), // Link to subtitles
         // fonts: ['/test/font-1.ttf', '/test/font-2.ttf'], // Links to fonts (not required, default font already included in build)
         workerUrl: '/subtitles-octopus-worker.js' // Link to file "libassjs-worker.js"

@@ -34,7 +34,6 @@ export default async function RootLayout({
 
 
   // TODO: all image use highest quality and with next/image to show
-  // TODO: add Sentry
   return (
     <html lang="en">
       <body className={inter.className}>

@@ -32,7 +32,9 @@ export default async function Home() {
     }
   })
 
-  // TODO: add check https://vercel.com/docs/observability/checks-overview
+  // TODO: build CI with 
+  // github action https://github.com/vercel/examples/tree/main/ci-cd/github-actions
+
   return (
     <main className={styles.main}>
       <Image
