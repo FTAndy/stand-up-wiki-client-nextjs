@@ -21,9 +21,9 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  // adapter: MongoDBAdapter(getMongoClient(), {
-  //   databaseName: 'standup-wiki'
-  // }),
+  adapter: MongoDBAdapter(getMongoClient(), {
+    databaseName: 'standup-wiki'
+  }),
   callbacks: {
     async session({ session, user, token }) {
       return {

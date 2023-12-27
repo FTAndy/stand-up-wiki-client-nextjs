@@ -3,22 +3,14 @@ import { render, screen } from '@testing-library/react'
 import Home from '@/app/(main)/page'
 import HeaderBar from '@/components/HeaderBar'
 
-jest.mock('@/service/mongo-client', () => ({
-  getMongoDbClient: jest.fn().mockResolvedValue({
-    db: () => ({
-      collection: () => ({
-        find: () => ({
-          toArray: () => Promise.resolve([
-            { _id: 1, name: 'George Carlin' },
-            { _id: 2, name: 'Dave Chappelle' },
-            { _id: 3, name: 'Louis C.K.' },
-            { _id: 4, name: 'Bill Burr' },
-            { _id: 5, name: 'Richard Pryor' },
-          ]),
-        }),
-      }),
-    }),
-  }),
+jest.mock('@/app/(main)/dbActions/homePage', () => ({
+  getTop5Comedians: jest.fn().mockResolvedValue([
+    { id: 1, comedianId: '1' },
+    { id: 2, comedianId: '2' },
+    { id: 3, comedianId: '3' },
+    { id: 4, comedianId: '4' },
+    { id: 5, comedianId: '5' },
+  ]),
 }));
 
 // Jest does not have a global describe function, so we don't need to import it.

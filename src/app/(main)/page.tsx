@@ -2,35 +2,15 @@
 import styles from './page.module.scss'
 import Typography from '@mui/material/Typography';
 import Image from 'next/image'
-import {getMongoDbClient} from '@/service/mongo-client'
 import Link from 'next/link'
 import Button from '@mui/material/Button';
-import { Comedian } from '@/types/comdian';
+import { getTop5Comedians } from '@/app/(main)/dbActions/homePage'
 
-// export const dynamic = 'force-static'
+export const revalidate = 3600 * 24 * 7 // 1 week
 
 // TODO: add role based access control https://authjs.dev/guides/basics/role-based-access-control
 export default async function Home() {
-  const MongoClient = await getMongoDbClient()
-
-  const Database = MongoClient.db("standup-wiki");
-  const Comedian = Database.collection("comedian");
-
-  const orderedNames = ['George Carlin', 'Dave Chappelle', 'Louis C.K.', 'Bill Burr', 'Richard Pryor'];
-
-  // TODO: cache to redis
-  const comedians = await Comedian.find<Comedian>({
-    name: { $in: orderedNames }
-  }).toArray()
-
-  const sortedComedians = orderedNames.map(name => comedians.find(comedian => comedian.name === name)).filter(comedian => comedian !== undefined);
-
-  const comedianCovers = sortedComedians.map((s, index) => {
-    return {
-      id: index,
-      comedianId: s?._id.toString(),
-    }
-  })
+  const top5Comedians = await getTop5Comedians()
 
   // TODO: build CI with 
   // github action https://github.com/vercel/examples/tree/main/ci-cd/github-actions
@@ -46,7 +26,7 @@ export default async function Home() {
         }}
         alt="Picture of great comedians"
       />
-      { comedianCovers.map(c => {
+      { top5Comedians.map(c => {
         return <Link
           href={`/profile/${c.comedianId}`} 
           key={c.id} 
