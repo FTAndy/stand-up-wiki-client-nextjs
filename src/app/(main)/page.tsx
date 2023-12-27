@@ -9,6 +9,7 @@ import { Comedian } from '@/types/comdian';
 
 // export const dynamic = 'force-static'
 
+// TODO: add role based access control https://authjs.dev/guides/basics/role-based-access-control
 export default async function Home() {
   const MongoClient = await getMongoDbClient()
 

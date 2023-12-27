@@ -33,7 +33,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions)
 
 
-  // TODO: add srcset for low resolution device, windows and mac is different
+  // TODO: all image use highest quality and with next/image to show
   // TODO: add Sentry
   return (
     <html lang="en">

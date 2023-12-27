@@ -29,7 +29,6 @@ const nextConfig = {
   },
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   reactStrictMode: false,
-  // TODO: add global prefix and classname compress
   sassOptions: {
     includePaths: [
       path.join(__dirname, 'src/app/styles'),
