@@ -10,6 +10,9 @@ export const revalidate = 3600 * 24 * 7 // 1 week
 
 // TODO: add role based access control https://authjs.dev/guides/basics/role-based-access-control
 export default async function Home() {
+  // TODO: update to nextjs newest vertion to validate cache
+  //       1. 14.0.0 verison has a bug in revalidate cache from https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
+  //       2. or just using Redis to cache data
   const top5Comedians = await getTop5Comedians()
 
   // TODO: build CI with 

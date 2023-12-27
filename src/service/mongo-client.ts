@@ -14,8 +14,15 @@ export async function getMongoClient() {
    * https://github.com/vercel/next.js/pull/17666
    */
   if (!global.mongoClientPromise) {
-    const client = new MongoClient(uri);
-    // client.connect() returns an instance of MongoClient when resolved
+    const client = new MongoClient(uri, { 
+      monitorCommands: process.env.NODE_ENV === 'development'
+    });
+    if (process.env.NODE_ENV === 'development') {
+      client.on('commandStarted', (event) => console.debug(event.command));
+    // client.on('commandSucceeded', (event) => console.debug(event));
+    // client.on('commandFailed', (event) => console.debug(event));
+    
+    }
     global.mongoClientPromise = client.connect()
   }
   return global.mongoClientPromise;
