@@ -44,7 +44,7 @@ interface ITabProps {
 
 const TabComponent: React.FunctionComponent<ITabProps> = (props: ITabProps) => {
   const { playingSpecial, currentComedian, setCurrentComedian } = useGlobalStore()
-  const [curTab, setCurTab] = useState<tabState>(tabState.comment)
+  const [curTab, setCurTab] = useState<tabState>(tabState.wiki)
   const wikiElement = useRef<HTMLDivElement>(null) 
 
 
@@ -91,13 +91,14 @@ const TabComponent: React.FunctionComponent<ITabProps> = (props: ITabProps) => {
           <Tab label="Wikipedia"  />
         </Tabs>
       </Box>
-      <CustomTabPanel value={curTab} index={0}>
+      {/* <CustomTabPanel value={curTab} index={0}>
         { playingSpecial && currentComedian &&
           <div className='discuss-secion'>
             <DiscussionEmbed
                 shortname='standupwiki'
                 config={
                     {
+                        // TODO: change to active thread
                         url: window.location.href,
                         identifier: `${currentComedian._id}_${playingSpecial.specialName}`,
                         title: `${currentComedian.name}_${playingSpecial.specialName}`,
@@ -107,7 +108,7 @@ const TabComponent: React.FunctionComponent<ITabProps> = (props: ITabProps) => {
             />   
           </div>
           }
-      </CustomTabPanel>
+      </CustomTabPanel> */}
       <CustomTabPanel value={curTab} index={1}>
         <div ref={wikiElement}>
         </div>
