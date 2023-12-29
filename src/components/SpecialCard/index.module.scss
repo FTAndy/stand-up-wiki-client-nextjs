@@ -1,7 +1,7 @@
 .comedian-card {
-  display: flex;
+  display: flex !important;
   flex-direction: row;
-  max-width: 50vw;
+  max-width: 50vw !important;
   // max-height: 40vh;
   // overflow-y: scroll;
   justify-content: flex-start ;

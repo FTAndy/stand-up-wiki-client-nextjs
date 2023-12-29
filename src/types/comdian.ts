@@ -1,3 +1,5 @@
+import { SourcererOutput, MovieMedia } from '@movie-web/providers';
+
 export type Comedians = Array<Comedian>
 
 export type Comedian = {
@@ -51,6 +53,8 @@ export type Special = {
   userUpVote?: {
     isUpVoted?: boolean
   }
+  noCORSVideo?: SourcererOutput['stream']
+  TMDBInfo?: MovieMedia
   specialDetail: {
     datetime: string
     netflixURL: string

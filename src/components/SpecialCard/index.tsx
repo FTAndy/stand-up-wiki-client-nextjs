@@ -1,4 +1,5 @@
 import { useTheme } from '@mui/material/styles';
+import styles from './index.module.scss'
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -10,7 +11,7 @@ import Rating from '@mui/material/Rating';
 import { Special } from '@/types/comdian'
 import { useGlobalStore } from '@/app/(main)/store'
 import { CardActionArea } from '@mui/material';
-import styles from './index.module.scss'
+
 
 interface Props {
   className?: string

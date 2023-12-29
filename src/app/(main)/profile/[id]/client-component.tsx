@@ -2,6 +2,7 @@
 import {useEffect} from 'react';
 import { useGlobalStore } from '@/app/(main)/store'
 import VideoPlayer from './components/VideoPlayer'
+import HTML5VidoPlayer from './components/HTML5VideoPlayer';
 import VideoInfo from './components/VideoInfo'
 import TabComponent from './components/Tab'
 import ComedianCard from '@/components/SpecialCard'
@@ -40,8 +41,9 @@ const Client: React.FunctionComponent<IClientProps> = (props) => {
   return <div className={styles['profile-container']}>
     {/* { isLoading ? <GlobalLoading></GlobalLoading> : '' } */}
     <div className={styles['video-container']}>
-      <VideoPlayer
-      />
+      <HTML5VidoPlayer />
+      {/* <VideoPlayer
+      /> */}
       <VideoInfo />
       <TabComponent />
     </div>
