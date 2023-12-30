@@ -19,6 +19,7 @@ const Client: React.FunctionComponent<IClientProps> = (props) => {
   const { setPlayingSpecial, playingSpecial, currentComedian, setCurrentComedian } = useGlobalStore()
 
   useEffect(() => {
+    console.log(comedian, 'comedian')
     if (comedian) {
       comedian.specials.sort((a, b) => new Date(b.specialDetail.presentTime).getTime() - new Date(a.specialDetail.presentTime).getTime())
       setCurrentComedian(comedian)

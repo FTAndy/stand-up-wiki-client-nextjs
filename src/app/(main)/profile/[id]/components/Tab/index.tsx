@@ -49,6 +49,7 @@ const TabComponent: React.FunctionComponent<ITabProps> = (props: ITabProps) => {
 
 
   useEffect(() => {
+    console.log(currentComedian, wikiElement.current, curTab === tabState.wiki)
     // Only proceed if the current comedian has wiki details and the ref is attached to an element
     if (currentComedian?.AIGeneratedContent?.wikiDetail && wikiElement.current && curTab === tabState.wiki) {
       // Check if the element can have a shadow root and doesn't already have one
@@ -77,7 +78,7 @@ const TabComponent: React.FunctionComponent<ITabProps> = (props: ITabProps) => {
         console.warn('Shadow root already exists for this element.');
       }
     }
-  }, [curTab]);
+  }, [curTab, currentComedian]);
   
   return <div className='tab-container'>
 

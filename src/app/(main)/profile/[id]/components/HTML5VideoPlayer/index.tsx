@@ -60,10 +60,11 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
           type: 'video',
           sources: [],
         }
+        player.stop()
         setLoading(true)
         const stream = await fetchStream(playingSpecial.TMDBInfo)
-        setLoading(false)
         const noCORSVideo = stream
+        // TODO: no stream found handle
         if (noCORSVideo) {
           const sources: Array<Source> = []
           if (noCORSVideo.type === 'file') {
@@ -96,7 +97,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
               // previewThumbnails: {
               //   src: '/path/to/thumbnails.vtt',
               // },
-              // TODO: change track to vtt
+              // TODO: display srt on using module from movie-web
               tracks
             } as const
 
@@ -104,10 +105,8 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
 
             player.source = source
             player.autoplay = true
-            console.log(video, 'player', player)
             player.play()
           } else if (noCORSVideo.type === 'hls') {
-            console.log(Hls, Hls.isSupported(), 'Hls.isSupported()')
             if (video.canPlayType('application/vnd.apple.mpegurl')) {
               video.src = noCORSVideo.playlist;
             } else if (Hls.isSupported()) {
@@ -133,6 +132,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
           }
           // transformSrtTracks(playerEleRef.current)
         }
+        setLoading(false)
       }
     }
  
@@ -140,6 +140,8 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
     fetchAndPlay()
     return () => window?.hls?.destroy();
   }, [playingSpecial?.TMDBInfo])
+
+  console.log(playingSpecial, 'playingSpecial')
 
   const videoAttributes = {
     crossOrigin: 'true'

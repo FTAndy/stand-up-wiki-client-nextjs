@@ -25,6 +25,14 @@ export default async function handle(request: NextApiRequest, res: NextApiRespon
         }
       },
       {
+        $match: {
+          'TMDBInfo': { 
+            $exists: true,
+            $ne: null
+          },  // Filters documents where 'xxx' field exists
+        }
+      },
+      {
         $skip: PAGE_SIZE * (parseInt(page))
       },
       {
