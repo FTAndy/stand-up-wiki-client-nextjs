@@ -25,17 +25,17 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
           as: 'specials'
         }
       },
-      {
-        $addFields: {
-          specials: {
-            $filter: {
-              input: "$specials",
-              as: "special",
-              cond: { $ifNull: ['$$special.TMDBInfo', false] } // Checks if TMDBInfo exists
-            }
-          }
-        }
-      }
+      // {
+      //   $addFields: {
+      //     specials: {
+      //       $filter: {
+      //         input: "$specials",
+      //         as: "special",
+      //         cond: { $ifNull: ['$$special.TMDBInfo', false] } // Checks if TMDBInfo exists
+      //       }
+      //     }
+      //   }
+      // }
     ]).toArray()
 
     const comedian = comedians.length > 0 ? comedians[0] : null

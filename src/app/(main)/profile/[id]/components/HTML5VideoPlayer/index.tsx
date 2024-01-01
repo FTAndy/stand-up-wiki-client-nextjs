@@ -37,6 +37,7 @@ interface IHTML5VidoPlayerProps {
 const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) => {
   const { playingSpecial, currentComedian } = useGlobalStore()
   const [loading, setLoading] = React.useState(false)
+  const [isNoStream, setIsNoStream] = React.useState(false)
 
   const playerEleRef = React.useRef<HTMLVideoElement | null>(null)
   const playerRef = React.useRef<Plyr | null>(null)
@@ -49,9 +50,9 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
     }
   }, [])
 
-  useDidUpdate(() => {
+  React.useEffect(() => {
     async function fetchAndPlay() {
-      // console.log(playerRef.current, playingSpecial, playingSpecial?.TMDBInfo, 'qqq')
+      console.log(playerRef.current, playingSpecial, playingSpecial?.TMDBInfo, 'qqq')
       if (playerRef.current && playerEleRef.current && playingSpecial && playingSpecial.TMDBInfo) {
         const player = playerRef.current
         const video = playerEleRef.current
@@ -62,6 +63,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
         }
         player.stop()
         setLoading(true)
+        setIsNoStream(false)
         const stream = await fetchStream(playingSpecial.TMDBInfo)
         const noCORSVideo = stream
         // TODO: no stream found handle
@@ -131,6 +133,8 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
 
           }
           // transformSrtTracks(playerEleRef.current)
+        } else {
+          setIsNoStream(true)
         }
         setLoading(false)
       }
@@ -141,16 +145,17 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
     return () => window?.hls?.destroy();
   }, [playingSpecial?.TMDBInfo])
 
-  console.log(playingSpecial, 'playingSpecial')
-
   const videoAttributes = {
-    crossOrigin: 'true'
+    crossOrigin: 'true' as ''
   }
 
   return <div className={styles['video-container']}>
     <video {...videoAttributes} className={styles['player-container']} ref={playerEleRef} id="player">
 
     </video>
+    { isNoStream && <div className={styles['no-stream']}>
+      <span className={styles['title']}>No Stream</span>
+    </div> }
     { loading && <div className={styles['cover']}>
       <CircularProgress className={styles['loading']}  />
     </div> }

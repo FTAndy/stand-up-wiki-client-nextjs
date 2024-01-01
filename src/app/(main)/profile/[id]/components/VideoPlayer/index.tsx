@@ -63,8 +63,6 @@ export default function VideoPlayer (props: VideoPlayerProps) {
 
   useEffect(() => {
     if (currentSubtitle) {
-      console.log(currentSubtitle?.lan, FontMap(currentSubtitle?.lan), 'lang')
-
       // Init subtitle
       var options = {
         canvas: document.getElementById('canvas'), // canvas element
@@ -82,7 +80,6 @@ export default function VideoPlayer (props: VideoPlayerProps) {
         reset()
       }
 
-      console.log('subtitle init')
     } else {
       // destory subtitle
       if (subtitleRef.current) {

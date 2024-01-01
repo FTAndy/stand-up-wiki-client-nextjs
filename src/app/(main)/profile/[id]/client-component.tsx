@@ -42,9 +42,7 @@ const Client: React.FunctionComponent<IClientProps> = (props) => {
   return <div className={styles['profile-container']}>
     {/* { isLoading ? <GlobalLoading></GlobalLoading> : '' } */}
     <div className={styles['video-container']}>
-      <HTML5VidoPlayer />
-      {/* <VideoPlayer
-      /> */}
+      { playingSpecial?.TMDBInfo ? <HTML5VidoPlayer /> : <VideoPlayer/> }
       <VideoInfo />
       <TabComponent />
     </div>
