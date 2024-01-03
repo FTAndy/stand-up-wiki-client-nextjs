@@ -136,7 +136,9 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
         } else {
           setIsNoStream(true)
         }
-        setLoading(false)
+        player.once('canplay', () => {
+          setLoading(false)
+        })
       }
     }
  

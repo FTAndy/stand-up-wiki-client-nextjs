@@ -44,7 +44,7 @@ const Client: React.FunctionComponent<IClientProps> = (props) => {
     <div className={styles['video-container']}>
       { playingSpecial?.TMDBInfo ? <HTML5VidoPlayer key={'html5'} /> : <VideoPlayer key={'bilibili'} /> }
       <VideoInfo />
-      <TabComponent />
+      {/* <TabComponent /> */}
     </div>
     <div className={styles['special-container']}>{ currentComedian?.specials?.map(s => {
       return <ComedianCard
