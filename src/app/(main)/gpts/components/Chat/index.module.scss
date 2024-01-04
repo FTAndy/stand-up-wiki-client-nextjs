@@ -1,0 +1,12 @@
+.chat-container {
+  position: absolute;
+  min-width: 600px;
+  height: 400px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  .chat-element {
+    height: 100%;
+  }
+}

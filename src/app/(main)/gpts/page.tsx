@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic'
 import Typography from '@mui/material/Typography';
 import Button from './components/CardPlayButton'
 import styles from './page.module.scss';
+import Chat from './components/Chat'
 
 const PlayerWithNoSSR = dynamic(() => import('./components/Player'), {
   ssr: false,
@@ -103,6 +104,7 @@ const GPTS: React.FunctionComponent<IGPTSProps> = (props) => {
       }) }
     </div>
     <PlayerWithNoSSR />
+    <Chat />
   </div>;
 };
 
