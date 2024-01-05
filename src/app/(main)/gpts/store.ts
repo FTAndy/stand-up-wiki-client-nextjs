@@ -1,41 +1,34 @@
 // import { createProvider } from 'next-with-zustand';
 import { create } from 'zustand'
 import type { Comedian } from '@/types/comdian'
-
-export type Audio = {
-  name: string
-  musicSrc: string
-}
+import type { Audio, AudioList } from '@/types/audio'
 
 export type ComedianChatThread = {
-  comedianId: string,
-  treadId: string,
-  messages: {
-    messageId: string,
+  assistantId: string,
+  threadId: string,
+  messages: Array<{
+    messageId?: string,
     content: string
-  }
+  }>
 }
-
-export type AudioList = Array<Audio>
-
 interface GPTSStore {
   currentAudioList: AudioList | []
   setCurrentAudioList: (audioList: AudioList) => void,
   comedianChatThreads: Array<ComedianChatThread>,
   setComedianChatThreads: (comedianChatThreads: Array<ComedianChatThread>) => void,
-  currentChatComedianId: string,
-  setCurrentChatComedianId: (comedianId: string) => void
+  currentChatAssistantId: string,
+  setCurrentChatAssistantId: (assistantId: string) => void
 }
 
 export const useGPTSStore = create<GPTSStore>()((set) => ({
 // export const { Provider, useStore: useComediansStore } = createProvider<GPTSStore>()((set) => ({
   currentAudioList: [],
   comedianChatThreads: [],
-  currentChatComedianId: '',
-  setCurrentChatComedianId: (comedianId) => {
+  currentChatAssistantId: '',
+  setCurrentChatAssistantId: (assistantId) => {
     set(() => {
       return {
-        currentChatComedianId: comedianId
+        currentChatAssistantId: assistantId
       }
     })
   },

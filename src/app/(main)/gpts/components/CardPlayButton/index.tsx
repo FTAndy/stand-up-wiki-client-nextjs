@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react';
-import { useGPTSStore, AudioList } from '../../store';
+import { useGPTSStore } from '../../store';
+import type { AudioList } from '@/types/audio'
 import Button from '@mui/material/Button';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import styles from './index.module.scss'

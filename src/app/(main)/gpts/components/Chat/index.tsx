@@ -4,36 +4,75 @@ import Chat, { Bubble, useMessages } from '@chatui/core';
 import '@chatui/core/dist/index.css';
 import { useGPTSStore } from '../../store';
 import styles from './index.module.scss'
+import {createChatThread} from '@/service/thread'
 
 import Button from '@mui/material/Button';
 
 interface IChatComponentProps {
 }
 
+export function contentFilter(content: string) {
+  return content.replaceAll(/<break time="2s" \/>/g, ' ')
+}
+
 const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
   const { messages, appendMsg, setTyping } = useMessages([]);  
-  const { currentChatComedianId, comedianChatThreads } = useGPTSStore()
+  const { currentChatAssistantId, comedianChatThreads, setComedianChatThreads } = useGPTSStore()
 
   const currentComedianChatThread = React.useMemo(() => {
-    return comedianChatThreads.find(s => s.comedianId === currentChatComedianId)
-  }, [currentChatComedianId])
+    return comedianChatThreads.find(s => s.assistantId === currentChatAssistantId)
+  }, [currentChatAssistantId, comedianChatThreads])
+
+  React.useEffect(() => {
+    if (currentComedianChatThread?.messages.length) {
+      appendMsg({
+        type: 'text',
+        content: { 
+          text: contentFilter(currentComedianChatThread?.messages[currentComedianChatThread?.messages.length - 1].content)
+        },
+      });
+    }
+  }, currentComedianChatThread?.messages)
 
   React.useEffect(() => {
     async function fetchChatHistory() {
-      await createChatThread(currentChatComedianId)
+      appendMsg({
+        type: 'text',
+        content: { text: 'tell me a random joke' },
+        position: 'right',
+      });
+      setTyping(true);
+      const { threadId, answer } = await createChatThread(currentChatAssistantId)
+      console.log(threadId, answer, 'thread_id, answer')
+      if (threadId && answer) {
+        setComedianChatThreads([
+          ...comedianChatThreads,
+          {
+            assistantId: currentChatAssistantId,
+            threadId,
+            messages: [
+              {
+                content: answer
+              }
+            ]
+          }
+        ])
+        setTyping(false);
+      }
     }
-    if (currentChatComedianId && !currentComedianChatThread) {
+    
+
+    if (currentChatAssistantId && !currentComedianChatThread) {
       fetchChatHistory()
     }
-  }, [currentChatComedianId, currentComedianChatThread])
+  }, [currentChatAssistantId])
 
-  console.log(currentChatComedianId, 'currentChatComedianId')
+  console.log(comedianChatThreads, 'comedianChatThreads')
 
   return (
     <>
-      <div 
+      { currentChatAssistantId ? <div 
         className={styles['chat-container']}
-        style={currentChatComedianId ? {display: 'block'} : { display: 'none' }}
       >
         <Chat
           navbar={{ title: 'Dave Chappelle' }}
@@ -61,7 +100,7 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
             }
           }}
         />      
-      </div>
+      </div> : '' }
     </>
   );
 };
