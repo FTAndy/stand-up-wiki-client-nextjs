@@ -16,5 +16,11 @@
       display: flex;
       flex-direction: column;
     }
+    .button-area {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
   }
 }

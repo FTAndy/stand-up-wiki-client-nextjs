@@ -19,7 +19,7 @@ const CardPlayButton: React.FunctionComponent<ICardPlayButtonProps> = (props) =>
     setCurrentAudioList(props.audioList)
   }}>
     <PlayCircleIcon />
-    Play Jokes with trained AI Voice!
+    Play Jokes
   </Button>;
 };
 

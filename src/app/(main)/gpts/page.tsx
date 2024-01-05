@@ -4,8 +4,9 @@ import AlertTitle from '@mui/material/AlertTitle';
 import GPTCard from '@/components/GPTCard';
 import dynamic from 'next/dynamic'
 import Typography from '@mui/material/Typography';
-import Button from './components/CardPlayButton'
+import AudioPlayButton from './components/CardPlayButton'
 import styles from './page.module.scss';
+import ChatButton from './components/ChatButton'
 import Chat from './components/Chat'
 
 const PlayerWithNoSSR = dynamic(() => import('./components/Player'), {
@@ -97,9 +98,12 @@ const GPTS: React.FunctionComponent<IGPTSProps> = (props) => {
             url={`https://chat.openai.com/g/${card.short_url}}`}
             id={card.id}
           />
-          <Button
-            audioList={card.jokes_audios}
-          />
+          <div className={styles['button-area']}>
+            <AudioPlayButton
+              audioList={card.jokes_audios}
+            />
+            <ChatButton comedianId={card.id} comedianName={card.display.name} />
+          </div>
         </div>
       }) }
     </div>
