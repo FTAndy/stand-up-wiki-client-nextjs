@@ -1,5 +1,5 @@
+import { debug, log } from 'console';
 import 'dotenv/config'
-import { reject } from 'lodash';
 import OpenAI from 'openai'
 import type { MessageContentText } from 'openai/resources/beta/threads/messages/messages'
 
@@ -15,29 +15,31 @@ export async function createThreadAndRunWithAssistant(assistantId: string) {
   try {
     const topics = ['Family and Relationships', 'Mental Health', 'Social Observations', 'Personal Anecdotes and Self-Deprecation:', 'Controversial or Taboo Topics']
 
-    const {id: messageId, thread_id} = await openai.beta.threads.createAndRun({
+    const index = Math.floor(Math.random() * topics.length)
+
+    const {id: runId, thread_id} = await openai.beta.threads.createAndRun({
       assistant_id: assistantId,
       thread: {
         messages: [
           {
             role: 'user',
-            content: `create a joke about ${topics[0]}`
+            content: `create a joke about ${topics[index]}`
           }
         ]      
       }
     })
 
-    await new Promise((resolve) => {
+    await new Promise((resolve, reject) => {
       let timeout = setInterval(async () => {
         try {
-          const runTask = await openai.beta.threads.runs.retrieve(thread_id, messageId)
+          const runTask = await openai.beta.threads.runs.retrieve(thread_id, runId)
           if (runTask.status === 'completed') {
             clearInterval(timeout)
             resolve(runTask)
           }        
         } catch (error) {
           clearInterval(timeout)
-          reject('error')
+          reject(error)
         }
       }, 500)
     })
@@ -51,6 +53,57 @@ export async function createThreadAndRunWithAssistant(assistantId: string) {
     return {
       answer,
       thread_id
+    }  
+  } catch (error) {
+    console.log(error)
+    throw new Error('fetch open api error')
+  }
+}
+
+export async function sendMessageToThread(threadId: string, message: string, assistant_id: string) {
+  try {
+    console.log('creat task')
+    const {id: messageId} = await openai.beta.threads.messages.create(threadId, {
+      role: 'user',
+      content: message
+    })
+
+    console.log(threadId, assistant_id, 'threadId, assistant_id')
+
+    const {id: runId} = await openai.beta.threads.runs.create(threadId, {
+      assistant_id
+    })
+
+    await new Promise((resolve, reject) => {
+      let timeout = setInterval(async () => {
+        try {
+          debug
+          const runTask = await openai.beta.threads.runs.retrieve(threadId, runId)
+          console.log(runTask, 'runTask')
+          if (runTask.status === 'completed') {
+            clearInterval(timeout)
+            resolve(runTask)
+          }
+        } catch (error) {
+          clearInterval(timeout)
+          reject(error)
+        }
+      }, 500)
+    })
+
+  
+    const messageList = await openai.beta.threads.messages.list(threadId, {
+      limit: 1
+    })
+
+    log(messageList, 'messageList')
+
+    const result = messageList.data[0].content[0] as MessageContentText
+    
+    const answer = result.text.value  
+
+    return {
+      answer,
     }  
   } catch (error) {
     console.log(error)

@@ -3,28 +3,42 @@ import { create } from 'zustand'
 import type { Comedian } from '@/types/comdian'
 import type { Audio, AudioList } from '@/types/audio'
 
-export type ComedianChatThread = {
-  assistantId: string,
-  threadId: string,
-  messages: Array<{
-    messageId?: string,
-    content: string
-  }>
+export type ComedianChatThreads = {
+  [assistantId: string]: {
+    threadId: string,
+    messages: Array<{
+      messageId?: string,
+      content: string
+    }>
+  }
 }
+
+export type ComedianChatThread = ComedianChatThreads[keyof ComedianChatThreads]
+
 interface GPTSStore {
   currentAudioList: AudioList | []
   setCurrentAudioList: (audioList: AudioList) => void,
-  comedianChatThreads: Array<ComedianChatThread>,
-  setComedianChatThreads: (comedianChatThreads: Array<ComedianChatThread>) => void,
+  comedianChatThreads: ComedianChatThreads,
+  setComedianChatThreads: (comedianChatThreads: ComedianChatThreads) => void,
   currentChatAssistantId: string,
   setCurrentChatAssistantId: (assistantId: string) => void
+  openChat: boolean,
+  setOpenChat: (openChat: boolean) => void
 }
 
 export const useGPTSStore = create<GPTSStore>()((set) => ({
 // export const { Provider, useStore: useComediansStore } = createProvider<GPTSStore>()((set) => ({
+  openChat: false,
   currentAudioList: [],
-  comedianChatThreads: [],
+  comedianChatThreads: {},
   currentChatAssistantId: '',
+  setOpenChat: (openChat) => {
+    set(() => {
+      return {
+        openChat
+      }
+    })
+  },
   setCurrentChatAssistantId: (assistantId) => {
     set(() => {
       return {

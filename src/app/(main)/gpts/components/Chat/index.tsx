@@ -4,7 +4,9 @@ import Chat, { Bubble, useMessages } from '@chatui/core';
 import '@chatui/core/dist/index.css';
 import { useGPTSStore } from '../../store';
 import styles from './index.module.scss'
-import {createChatThread} from '@/service/thread'
+import { useClickOutside } from '@mantine/hooks';
+
+import {createChatThread, sendMessageToThread} from '@/service/thread'
 
 import Button from '@mui/material/Button';
 
@@ -16,15 +18,21 @@ export function contentFilter(content: string) {
 }
 
 const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
+  const [responding, setResponding] = React.useState(false);
   const { messages, appendMsg, setTyping } = useMessages([]);  
-  const { currentChatAssistantId, comedianChatThreads, setComedianChatThreads } = useGPTSStore()
+  const { currentChatAssistantId, comedianChatThreads, setComedianChatThreads, openChat, setOpenChat } = useGPTSStore()
+  const containerRef = useClickOutside(() => setOpenChat(false));
 
-  const currentComedianChatThread = React.useMemo(() => {
-    return comedianChatThreads.find(s => s.assistantId === currentChatAssistantId)
-  }, [currentChatAssistantId, comedianChatThreads])
+  const currentComedianChatThread = comedianChatThreads[currentChatAssistantId]
 
   React.useEffect(() => {
+    setTyping(responding)
+  }, [responding])
+
+  React.useEffect(() => {
+    console.log(currentComedianChatThread?.messages, 'currentComedianChatThread?.messages')
     if (currentComedianChatThread?.messages.length) {
+      console.log(currentComedianChatThread?.messages[currentComedianChatThread?.messages.length - 1], 'apppend msg')
       appendMsg({
         type: 'text',
         content: { 
@@ -32,7 +40,7 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
         },
       });
     }
-  }, currentComedianChatThread?.messages)
+  }, [currentComedianChatThread?.messages])
 
   React.useEffect(() => {
     async function fetchChatHistory() {
@@ -41,24 +49,35 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
         content: { text: 'tell me a random joke' },
         position: 'right',
       });
-      setTyping(true);
+      setResponding(true);
       const { threadId, answer } = await createChatThread(currentChatAssistantId)
       console.log(threadId, answer, 'thread_id, answer')
       if (threadId && answer) {
-        setComedianChatThreads([
+        comedianChatThreads[currentChatAssistantId] = {
+          threadId,
+          messages: [
+            {
+              content: answer
+            }
+          ]
+        }
+        setComedianChatThreads({
           ...comedianChatThreads,
-          {
-            assistantId: currentChatAssistantId,
-            threadId,
-            messages: [
-              {
-                content: answer
-              }
-            ]
-          }
-        ])
-        setTyping(false);
+        })
+      } else {
+        comedianChatThreads[currentChatAssistantId] = {
+          threadId,
+          messages: [
+            {
+              content: 'network error'
+            }
+          ]
+        }
+        setComedianChatThreads({
+          ...comedianChatThreads,
+        })
       }
+      setResponding(false);
     }
     
 
@@ -71,36 +90,60 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
 
   return (
     <>
-      { currentChatAssistantId ? <div 
+      <div
+        ref={containerRef} 
         className={styles['chat-container']}
+        style={{
+          display: openChat ? 'block' : 'none'
+        }}
       >
-        <Chat
-          navbar={{ title: 'Dave Chappelle' }}
-          messages={messages}
-          renderMessageContent={(msg) => {
-            const { content } = msg;
-            return <Bubble content={content.text} />;
-          }}
-          onSend={(type, val) => {
-            if (type === 'text' && val.trim()) {
-              appendMsg({
-                type: 'text',
-                content: { text: val },
-                position: 'right',
-              });
-        
-              setTyping(true);
-        
-              setTimeout(() => {
+        { currentChatAssistantId ? 
+          <Chat
+            locale='en-US'
+            inputOptions={{
+              disabled: responding,
+            }}
+            placeholder={responding ? 'Responding...' : 'Type a message'}
+            navbar={{ title: 'Dave Chappelle' }}
+            messages={messages}
+            renderMessageContent={(msg) => {
+              const { content } = msg;
+              return <Bubble content={content.text} />;
+            }}
+            onSend={async (type, val) => {
+              if (type === 'text' && currentComedianChatThread && val.trim() ) {
                 appendMsg({
                   type: 'text',
-                  content: { text: 'Bala bala' },
+                  content: { text: val },
+                  position: 'right',
                 });
-              }, 1000);
-            }
-          }}
-        />      
-      </div> : '' }
+          
+                setResponding(true);       
+                try {
+                  const {answer} = await sendMessageToThread(currentComedianChatThread.threadId, val, currentChatAssistantId)                
+                  console.log(answer, 'answer')
+    
+                  setComedianChatThreads({
+                    ...comedianChatThreads,
+                    [currentChatAssistantId]: {
+                      ...currentComedianChatThread,
+                      messages: [
+                        ...currentComedianChatThread.messages,
+                        {
+                          content: answer
+                        }
+                      ]
+                    }
+                  })
+                } catch (error) {
+                  console.log(error, 'error')
+                }
+                setResponding(false)
+              }
+            }}
+          />      
+          : '' }
+      </div>
     </>
   );
 };

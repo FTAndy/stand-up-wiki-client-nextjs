@@ -12,12 +12,13 @@ interface IChatButtonProps {
 
 const ChatButton: React.FunctionComponent<IChatButtonProps> = (props) => {
   const { comedianName, comedianId, assistantId } = props
-  const { setCurrentChatAssistantId } = useGPTSStore()
+  const { setCurrentChatAssistantId, setOpenChat } = useGPTSStore()
 
   return <Button 
     variant="contained"
     onClick={() => {
       setCurrentChatAssistantId(assistantId)
+      setOpenChat(true)
     }}
   >
     Start Chat
