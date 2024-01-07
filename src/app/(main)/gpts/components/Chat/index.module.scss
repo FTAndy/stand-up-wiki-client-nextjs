@@ -9,4 +9,10 @@
   .chat-element {
     height: 100%;
   }
+  .chat-playarea {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2px;
+    align-items: center;
+  }
 }

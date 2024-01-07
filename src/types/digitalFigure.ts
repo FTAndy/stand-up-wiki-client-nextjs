@@ -11,6 +11,7 @@ export type DigitalFigure = {
       short_url: string,
     }
   }
+  voice_id: string
   _id: string
 
 }

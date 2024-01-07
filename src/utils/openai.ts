@@ -45,14 +45,19 @@ export async function createThreadAndRunWithAssistant(assistantId: string) {
     })
 
   
-    const messageList = await openai.beta.threads.messages.list(thread_id)
+    const messageList = await openai.beta.threads.messages.list(thread_id, {
+      limit: 1
+    })
 
     const result = messageList.data[0].content[0] as MessageContentText
+
+    const respondMessageId = messageList.data[0].id
 
     const answer = result.text.value  
     return {
       answer,
-      thread_id
+      thread_id,
+      respondMessageId
     }  
   } catch (error) {
     console.log(error)
@@ -79,7 +84,6 @@ export async function sendMessageToThread(threadId: string, message: string, ass
         try {
           debug
           const runTask = await openai.beta.threads.runs.retrieve(threadId, runId)
-          console.log(runTask, 'runTask')
           if (runTask.status === 'completed') {
             clearInterval(timeout)
             resolve(runTask)
@@ -96,14 +100,17 @@ export async function sendMessageToThread(threadId: string, message: string, ass
       limit: 1
     })
 
-    log(messageList, 'messageList')
+    console.log(messageList, 'messageList')
 
     const result = messageList.data[0].content[0] as MessageContentText
     
+    const respondMessageId = messageList.data[0].id
+
     const answer = result.text.value  
 
     return {
       answer,
+      respondMessageId
     }  
   } catch (error) {
     console.log(error)

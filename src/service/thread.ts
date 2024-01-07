@@ -4,7 +4,8 @@ export async function createChatThread(assistantId: string) {
   const res = await request.post<{
     data: {
       threadId: string
-      answer: string
+      answer: string,
+      respondMessageId: string
     }
   }>('/api/chatThread/create', {assistantId})
   const data = res.data
@@ -14,7 +15,8 @@ export async function createChatThread(assistantId: string) {
 export async function sendMessageToThread(threadId: string, message: string, assistantId: string) {
   const res = await request.post<{
     data: {
-      answer: string
+      answer: string,
+      respondMessageId: string
     }
   }>(`/api/chatThread/${threadId}/sendMessage`, {
     message,

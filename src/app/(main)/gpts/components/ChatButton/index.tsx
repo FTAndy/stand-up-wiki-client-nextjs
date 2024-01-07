@@ -7,17 +7,19 @@ import styles from './index.module.scss'
 interface IChatButtonProps {
   comedianName: string
   comedianId: string
-  assistantId: string
+  assistantId: string,
+  voiceId: string
 }
 
 const ChatButton: React.FunctionComponent<IChatButtonProps> = (props) => {
-  const { comedianName, comedianId, assistantId } = props
-  const { setCurrentChatAssistantId, setOpenChat } = useGPTSStore()
+  const { comedianName, comedianId, assistantId, voiceId } = props
+  const { setCurrentChatAssistantId, setOpenChat, setCurrentVoiceId } = useGPTSStore()
 
   return <Button 
     variant="contained"
     onClick={() => {
       setCurrentChatAssistantId(assistantId)
+      setCurrentVoiceId(voiceId)
       setOpenChat(true)
     }}
   >

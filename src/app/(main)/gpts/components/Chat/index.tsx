@@ -5,6 +5,7 @@ import '@chatui/core/dist/index.css';
 import { useGPTSStore } from '../../store';
 import styles from './index.module.scss'
 import { useClickOutside } from '@mantine/hooks';
+import MessagePlayer from '../MessagePlayer'
 
 import {createChatThread, sendMessageToThread} from '@/service/thread'
 
@@ -13,14 +14,11 @@ import Button from '@mui/material/Button';
 interface IChatComponentProps {
 }
 
-export function contentFilter(content: string) {
-  return content.replaceAll(/<break time="2s" \/>/g, ' ')
-}
 
 const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
   const [responding, setResponding] = React.useState(false);
   const { messages, appendMsg, setTyping } = useMessages([]);  
-  const { currentChatAssistantId, comedianChatThreads, setComedianChatThreads, openChat, setOpenChat } = useGPTSStore()
+  const { currentChatAssistantId, comedianChatThreads, setComedianChatThreads, openChat, setOpenChat, currentVoiceId } = useGPTSStore()
   const containerRef = useClickOutside(() => setOpenChat(false));
 
   const currentComedianChatThread = comedianChatThreads[currentChatAssistantId]
@@ -32,11 +30,12 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
   React.useEffect(() => {
     console.log(currentComedianChatThread?.messages, 'currentComedianChatThread?.messages')
     if (currentComedianChatThread?.messages.length) {
-      console.log(currentComedianChatThread?.messages[currentComedianChatThread?.messages.length - 1], 'apppend msg')
+      const lastContent = currentComedianChatThread?.messages[currentComedianChatThread?.messages.length - 1]
       appendMsg({
         type: 'text',
         content: { 
-          text: contentFilter(currentComedianChatThread?.messages[currentComedianChatThread?.messages.length - 1].content)
+          text: lastContent.content,
+          messageId: lastContent.messageId
         },
       });
     }
@@ -50,13 +49,14 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
         position: 'right',
       });
       setResponding(true);
-      const { threadId, answer } = await createChatThread(currentChatAssistantId)
-      console.log(threadId, answer, 'thread_id, answer')
-      if (threadId && answer) {
+      try {
+        const { threadId, answer, respondMessageId } = await createChatThread(currentChatAssistantId)
+        console.log(threadId, answer, 'thread_id, answer')
         comedianChatThreads[currentChatAssistantId] = {
           threadId,
           messages: [
             {
+              messageId: respondMessageId,
               content: answer
             }
           ]
@@ -64,18 +64,18 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
         setComedianChatThreads({
           ...comedianChatThreads,
         })
-      } else {
-        comedianChatThreads[currentChatAssistantId] = {
-          threadId,
-          messages: [
-            {
-              content: 'network error'
-            }
-          ]
-        }
-        setComedianChatThreads({
-          ...comedianChatThreads,
-        })
+      } catch (error) {
+        // comedianChatThreads[currentChatAssistantId] = {
+        //   threadId,
+        //   messages: [
+        //     {
+        //       content: 'network error'
+        //     }
+        //   ]
+        // }
+        // setComedianChatThreads({
+        //   ...comedianChatThreads,
+        // })
       }
       setResponding(false);
     }
@@ -106,10 +106,7 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
             placeholder={responding ? 'Responding...' : 'Type a message'}
             navbar={{ title: 'Dave Chappelle' }}
             messages={messages}
-            renderMessageContent={(msg) => {
-              const { content } = msg;
-              return <Bubble content={content.text} />;
-            }}
+            renderMessageContent={MessagePlayer}
             onSend={async (type, val) => {
               if (type === 'text' && currentComedianChatThread && val.trim() ) {
                 appendMsg({
@@ -120,8 +117,8 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
           
                 setResponding(true);       
                 try {
-                  const {answer} = await sendMessageToThread(currentComedianChatThread.threadId, val, currentChatAssistantId)                
-                  console.log(answer, 'answer')
+                  const {answer, respondMessageId} = await sendMessageToThread(currentComedianChatThread.threadId, val, currentChatAssistantId)                
+                  console.log(answer, 'answer', respondMessageId)
     
                   setComedianChatThreads({
                     ...comedianChatThreads,
@@ -130,6 +127,7 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
                       messages: [
                         ...currentComedianChatThread.messages,
                         {
+                          messageId: respondMessageId,
                           content: answer
                         }
                       ]

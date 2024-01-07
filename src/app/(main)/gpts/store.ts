@@ -23,15 +23,26 @@ interface GPTSStore {
   currentChatAssistantId: string,
   setCurrentChatAssistantId: (assistantId: string) => void
   openChat: boolean,
-  setOpenChat: (openChat: boolean) => void
+  setOpenChat: (openChat: boolean) => void,
+  currentVoiceId: string,
+  setCurrentVoiceId: (voiceId: string) => void
 }
 
+// TODO: get computed value from store: https://github.com/chrisvander/zustand-computed
 export const useGPTSStore = create<GPTSStore>()((set) => ({
 // export const { Provider, useStore: useComediansStore } = createProvider<GPTSStore>()((set) => ({
   openChat: false,
+  currentVoiceId: '',
   currentAudioList: [],
   comedianChatThreads: {},
   currentChatAssistantId: '',
+  setCurrentVoiceId: (voiceId) => {
+    set(() => {
+      return {
+        currentVoiceId: voiceId
+      }
+    })
+  },
   setOpenChat: (openChat) => {
     set(() => {
       return {

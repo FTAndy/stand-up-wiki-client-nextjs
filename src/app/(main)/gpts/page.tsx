@@ -65,6 +65,7 @@ const GPTS: React.FunctionComponent<IGPTSProps> = async (props) => {
             />
             <ChatButton 
               assistantId={figure.assistant_id}
+              voiceId={figure.voice_id}
               comedianId={figure._id} 
               comedianName={GPTInfo.display.name} 
             />

@@ -9,12 +9,13 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   if (req.method === 'POST') {
     const { assistantId } = req.body as {assistantId: string}
 
-    const {answer, thread_id} = await createThreadAndRunWithAssistant(assistantId)
+    const {answer, thread_id, respondMessageId} = await createThreadAndRunWithAssistant(assistantId)
     
     res.status(200).json({
       data: {
         threadId: thread_id,
-        answer
+        answer,
+        respondMessageId
       }
     })
   } else {
