@@ -2,7 +2,7 @@ import * as React from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import GPTCard from '@/components/GPTCard';
-import dynamic from 'next/dynamic'
+import dynamicFetch from 'next/dynamic'
 import Typography from '@mui/material/Typography';
 import AudioPlayButton from './components/CardPlayButton'
 import styles from './page.module.scss';
@@ -10,17 +10,17 @@ import ChatButton from './components/ChatButton'
 import Chat from './components/Chat'
 import type { DigitalFigure } from '@/types/digitalFigure'
 
-const PlayerWithNoSSR = dynamic(() => import('./components/Player'), {
+const PlayerWithNoSSR = dynamicFetch(() => import('./components/Player'), {
   ssr: false,
 })
 interface IGPTSProps {
 }
 
-export const revalidate = 0
+const dynamic = 'force-dynamic'
 
 async function getData<T>() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comedianDigitalFigures`, {
-    cache: 'no-store'
+    cache: 'no-store',
   })
 
   if (!res.ok) {
