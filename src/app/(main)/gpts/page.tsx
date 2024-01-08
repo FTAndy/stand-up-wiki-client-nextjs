@@ -8,6 +8,7 @@ import AudioPlayButton from './components/CardPlayButton'
 import styles from './page.module.scss';
 import ChatButton from './components/ChatButton'
 import Chat from './components/Chat'
+import { getBaseUrl } from '@/pages/utils/publicURL'
 import type { DigitalFigure } from '@/types/digitalFigure'
 
 const PlayerWithNoSSR = dynamicFetch(() => import('./components/Player'), {
@@ -18,8 +19,7 @@ interface IGPTSProps {
 
 
 async function getData<T>() {
-  console.log(`http://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/comedianDigitalFigures`, 'url')
-  const res = await fetch(`http://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/comedianDigitalFigures`, {
+  const res = await fetch(`${getBaseUrl()}/api/comedianDigitalFigures`, {
     next: {
       // cache data for each day
       revalidate: 60 * 60 * 24

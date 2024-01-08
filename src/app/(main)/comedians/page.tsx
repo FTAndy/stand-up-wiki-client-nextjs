@@ -8,6 +8,7 @@ import styles from './page.module.scss'
 import type { Metadata, ResolvingMetadata } from 'next'
 import type { Comedians, Comedian } from '@/types/comdian'
 import TagFilter from './components/TagFilter'
+import { getBaseUrl } from '@/pages/utils/publicURL'
 import StoreProvider from './StoreProvider'
 
 interface IComediansProps {
@@ -15,7 +16,7 @@ interface IComediansProps {
 
 async function getData<T>() {
   // server side fetch will have cache feature
-  const res = await fetch(`http://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/comedians?page=0`, {
+  const res = await fetch(`${getBaseUrl()}/api/comedians?page=0`, {
     next: {
       // cache data for each day
       revalidate: 60 * 60 * 24

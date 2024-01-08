@@ -3,6 +3,7 @@ import SpecialList from './components/SpecialList';
 import SearchSpecial from './components/Search';
 import StoreProvider from './StoreProvider';
 import type {Metadata, ResolvingMetadata} from 'next'
+import { getBaseUrl } from '@/pages/utils/publicURL'
 import styles from './page.module.scss'
 
 export interface IAppProps {
@@ -15,7 +16,7 @@ type Props = {
 
 async function getData<T>() {
   // server side fetch will have cache feature
-  const res = await fetch(`http://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/specials?page=0`, {
+  const res = await fetch(`${getBaseUrl()}/api/specials?page=0`, {
     next: {
       // cache data for each day
       revalidate: 60 * 60 * 24
