@@ -19,6 +19,7 @@ interface IGPTSProps {
 
 
 async function getData<T>() {
+  console.log(`${getBaseUrl()}/api/comedianDigitalFigures`, 'url')
   const res = await fetch(`${getBaseUrl()}/api/comedianDigitalFigures`, {
     next: {
       // cache data for each day
