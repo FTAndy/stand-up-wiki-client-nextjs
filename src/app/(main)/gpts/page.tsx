@@ -18,13 +18,11 @@ interface IGPTSProps {
 
 async function getData<T>() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comedianDigitalFigures`, {
-    next: {
-      // cache data for each hour
-      revalidate: 60 * 60 * 1
-    }
+    cache: 'no-store'
   })
 
   if (!res.ok) {
+    console.log(res, 'res')
     throw new Error('Failed to fetch data')
   }
 
