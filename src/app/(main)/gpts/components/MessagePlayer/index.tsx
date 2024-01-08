@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { useGPTSStore } from '../../store'; 
 import CircularProgress from '@mui/material/CircularProgress';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import styles from './index.module.scss'
 
 interface IMessagePlayerProps extends MessageProps {
@@ -14,8 +15,14 @@ export function contentFilter(content: string) {
   return content.replaceAll(/<break time="2s" \/>/g, ' ')
 }
 
+enum LoadingState {
+  NotStart,
+  Loading,
+  Done
+}
+
 const MessagePlayer: React.FunctionComponent<IMessagePlayerProps> = (props) => {
-  const [loading, setLoading] = React.useState(false);
+  const [loadingState, setLoadingState] = React.useState<LoadingState>(LoadingState.NotStart);
   const audioRef = React.useRef<HTMLMediaElement>(null);
   const { content } = props;
   const { currentVoiceId, comedianChatThreads, currentChatAssistantId } = useGPTSStore()
@@ -26,9 +33,11 @@ const MessagePlayer: React.FunctionComponent<IMessagePlayerProps> = (props) => {
     <Bubble content={contentFilter(content.text)} />
     { props.position === 'left' && props.content.text && props.content.messageId ?  
       <div className={styles['chat-playarea']}>
-        <IconButton disabled={loading} onClick={async () => {
+        <IconButton style={{
+          display: loadingState === LoadingState.NotStart ? 'block' : 'none'
+        }} onClick={async () => {
             if (audioRef.current) {
-              setLoading(true)
+              setLoadingState(LoadingState.Loading)
               const source = new MediaSource();
               audioRef.current.src = URL.createObjectURL(source);
               audioRef.current.autoplay = true;
@@ -62,11 +71,19 @@ const MessagePlayer: React.FunctionComponent<IMessagePlayerProps> = (props) => {
                   sourceBuffer.appendBuffer(value);
                 }
               }
-              // setLoading(false)
+              setLoadingState(LoadingState.Done)
             }
         }} color="primary">
           <PlayCircleIcon />
         </IconButton>
+        <CircularProgress style={{
+          display: loadingState === LoadingState.Loading ? 'block' : 'none',
+          width: '20px',
+          height: '20px',
+        }} />
+        <CheckCircleIcon style={{
+          display: loadingState === LoadingState.Done ? 'block' : 'none'
+        }} />
         <audio ref={audioRef} style={{
               width: 'calc(100% - 3rem - 40px)',
               marginTop: '2px'
