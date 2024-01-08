@@ -5,16 +5,16 @@ import type { MessageContentText } from 'openai/resources/beta/threads/messages/
 
 const config = {
   // https://api.openai-proxy.com
-  ...(process.env.NODE_ENV === 'development' ? {
-    baseURL: 'https://openai.wndbac.cn/v1'
-  }: {}),
+  // ...(process.env.NODE_ENV === 'development' ? {
+  //   baseURL: 'https://openai.wndbac.cn/v1'
+  // }: {}),
+  baseURL: 'https://openai.wndbac.cn/v1',
   apiKey: process.env['OPENAI_API_KEY'], // This is the default and can be omitted
 }
 
 const openai = new OpenAI(config);
 
 export async function createThreadAndRunWithAssistant(assistantId: string) {
-  console.log(config, 'config')
   const topics = ['Family and Relationships', 'Mental Health', 'Social Observations', 'Personal Anecdotes and Self-Deprecation:', 'Controversial or Taboo Topics']
 
   const index = Math.floor(Math.random() * topics.length)
@@ -65,56 +65,52 @@ export async function createThreadAndRunWithAssistant(assistantId: string) {
 }
 
 export async function sendMessageToThread(threadId: string, message: string, assistant_id: string) {
-  try {
-    console.log('creat task')
-    const {id: messageId} = await openai.beta.threads.messages.create(threadId, {
-      role: 'user',
-      content: message
-    })
+  console.log('creat task')
+  const {id: messageId} = await openai.beta.threads.messages.create(threadId, {
+    role: 'user',
+    content: message
+  })
 
-    console.log(threadId, assistant_id, 'threadId, assistant_id')
+  console.log(threadId, assistant_id, 'threadId, assistant_id')
 
-    const {id: runId} = await openai.beta.threads.runs.create(threadId, {
-      assistant_id
-    })
+  const {id: runId} = await openai.beta.threads.runs.create(threadId, {
+    assistant_id
+  })
 
-    await new Promise((resolve, reject) => {
-      let timeout = setInterval(async () => {
-        try {
-          debug
-          const runTask = await openai.beta.threads.runs.retrieve(threadId, runId)
-          if (runTask.status === 'completed') {
-            clearInterval(timeout)
-            resolve(runTask)
-          }
-        } catch (error) {
+  await new Promise((resolve, reject) => {
+    let timeout = setInterval(async () => {
+      try {
+        debug
+        const runTask = await openai.beta.threads.runs.retrieve(threadId, runId)
+        if (runTask.status === 'completed') {
           clearInterval(timeout)
-          reject(error)
+          resolve(runTask)
         }
-      }, 500)
-    })
+      } catch (error) {
+        clearInterval(timeout)
+        reject(error)
+      }
+    }, 500)
+  })
 
+
+  const messageList = await openai.beta.threads.messages.list(threadId, {
+    limit: 1
+  })
+
+  console.log(messageList, 'messageList')
+
+  const result = messageList.data[0].content[0] as MessageContentText
   
-    const messageList = await openai.beta.threads.messages.list(threadId, {
-      limit: 1
-    })
+  const respondMessageId = messageList.data[0].id
 
-    console.log(messageList, 'messageList')
+  const answer = result.text.value  
 
-    const result = messageList.data[0].content[0] as MessageContentText
-    
-    const respondMessageId = messageList.data[0].id
+  return {
+    answer,
+    respondMessageId
+  }  
 
-    const answer = result.text.value  
-
-    return {
-      answer,
-      respondMessageId
-    }  
-  } catch (error) {
-    console.log(error)
-    throw new Error('fetch open api error')
-  }
 }
 
 export default openai
