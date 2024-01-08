@@ -8,7 +8,7 @@ import AudioPlayButton from './components/CardPlayButton'
 import styles from './page.module.scss';
 import ChatButton from './components/ChatButton'
 import Chat from './components/Chat'
-import { getBaseUrl } from '@/pages/utils/publicURL'
+import { getBaseUrl } from '@/utils/getPublicPath'
 import type { DigitalFigure } from '@/types/digitalFigure'
 
 const PlayerWithNoSSR = dynamicFetch(() => import('./components/Player'), {

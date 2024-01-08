@@ -8,7 +8,7 @@ import styles from './page.module.scss'
 import type { Metadata, ResolvingMetadata } from 'next'
 import type { Comedians, Comedian } from '@/types/comdian'
 import TagFilter from './components/TagFilter'
-import { getBaseUrl } from '@/pages/utils/publicURL'
+import { getBaseUrl } from '@/utils/getPublicPath'
 import StoreProvider from './StoreProvider'
 
 interface IComediansProps {

@@ -3,7 +3,7 @@
 import { Comedian } from '@/types/comdian'
 import type { Metadata, ResolvingMetadata } from 'next'
 import ClientComponent from './client-component'
-import { getBaseUrl } from '@/pages/utils/publicURL'
+import { getBaseUrl } from '@/utils/getPublicPath'
 import './page.module.scss'
 
 export type Props = {

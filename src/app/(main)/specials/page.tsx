@@ -3,7 +3,7 @@ import SpecialList from './components/SpecialList';
 import SearchSpecial from './components/Search';
 import StoreProvider from './StoreProvider';
 import type {Metadata, ResolvingMetadata} from 'next'
-import { getBaseUrl } from '@/pages/utils/publicURL'
+import { getBaseUrl } from '@/utils/getPublicPath'
 import styles from './page.module.scss'
 
 export interface IAppProps {
