@@ -16,9 +16,10 @@ const PlayerWithNoSSR = dynamicFetch(() => import('./components/Player'), {
 interface IGPTSProps {
 }
 
-const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic'
 
 async function getData<T>() {
+  console.log(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comedianDigitalFigures`, 'url')
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comedianDigitalFigures`, {
     cache: 'no-store',
   })
