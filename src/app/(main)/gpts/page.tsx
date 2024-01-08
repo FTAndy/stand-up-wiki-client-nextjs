@@ -8,8 +8,8 @@ import AudioPlayButton from './components/CardPlayButton'
 import styles from './page.module.scss';
 import ChatButton from './components/ChatButton'
 import Chat from './components/Chat'
-import { getBaseUrl } from '@/utils/getPublicPath'
 import type { DigitalFigure } from '@/types/digitalFigure'
+import { getComedianDigitalFigures } from '@/dbService/getComedianDigitalFigures'
 
 const PlayerWithNoSSR = dynamicFetch(() => import('./components/Player'), {
   ssr: false,
@@ -18,29 +18,9 @@ interface IGPTSProps {
 }
 
 
-async function getData<T>() {
-  console.log(`${getBaseUrl()}/api/comedianDigitalFigures`, 'url')
-  const res = await fetch(`${getBaseUrl()}/api/comedianDigitalFigures`, {
-    next: {
-      // cache data for each day
-      revalidate: 60 * 60 * 24
-    }
-  })
-
-  if (!res.ok) {
-    console.log(res, 'res')
-    throw new Error('Failed to fetch data')
-  }
-
-  const json = await res.json()
-  return (json.data as T)
-}
-
-
-
 const GPTS: React.FunctionComponent<IGPTSProps> = async (props) => {
 
-  const digitalFigures = await getData<Array<DigitalFigure>>()
+  const digitalFigures = await getComedianDigitalFigures()
 
   console.log(digitalFigures, 'digitalFigures')
 

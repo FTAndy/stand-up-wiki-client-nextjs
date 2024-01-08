@@ -3,7 +3,7 @@ import SpecialList from './components/SpecialList';
 import SearchSpecial from './components/Search';
 import StoreProvider from './StoreProvider';
 import type {Metadata, ResolvingMetadata} from 'next'
-import { getBaseUrl } from '@/utils/getPublicPath'
+import { getSpeicals } from '@/dbService/getSpecials';
 import styles from './page.module.scss'
 
 export interface IAppProps {
@@ -14,33 +14,11 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
-async function getData<T>() {
-  // server side fetch will have cache feature
-  const res = await fetch(`${getBaseUrl()}/api/specials?page=0`, {
-    next: {
-      // cache data for each day
-      revalidate: 60 * 60 * 24
-    }
-  })
-
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
-  }
-
-  const json = await res.json()
-
-  return (json as T)
-
-}
-
 export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const {data: specialList} = await getData<{
-    data: Array<Special>
-  }>()
+  const specialList = await getSpeicals('0', '')
 
   const previousKeywords = (await parent).keywords || []
 
@@ -56,9 +34,7 @@ export async function generateMetadata(
 
 export default async function App (props: IAppProps) {
 
-  const {data: specialList} = await getData<{
-    data: Array<Special>
-  }>()
+  const specialList = await getSpeicals('0', '')
 
   return <StoreProvider
     specials={specialList}
