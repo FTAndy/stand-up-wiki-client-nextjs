@@ -11,7 +11,7 @@ export type Props = {
 }
 
 async function getData<T>(id: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comedians/${id}`, {
+  const res = await fetch(`http://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/comedians/${id}`, {
     next: {
       // cache data for each day
       revalidate: 60 * 60 * 24

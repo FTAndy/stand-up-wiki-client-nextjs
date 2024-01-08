@@ -18,7 +18,7 @@ interface IGPTSProps {
 
 
 async function getData<T>() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comedianDigitalFigures`, {
+  const res = await fetch(`http://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/comedianDigitalFigures`, {
     next: {
       // cache data for each day
       revalidate: 60 * 60 * 24

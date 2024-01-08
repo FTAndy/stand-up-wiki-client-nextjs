@@ -10,7 +10,7 @@ type Props = {
 }
 
 async function getData<T>() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/`)
+  const res = await fetch(`http://${process.env.NEXT_PUBLIC_VERCEL_URL}/`)
 
   if (!res.ok) {
     throw new Error('Failed to fetch data')
