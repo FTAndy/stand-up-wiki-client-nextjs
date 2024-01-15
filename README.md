@@ -19,7 +19,7 @@ Standup Wiki is a unique web platform dedicated to standup comedy fans. It aggre
 
 ## Legal Disclaimer
 
-Standup Wiki does not host or stream content illegally. The media content directly stream from the server to the browser. The median stream leverage platforms like Bilibili flixhq, remotestream, kissAsian, etc. for hosting specials.
+Standup Wiki does not host or stream content illegally. The media content directly stream from the server to the browser. The median stream leverage platforms like Bilibili, flixhq, remotestream, kissAsian, etc. for hosting specials.
 
 ## Where does the data come from?
 
