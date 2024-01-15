@@ -7,3 +7,10 @@ export const getBaseUrl = () => {
   // TODO: for api in preview env, it did not work
   return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
 };
+
+export const getAIServiceUrl = () => {
+  if (process.env.NODE_ENV === "development") {
+    return "http://localhost:7071";
+  }
+  return ''
+}

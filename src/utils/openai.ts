@@ -1,4 +1,3 @@
-import { debug, log } from 'console';
 import 'dotenv/config'
 import OpenAI from 'openai'
 import type { MessageContentText } from 'openai/resources/beta/threads/messages/messages'
@@ -80,7 +79,6 @@ export async function sendMessageToThread(threadId: string, message: string, ass
   await new Promise((resolve, reject) => {
     let timeout = setInterval(async () => {
       try {
-        debug
         const runTask = await openai.beta.threads.runs.retrieve(threadId, runId)
         if (runTask.status === 'completed') {
           clearInterval(timeout)
