@@ -19,7 +19,7 @@ Standup Wiki is a unique web platform dedicated to standup comedy fans. It aggre
 
 ## Legal Disclaimer
 
-Standup Wiki does not host or stream content illegally. This project leverage platforms like Bilibili, a US-listed Chinese company, for hosting specials. Users should be aware of the legal nuances of watching content from platforms like Netflix or HBO through third-party sites.
+Standup Wiki does not host or stream content illegally. The media content directly stream from the server to the browser. The median stream leverage platforms like Bilibili flixhq, remotestream, kissAsian, etc. for hosting specials.
 
 ## Where does the data come from?
 
@@ -32,7 +32,7 @@ Standup Wiki is currently in its early stages of development. Key features in pr
 - [x] User system
 - [ ] Collect and customizable special lists
 - [ ] Self-hosted commenting system
-- [ ] Upvote and downvote specials/comedians
+- [x] Upvote and downvote specials/comedians
 - [ ] Comedian and special ratings
 - [ ] Advanced specials/comedians filtering options
 - [ ] Approachs to correct the wrong video resource
@@ -56,5 +56,4 @@ Standup Wiki leverages a robust and modern tech stack to deliver a seamless and 
 - **[Vercel](https://vercel.com/):** Host for Frontend and Backend.
 - **[MongoDB](https://github.com/mongodb/node-mongodb-native):** Database choice for flexible, scalable data storage and management.
 - **[Material-UI (@mui)](https://mui.com/material-ui):** Utilized for designing a sleek and responsive user interface.
-- **[Disqus](https://disqus.com/):** Commenting system, enhancing user engagement and community building.
 - **[libass-wasm](https://github.com/libass/JavascriptSubtitlesOctopus):** Render advanced subtitle formats in the browser, ensuring a rich media viewing experience.
