@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import Home from '@/app/(main)/page'
 import HeaderBar from '@/components/HeaderBar'
 
-jest.mock('@/app/(main)/dbActions/homePage', () => ({
+jest.mock('@/dbService/getTop5Comedians', () => ({
   getTop5Comedians: jest.fn().mockResolvedValue([
     { id: 1, comedianId: '1' },
     { id: 2, comedianId: '2' },

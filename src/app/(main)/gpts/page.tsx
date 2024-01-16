@@ -30,7 +30,7 @@ const GPTS: React.FunctionComponent<IGPTSProps> = async (props) => {
     </Typography>
     <Alert severity="info">
       <AlertTitle>Info</AlertTitle>
-      All digital figures are created using material as background from special subtitles to reinforce the style of each standup comedian. Subtitles are fetched from https://www.opensubtitles.com/ API.
+      Try to chat with the comedian
     </Alert>
     <div className={styles['card-list']}>
       { digitalFigures.map(figure => {

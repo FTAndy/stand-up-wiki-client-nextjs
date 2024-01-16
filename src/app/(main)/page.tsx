@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Image from 'next/image'
 import Link from 'next/link'
 import Button from '@mui/material/Button';
-import { getTop5Comedians } from '@/app/(main)/dbActions/homePage'
+import { getTop5Comedians } from '@/dbService/getTop5Comedians'
 
 export const revalidate = 3600 * 24 * 7 // 1 week
 
