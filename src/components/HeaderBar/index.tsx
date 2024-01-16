@@ -52,13 +52,15 @@ const HeaderBar: React.FunctionComponent<IHeaderBarProps> = (props) => {
   console.log(session, 'session')
   return <AppBar className='app-bar' position="fixed">
     <Toolbar>
-      <Image 
-        priority={true}
-        src="/logo.jpg"
-        width={50}
-        height={50}
-        alt="Logo"
-      />
+      <Link href="/">
+        <Image 
+          priority={true}
+          src="/logo.jpg"
+          width={50}
+          height={50}
+          alt="Logo"
+        />
+      </Link>
       <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
         {pages.map((page) => (
           <Link key={page.path} className='link' href={page.path} >

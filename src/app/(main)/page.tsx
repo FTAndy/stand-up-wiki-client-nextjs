@@ -28,6 +28,7 @@ export default async function Home() {
         }}
         alt="Picture of great comedians"
       />
+      
       { top5Comedians.map(c => {
         return <Link
           href={`/profile/${c.comedianId}`} 
