@@ -15,9 +15,8 @@ export default async function Home() {
   //       2. or just using Redis to cache data
   const top5Comedians = await getTop5Comedians()
 
-  // TODO: build CI with 
-  // github action https://github.com/vercel/examples/tree/main/ci-cd/github-actions
 
+  // TODO: responsive design https://mui.com/material-ui/react-grid/
   return (
     <main className={styles.main}>
       <Image

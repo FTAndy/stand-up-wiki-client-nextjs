@@ -1,0 +1,18 @@
+.chat-container {
+  position: absolute;
+  min-width: 600px;
+  height: calc(100vh - 84px);
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  .chat-element {
+    height: 100%;
+  }
+  .chat-playarea {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2px;
+    align-items: center;
+  }
+}

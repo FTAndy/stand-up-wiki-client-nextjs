@@ -9,30 +9,9 @@ import type { Metadata, ResolvingMetadata } from 'next'
 import type { Comedians, Comedian } from '@/types/comdian'
 import TagFilter from './components/TagFilter'
 import StoreProvider from './StoreProvider'
+import { getComedians } from '@/dbService/getComedians'
 
 interface IComediansProps {
-}
-
-async function getData<T>() {
-  // server side fetch will have cache feature
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comedians?page=0`, {
-    next: {
-      // cache data for each day
-      revalidate: 60 * 60 * 24
-    }
-  })
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
-
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
-  }
-
-  const json = await res.json()
-
-  return (json as T)
-
 }
 
 type Props = {
@@ -52,9 +31,7 @@ export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const {data: comedianList} = await getData<{
-    data: Array<Comedian>
-  }>()
+  const comedianList = await getComedians('0', '', '')
 
   const previousKeywords = (await parent).keywords || []
 
@@ -70,9 +47,7 @@ export async function generateMetadata(
 
 const Comedians: React.FunctionComponent<IComediansProps> = async (props) => {
 
-  const {data} = await getData<{
-    data: Array<Comedian>
-  }>()
+  const data = await getComedians('0', '', '')
 
   return <main className={styles['comedians-container']}>
     <StoreProvider

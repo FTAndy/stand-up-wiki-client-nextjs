@@ -1,4 +1,4 @@
-import axios from "axios";
+import request from '@/service'
 import type { Comedian } from "@/types/comdian";
 
 type getComediansProps = {
@@ -9,7 +9,7 @@ type getComediansProps = {
 
 export const getComedians = async (props: getComediansProps) => {
   const {name, page = 0, tags} = props
-  const res = await axios<{data: Array<Comedian>}>(
+  const res = await request<{data: Array<Comedian>}>(
     `/api/comedians?page=${page}${name ? `&name=${name}` : ''}${tags?.length ? `&tags=${tags.join(',')}` : ''}`
   )
   const data = res.data

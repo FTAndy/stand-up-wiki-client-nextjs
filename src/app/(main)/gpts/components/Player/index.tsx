@@ -21,6 +21,7 @@ const Player: React.FunctionComponent<IPlayerProps> = (props) => {
 
   return <div> 
     <ReactJkMusicPlayer 
+
       ref={musicPlayerRef}
       mode='full'
       defaultPosition={{
@@ -28,6 +29,7 @@ const Player: React.FunctionComponent<IPlayerProps> = (props) => {
         right: 20
       }}
       style={{
+        display: currentAudioList.length ? 'block' : 'none',
         zIndex: 10001
       }}
       showMediaSession
