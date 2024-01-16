@@ -28,17 +28,16 @@ export async function sendMessageToThread(threadId: string, message: string, ass
 }
 
 export async function transformToVoice(threadId: string, message: string, messageId: string, voiceId: string) {
-  const response = await fetch(`${getAIServiceUrl()}/api/chatThread/${currentComedianChatThread.threadId}/transformToVoice`, {
+  const response = await fetch(`${getAIServiceUrl()}/api/chatThread/${threadId}/transformToVoice`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      message: props.content.text, 
-      messageId: props.content.messageId, 
-      voiceId: currentVoiceId
+      message, 
+      messageId, 
+      voiceId
     })
   })
-  const data = res.data
-  return data.data
+  return response
 }

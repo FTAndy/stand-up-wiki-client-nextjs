@@ -6,6 +6,7 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { useGPTSStore } from '../../store'; 
 import CircularProgress from '@mui/material/CircularProgress';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { transformToVoice } from '@/service/thread'
 import styles from './index.module.scss'
 
 interface IMessagePlayerProps extends MessageProps {
@@ -34,24 +35,17 @@ const MessagePlayer: React.FunctionComponent<IMessagePlayerProps> = (props) => {
     { props.position === 'left' && props.content.text && props.content.messageId ?  
       <div className={styles['chat-playarea']}>
         <IconButton style={{
-          display: loadingState === LoadingState.NotStart ? 'block' : 'none'
+          display: loadingState === LoadingState.NotStart ? 'block' : 'none',
+          width: '40px',
+          height: '40px',
         }} onClick={async () => {
             if (audioRef.current) {
               setLoadingState(LoadingState.Loading)
               const source = new MediaSource();
               audioRef.current.src = URL.createObjectURL(source);
               audioRef.current.autoplay = true;
-              const response = await fetch(`/api/chatThread/${currentComedianChatThread.threadId}/transformToVoice`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  message: props.content.text, 
-                  messageId: props.content.messageId, 
-                  voiceId: currentVoiceId
-                })
-              })
+              // TODO: write a record to db
+              const response = await transformToVoice(currentComedianChatThread.threadId, props.content.text, props.content.messageId, currentVoiceId)
               const reader = response.body?.getReader()
               if (reader) {
                 const sourceBuffer = source.addSourceBuffer('audio/mpeg');

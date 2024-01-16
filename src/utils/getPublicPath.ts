@@ -10,7 +10,8 @@ export const getBaseUrl = () => {
 
 export const getAIServiceUrl = () => {
   if (process.env.NODE_ENV === "development") {
-    return "http://localhost:7071";
+    // return 'http://localhost:8787'
+    return "https://standup-wiki-workers.ftandy.workers.dev";
   }
   return ''
 }
