@@ -5,9 +5,9 @@ import Plyr, {Source, Track} from 'plyr'
 import styles from './index.module.scss'
 import { makeProviders, makeSimpleProxyFetcher, targets, MovieMedia } from '@movie-web/providers';
 import {useDidUpdate} from '@mantine/hooks'
+import Button from '@mui/material/Button';
 import Hls from 'hls.js'
 import CircularProgress from '@mui/material/CircularProgress';
-// import { transformSrtTracks } from 'srt-support-for-html5-videos';
 import './plyr.scss'
 
 const myFetcher = makeSimpleProxyFetcher('https://simple-proxy.ftandy.workers.dev', fetch);
@@ -38,9 +38,12 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
   const { playingSpecial, currentComedian } = useGlobalStore()
   const [loading, setLoading] = React.useState(false)
   const [isNoStream, setIsNoStream] = React.useState(false)
+  const [retryCount, setRetryCount] = React.useState(0)
 
   const playerEleRef = React.useRef<HTMLVideoElement | null>(null)
   const playerRef = React.useRef<Plyr | null>(null)
+
+  const currentPlayingSpecialId = React.useRef<string>()
 
   React.useEffect(() => {
     if (playerEleRef.current) {
@@ -49,11 +52,12 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
       });
     }
   }, [])
-
+  // TODO: avoid double fetching
   React.useEffect(() => {
     async function fetchAndPlay() {
-      console.log(playerRef.current, playingSpecial, playingSpecial?.TMDBInfo, 'qqq')
       if (playerRef.current && playerEleRef.current && playingSpecial && playingSpecial.TMDBInfo) {
+        currentPlayingSpecialId.current = playingSpecial.TMDBInfo.tmdbId
+
         const player = playerRef.current
         const video = playerEleRef.current
         // clear and fetch
@@ -65,6 +69,9 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
         setLoading(true)
         setIsNoStream(false)
         const stream = await fetchStream(playingSpecial.TMDBInfo)
+        if (currentPlayingSpecialId.current !== playingSpecial.TMDBInfo.tmdbId) {
+          return
+        } 
         const noCORSVideo = stream
         // TODO: no stream found handle
         if (noCORSVideo) {
@@ -103,8 +110,6 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
               tracks
             } as const
 
-            console.log(source, 'source')
-
             player.source = source
             player.autoplay = true
             player.play()
@@ -126,13 +131,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
               // });
             }
 
-            // sources.push({
-            //   src: noCORSVideo.playlist,
-            //   type: 'hls'
-            // })
-
           }
-          // transformSrtTracks(playerEleRef.current)
         } else {
           setIsNoStream(true)
         }
@@ -142,10 +141,12 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
       }
     }
  
-    console.log(playingSpecial, 'playingSpecial')
     fetchAndPlay()
-    return () => window?.hls?.destroy();
-  }, [playingSpecial?.TMDBInfo])
+    return () => {
+      window?.hls?.destroy();
+      currentPlayingSpecialId.current = undefined
+    }
+  }, [playingSpecial?.TMDBInfo, retryCount])
 
   const videoAttributes = {
     crossOrigin: 'true' as ''
@@ -157,9 +158,11 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
     </video>
     { isNoStream && <div className={styles['no-stream']}>
       <span className={styles['title']}>No Stream</span>
+      <Button variant="contained" onClick={() => setRetryCount(retryCount + 1)}>Retry</Button>
     </div> }
     { loading && <div className={styles['cover']}>
       <CircularProgress className={styles['loading']}  />
+      It might take a while to load from third party, please wait...
     </div> }
   </div>;
 };
