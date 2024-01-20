@@ -30,6 +30,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // TODO: This will opt-out of cache for all pages, need to find a way to opt-in, and it 
   const session = await getServerSession(authOptions)
 
 
