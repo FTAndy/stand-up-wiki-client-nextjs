@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import AudioPlayButton from './components/CardPlayButton'
 import styles from './page.module.scss';
 import ChatButton from './components/ChatButton'
-import Chat from './components/Chat'
 import { cache } from 'react'
 import type { DigitalFigure } from '@/types/digitalFigure'
 import { getComedianDigitalFigures } from '@/dbService/getComedianDigitalFigures'
@@ -19,9 +18,13 @@ export const revalidate = 3600 * 24 * 7 // 1 week
 const PlayerWithNoSSR = dynamicFetch(() => import('./components/Player'), {
   ssr: false,
 })
+
+const ChatWithNoSSR = dynamicFetch(() => import('./components/Chat'), {
+  ssr: false,
+})
+
 interface IGPTSProps {
 }
-
 
 const GPTS: React.FunctionComponent<IGPTSProps> = async (props) => {
 
@@ -63,7 +66,7 @@ const GPTS: React.FunctionComponent<IGPTSProps> = async (props) => {
       }) }
     </div>
     <PlayerWithNoSSR />
-    <Chat />
+    <ChatWithNoSSR />
   </div>;
 };
 
