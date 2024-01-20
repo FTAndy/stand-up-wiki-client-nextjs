@@ -28,9 +28,10 @@ interface IGPTSProps {
 
 const GPTS: React.FunctionComponent<IGPTSProps> = async (props) => {
 
+  console.log('digitalFigures', '1')
+
   const digitalFigures = await cachedGetComedianDigitalFigures()
 
-  console.log(digitalFigures, 'digitalFigures')
   // TODO: add register limitation
   return <div className={styles['gpt-container']}>
     <Typography variant="h3" className={styles['title']} >

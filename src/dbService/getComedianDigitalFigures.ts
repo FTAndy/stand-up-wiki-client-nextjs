@@ -8,6 +8,8 @@ export async function getComedianDigitalFigures () {
   const Database = MongoClient.db("standup-wiki");
   const ComedianDigitalFigures = Database.collection("comedianDigitalFigure");
 
+  console.log('digitalFigures', '2')
+
   const comedianDigitalFigures = await ComedianDigitalFigures.find({}).toArray()
 
   return comedianDigitalFigures as unknown as Array<DigitalFigure>
