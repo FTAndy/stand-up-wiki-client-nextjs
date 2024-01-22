@@ -6,7 +6,14 @@ export enum SigninType {
   google = 'google',
 }
 
+export enum PlayMode {
+  bilibili = 'bilibili',
+  html5 = 'html5'
+}
+
 interface GlobalState {
+  playMode: PlayMode,
+  setPlayMode: (mode: PlayMode) => void
   toggleGlobalSignin: boolean
   setToggleGlobalSignin: (toggle: boolean) => void
   currentComedian: Comedian| null
@@ -19,6 +26,14 @@ interface GlobalState {
 
 
 export const useGlobalStore = create<GlobalState>()((set) => ({
+  playMode: PlayMode.bilibili,
+  setPlayMode: (mode) => {
+    set((state) => {
+      return {
+        playMode: mode
+      }
+    })
+  },
   toggleGlobalSignin: false,
   setToggleGlobalSignin: (toggle) => {
     set((state) => {
@@ -39,7 +54,8 @@ export const useGlobalStore = create<GlobalState>()((set) => ({
   setPlayingSpecial: (special) => {
     set((state) => {
       return {
-        playingSpecial: special
+        playingSpecial: special,
+        playMode: special?.TMDBInfo ? PlayMode.html5 : PlayMode.bilibili
       }
     })
   },

@@ -6,8 +6,10 @@ import styles from './index.module.scss'
 import { makeProviders, makeSimpleProxyFetcher, targets, MovieMedia } from '@movie-web/providers';
 import {useDidUpdate} from '@mantine/hooks'
 import Button from '@mui/material/Button';
+import dynamicFetch from 'next/dynamic'
 import Hls from 'hls.js'
 import CircularProgress from '@mui/material/CircularProgress';
+import { PlayMode } from '@/app/(main)/store';
 import './plyr.scss'
 
 const myFetcher = makeSimpleProxyFetcher('https://simple-proxy.ftandy.workers.dev', fetch);
@@ -35,7 +37,7 @@ interface IHTML5VidoPlayerProps {
 }
 
 const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) => {
-  const { playingSpecial, currentComedian } = useGlobalStore()
+  const { playingSpecial, currentComedian, setPlayMode } = useGlobalStore()
   const [loading, setLoading] = React.useState(false)
   const [isNoStream, setIsNoStream] = React.useState(false)
   const [retryCount, setRetryCount] = React.useState(0)
@@ -68,11 +70,13 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
         player.stop()
         setLoading(true)
         setIsNoStream(false)
-        const stream = await fetchStream(playingSpecial.TMDBInfo)
+        const noCORSVideo = await fetchStream(playingSpecial.TMDBInfo)
+        console.log(noCORSVideo, 'noCORSVideo')
         if (currentPlayingSpecialId.current !== playingSpecial.TMDBInfo.tmdbId) {
           return
         } 
-        const noCORSVideo = stream
+        // TODO: transform subtitle format to vtt using subsrt-ts npm package and use vtt in the player, https://github.com/movie-web/movie-web/blob/48b708d5698795a96d10ddeb4f0ab9b9cd53fab0/src/components/player/utils/captions.ts
+        // TODO: play srt locally https://github.com/movie-web/movie-web/blob/c347fe7ef54fa96b858e3658ec565fff77206967/src/components/player/atoms/settings/CaptionsView.tsx
         // TODO: no stream found handle
         if (noCORSVideo) {
           const sources: Array<Source> = []
@@ -118,6 +122,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
               video.src = noCORSVideo.playlist;
             } else if (Hls.isSupported()) {
               // For more Hls.js options, see https://github.com/dailymotion/hls.js
+              // TODO: cache more hls content
               const hls = new Hls();
               hls.loadSource(noCORSVideo.playlist);
               hls.attachMedia(video);
@@ -159,6 +164,8 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
     { isNoStream && <div className={styles['no-stream']}>
       <span className={styles['title']}>No Stream</span>
       <Button variant="contained" onClick={() => setRetryCount(retryCount + 1)}>Retry</Button>
+      <span>Or</span>
+      <Button variant="contained" onClick={() => setPlayMode(PlayMode.bilibili)}>Switch To Bilibili</Button>
     </div> }
     { loading && <div className={styles['cover']}>
       <CircularProgress className={styles['loading']}  />

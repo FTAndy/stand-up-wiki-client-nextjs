@@ -1,12 +1,13 @@
 'use client'
 import {useEffect} from 'react';
 import { useGlobalStore } from '@/app/(main)/store'
-import VideoPlayer from './components/VideoPlayer'
+import VideoPlayer from './components/BilibiliIframeVideoPlayer'
 import HTML5VidoPlayer from './components/HTML5VideoPlayer';
 import VideoInfo from './components/VideoInfo'
 import TabComponent from './components/Tab'
 import ComedianCard from '@/components/SpecialCard'
 import type { Comedian } from '@/types/comdian'
+import { PlayMode } from '../../store'
 import styles from './page.module.scss'
 
 interface IClientProps {
@@ -16,7 +17,7 @@ interface IClientProps {
 const Client: React.FunctionComponent<IClientProps> = (props) => {
   const { comedian } = props
 
-  const { setPlayingSpecial, playingSpecial, currentComedian, setCurrentComedian } = useGlobalStore()
+  const { setPlayingSpecial, playingSpecial, currentComedian, setCurrentComedian, playMode } = useGlobalStore()
 
   useEffect(() => {
     console.log(comedian, 'comedian')
@@ -42,7 +43,7 @@ const Client: React.FunctionComponent<IClientProps> = (props) => {
   return <div className={styles['profile-container']}>
     {/* { isLoading ? <GlobalLoading></GlobalLoading> : '' } */}
     <div className={styles['video-container']}>
-      { playingSpecial?.TMDBInfo ? <HTML5VidoPlayer key={'html5'} /> : <VideoPlayer key={'bilibili'} /> }
+      { playingSpecial?.TMDBInfo && playMode === PlayMode.html5 ? <HTML5VidoPlayer key={'html5'} /> : <VideoPlayer key={'bilibili'} /> }
       <VideoInfo />
       {/* <TabComponent /> */}
     </div>
