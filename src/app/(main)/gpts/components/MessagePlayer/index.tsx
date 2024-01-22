@@ -6,7 +6,7 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { useGPTSStore } from '../../store'; 
 import CircularProgress from '@mui/material/CircularProgress';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { transformToVoice } from '@/service/thread'
+import { transformToVoice, bindThreadWithMessage } from '@/service/thread'
 import styles from './index.module.scss'
 
 interface IMessagePlayerProps extends MessageProps {
@@ -46,6 +46,9 @@ const MessagePlayer: React.FunctionComponent<IMessagePlayerProps> = (props) => {
               audioRef.current.autoplay = true;
               // TODO: write a record to db
               const response = await transformToVoice(currentComedianChatThread.threadId, props.content.text, props.content.messageId, currentVoiceId)
+
+              bindThreadWithMessage(currentComedianChatThread.threadId, props.content.messageId, currentVoiceId)
+
               const reader = response.body?.getReader()
               if (reader) {
                 const sourceBuffer = source.addSourceBuffer('audio/mpeg');

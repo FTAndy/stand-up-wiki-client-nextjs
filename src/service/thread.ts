@@ -41,3 +41,16 @@ export async function transformToVoice(threadId: string, message: string, messag
   })
   return response
 }
+
+export async function bindThreadWithMessage(threadId: string, messageId: string, voiceId: string) {
+  fetch(`/api/chatThread/${threadId}/bindMessage`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      messageId, 
+      voiceId
+    })
+  })
+}
