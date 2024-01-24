@@ -38,6 +38,7 @@ interface IHTML5VidoPlayerProps {
 
 const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) => {
   const { playingSpecial, currentComedian, setPlayMode } = useGlobalStore()
+  const [tracks, setTracks] = React.useState<Track[]>([])
   const [loading, setLoading] = React.useState(false)
   const [isNoStream, setIsNoStream] = React.useState(false)
   const [retryCount, setRetryCount] = React.useState(0)
@@ -50,7 +51,10 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
   React.useEffect(() => {
     if (playerEleRef.current) {
       playerRef.current = new Plyr(playerEleRef.current, {
-        captions: {active: true}
+        captions: {
+          active: true,
+          update: true
+        }
       });
     }
   }, [])
@@ -71,15 +75,34 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
         setLoading(true)
         setIsNoStream(false)
         const noCORSVideo = await fetchStream(playingSpecial.TMDBInfo)
-        console.log(noCORSVideo, 'noCORSVideo')
+        console.log(noCORSVideo, 'noCORSVideo', playingSpecial.TMDBInfo)
         if (currentPlayingSpecialId.current !== playingSpecial.TMDBInfo.tmdbId) {
           return
         } 
+
+        if (playingSpecial.TMDBInfo.vttSubtitle) {
+          setTracks([{
+            kind: 'captions',
+            srcLang: 'en',
+            src: `https://standup-wiki.azureedge.net${playingSpecial.TMDBInfo.vttSubtitle}`,
+            label: 'English',
+            default: true
+          }])
+          // tracks.push({
+          //   kind: 'captions',
+          //   srcLang: 'en',
+          //   src: `https://standup-wiki.azureedge.net${playingSpecial.TMDBInfo.vttSubtitle}`,
+          //   label: 'English',
+          //   default: true
+          // })
+        }
+
         // TODO: transform subtitle format to vtt using subsrt-ts npm package and use vtt in the player, https://github.com/movie-web/movie-web/blob/48b708d5698795a96d10ddeb4f0ab9b9cd53fab0/src/components/player/utils/captions.ts
         // TODO: play srt locally https://github.com/movie-web/movie-web/blob/c347fe7ef54fa96b858e3658ec565fff77206967/src/components/player/atoms/settings/CaptionsView.tsx
         // TODO: no stream found handle
         if (noCORSVideo) {
           const sources: Array<Source> = []
+
           if (noCORSVideo.type === 'file') {
             for (const key in noCORSVideo.qualities) {
               const qualityKey = key as Qualities;
@@ -90,17 +113,17 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
                 size: parseInt(qualityKey)
               })
             }
-            const tracks: Array<Track> = []
 
-            noCORSVideo.captions.forEach(c => {
-              tracks.push({
-                kind: 'captions',
-                srcLang: c.language,
-                src: c.url,
-                label: c.language,
-                default: c.language === 'en'
-              })            
-            })
+            // noCORSVideo.captions.forEach(c => {
+            //   tracks.push({
+            //     kind: 'captions',
+            //     srcLang: c.language,
+            //     src: c.url,
+            //     label: c.language,
+            //     default: c.language === 'en'
+            //   })            
+            // })
+
             
             const source = {
               type: 'video',
@@ -111,8 +134,10 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
               //   src: '/path/to/thumbnails.vtt',
               // },
               // TODO: display srt on using module from movie-web
-              tracks
+              // tracks
             } as const
+
+            console.log(source, 'source')
 
             player.source = source
             player.autoplay = true
@@ -121,8 +146,16 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
             if (video.canPlayType('application/vnd.apple.mpegurl')) {
               video.src = noCORSVideo.playlist;
             } else if (Hls.isSupported()) {
-              // For more Hls.js options, see https://github.com/dailymotion/hls.js
+              // For more Hls.js options, see https://github.com/dailymotion/hls.js, https://github.com/video-dev/hls.js
               // TODO: cache more hls content
+              // const trackElement = document.createElement('track');
+              // trackElement.kind = 'captions';
+              // trackElement.label = 'English';
+              // trackElement.srclang = 'en';
+              // trackElement.src = `https://standup-wiki.azureedge.net${playingSpecial.TMDBInfo.vttSubtitle}`;
+              // trackElement.default = true;
+              // video.appendChild(trackElement);
+
               const hls = new Hls();
               hls.loadSource(noCORSVideo.playlist);
               hls.attachMedia(video);
@@ -130,10 +163,10 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
               console.log('init hls', noCORSVideo.playlist, video)
               
               // Handle changing captions
-              // player.on('languagechange', () => {
-              //   // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
-              //   setTimeout(() => hls.subtitleTrack = player.currentTrack, 50);
-              // });
+              player.on('languagechange', () => {
+                // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
+                setTimeout(() => hls.subtitleTrack = player.currentTrack, 50);
+              });
             }
 
           }
@@ -159,7 +192,10 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
 
   return <div className={styles['video-container']}>
     <video {...videoAttributes} className={styles['player-container']} ref={playerEleRef} id="player">
-
+      { tracks.map(t => {
+          return <track key={t.src} {...t} />
+        })
+      }
     </video>
     { isNoStream && <div className={styles['no-stream']}>
       <span className={styles['title']}>No Stream</span>

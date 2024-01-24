@@ -54,7 +54,9 @@ export type Special = {
     isUpVoted?: boolean
   }
   noCORSVideo?: SourcererOutput['stream']
-  TMDBInfo?: MovieMedia
+  TMDBInfo?: MovieMedia & {
+    vttSubtitle?: string
+  }
   specialDetail: {
     datetime: string
     netflixURL: string
