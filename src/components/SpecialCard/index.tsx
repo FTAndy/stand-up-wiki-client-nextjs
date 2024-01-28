@@ -10,6 +10,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Rating from '@mui/material/Rating';
 import { Special } from '@/types/comdian'
 import { useGlobalStore } from '@/app/(main)/store'
+import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
 import { CardActionArea } from '@mui/material';
 
 
@@ -21,7 +22,7 @@ interface Props {
 
 export default function MediaControlCard(props: Props) {
   const { special, className, onClick } = props
-  const { specialDetail, specialName, comedianName } = special
+  const { specialDetail, specialName, comedianName, TMDBInfo } = special
   const { coverImgURL, datetime, runtimeDuration, rating } = specialDetail
   const theme = useTheme();
 
@@ -57,6 +58,7 @@ export default function MediaControlCard(props: Props) {
               { runtimeDuration }
             </Typography>
             <Typography component="legend">{parseFloat(rating)} stars</Typography>
+            { TMDBInfo?.vttSubtitle ? <ClosedCaptionIcon /> : '' } 
             <Rating 
               size='large'
               name="half-rating-read" 

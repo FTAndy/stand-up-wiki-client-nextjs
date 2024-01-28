@@ -23,8 +23,10 @@ const providers = makeProviders({
 async function fetchStream (media: MovieMedia) {
   const output = await providers.runAll({
     media,
-    // sourceOrder: ['flixhq']
+    // sourceOrder: ['zoechip', 'flixhq']
   })
+
+  console.log(output, 'output')
 
   if (!output) console.log("No stream found", media.title)
   return output?.stream
@@ -148,13 +150,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
             } else if (Hls.isSupported()) {
               // For more Hls.js options, see https://github.com/dailymotion/hls.js, https://github.com/video-dev/hls.js
               // TODO: cache more hls content
-              // const trackElement = document.createElement('track');
-              // trackElement.kind = 'captions';
-              // trackElement.label = 'English';
-              // trackElement.srclang = 'en';
-              // trackElement.src = `https://standup-wiki.azureedge.net${playingSpecial.TMDBInfo.vttSubtitle}`;
-              // trackElement.default = true;
-              // video.appendChild(trackElement);
+              // TODO: hls support for higher quality
 
               const hls = new Hls();
               hls.loadSource(noCORSVideo.playlist);

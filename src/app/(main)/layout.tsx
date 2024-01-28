@@ -6,6 +6,7 @@ import ThemeProvider from './theme-provider'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import SessionProvider from './session-provider'
+import Script from 'next/script'
 import HeaderBar from '@/components/HeaderBar'
 import './globals.scss'
 
@@ -35,8 +36,21 @@ export default async function RootLayout({
 
 
   // TODO: all image use highest quality and with next/image to show
+  // @ts-nocheck
+/* eslint-disable */
   return (
     <html lang="en">
+      <head>
+      <Script
+        dangerouslySetInnerHTML={{
+          __html: `(function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "kst4y9ey0l");`
+        }}
+      />
+      </head>
       <body className={inter.className}>
       <div className='App'>
         <SessionProvider session={session}>
