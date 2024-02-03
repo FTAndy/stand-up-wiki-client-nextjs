@@ -3,9 +3,6 @@ import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react';
 import {ReactQueryProvider} from './react-query-provider'
 import ThemeProvider from './theme-provider'
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/pages/api/auth/[...nextauth]"
-import SessionProvider from './session-provider'
 import Script from 'next/script'
 import HeaderBar from '@/components/HeaderBar'
 import './globals.scss'
@@ -33,7 +30,6 @@ export default async function RootLayout({
 }) {
   // TODO: This will opt-out of cache for all pages, remove this to where it is needed
   // TODO: use partial rendering for each page
-  const session = await getServerSession(authOptions)
 
   return (
     <html lang="en">
@@ -51,16 +47,13 @@ export default async function RootLayout({
       </head>
       <body className={inter.className}>
       <div className='App'>
-        <SessionProvider session={session}>
           <ReactQueryProvider>
             <ThemeProvider options={{ key: 'mui', prepend: true }}>
               <HeaderBar
-                session={session}
                />
               {children}
             </ThemeProvider>
           </ReactQueryProvider>
-        </SessionProvider>
       </div>
       <Analytics />
       </body>

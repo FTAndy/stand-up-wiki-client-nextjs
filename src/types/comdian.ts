@@ -77,6 +77,8 @@ export type Special = {
   comments: Array<CommentContent>
 }
 
+export type Specials = Array<Special>
+
 type CommentContent = {
   content: string,
   author: string
@@ -92,7 +94,7 @@ type TVshow = {
 }
 
 type Movie = {
-  
+
 }
 
 type Image = {

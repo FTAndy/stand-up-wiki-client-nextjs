@@ -15,13 +15,12 @@ import { CardActionArea } from '@mui/material';
 
 
 interface Props {
-  className?: string
   special: Special,
   onClick?: () => void
 }
 
 export default function MediaControlCard(props: Props) {
-  const { special, className, onClick } = props
+  const { special, onClick } = props
   const { specialDetail, specialName, comedianName, TMDBInfo } = special
   const { coverImgURL, datetime, runtimeDuration, rating } = specialDetail
   const theme = useTheme();
@@ -29,12 +28,12 @@ export default function MediaControlCard(props: Props) {
   const {setPlayingSpecial} = useGlobalStore(state => state)
 
   return (
-    <Card className={`${className}`} sx={{ display: 'flex' }}>
-      <CardActionArea 
+    <Card sx={{ display: 'flex' }}>
+      <CardActionArea
         onClick={() => {
           setPlayingSpecial(special)
           onClick?.()
-        }} 
+        }}
         className={styles['comedian-card']}
       >
         <CardMedia
@@ -58,14 +57,14 @@ export default function MediaControlCard(props: Props) {
               { runtimeDuration }
             </Typography>
             <Typography component="legend">{parseFloat(rating)} stars</Typography>
-            { TMDBInfo?.vttSubtitle ? <ClosedCaptionIcon /> : '' } 
-            <Rating 
+            { TMDBInfo?.vttSubtitle ? <ClosedCaptionIcon /> : '' }
+            <Rating
               size='large'
-              name="half-rating-read" 
-              defaultValue={parseFloat(rating)} 
-              precision={0.5} 
-              max={10} 
-              readOnly 
+              name="half-rating-read"
+              defaultValue={parseFloat(rating)}
+              precision={0.5}
+              max={10}
+              readOnly
             />
           </CardContent>
         </Box>

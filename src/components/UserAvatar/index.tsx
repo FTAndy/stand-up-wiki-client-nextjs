@@ -7,14 +7,16 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
-import {signOut} from 'next-auth/react'
+import {signOut, useSession} from 'next-auth/react'
+
 import './index.scss'
 
 interface IUserAvatarProps {
-  session: Session | null
+  // session: Session | null
 }
 
 const UserAvatar: React.FunctionComponent<IUserAvatarProps> = (props) => {
+  const { data: session } = useSession()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -29,7 +31,6 @@ const UserAvatar: React.FunctionComponent<IUserAvatarProps> = (props) => {
   }
 
   const { setToggleGlobalSignin } = useGlobalStore()
-  const { session } = props;
   const avatarUrl = session?.user?.image || ''
   const alt = session?.user?.name || ''
   return <>
@@ -40,9 +41,9 @@ const UserAvatar: React.FunctionComponent<IUserAvatarProps> = (props) => {
           sx={{ ml: 2 }}
         >
 
-          <Avatar 
+          <Avatar
             src={avatarUrl}
-            alt={alt} 
+            alt={alt}
             sx={{ width: 30, height: 30 }}
           />
         </IconButton>
