@@ -18,12 +18,12 @@ const ChatWithNoSSR = dynamicFetch(() => import('./components/Chat'), {
   ssr: false,
 })
 
-export const dynamic = 'force-static'
-
 interface IGPTSProps {
 }
 
 const GPTS: React.FunctionComponent<IGPTSProps> = async (props) => {
+
+  console.log('getComedianDigitalFigures')
 
   const digitalFigures = await getComedianDigitalFigures()
 
