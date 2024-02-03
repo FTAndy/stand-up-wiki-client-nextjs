@@ -18,6 +18,8 @@ const ChatWithNoSSR = dynamicFetch(() => import('./components/Chat'), {
   ssr: false,
 })
 
+export const dynamic = 'force-static'
+
 interface IGPTSProps {
 }
 
@@ -38,7 +40,7 @@ const GPTS: React.FunctionComponent<IGPTSProps> = async (props) => {
       { digitalFigures.map(figure => {
         const { GPTInfo } = figure
         return <div className={styles['card-container']} key={figure._id}>
-          <GPTCard 
+          <GPTCard
             description={GPTInfo.display.description}
             name={GPTInfo.display.name}
             avatarUrl={GPTInfo.display.profile_picture_url}
@@ -49,11 +51,11 @@ const GPTS: React.FunctionComponent<IGPTSProps> = async (props) => {
             <AudioPlayButton
               audioList={figure.jokes_audios}
             />
-            <ChatButton 
+            <ChatButton
               assistantId={figure.assistant_id}
               voiceId={figure.voice_id}
-              comedianId={figure._id} 
-              comedianName={GPTInfo.display.name} 
+              comedianId={figure._id}
+              comedianName={GPTInfo.display.name}
             />
           </div>
         </div>
