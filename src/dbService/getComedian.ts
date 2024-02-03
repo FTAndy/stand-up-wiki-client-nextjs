@@ -10,6 +10,8 @@ export async function getComedian(id: string) {
   const Database = MongoClient.db("standup-wiki");
   const Comedian = Database.collection("comedian");
 
+  console.log(id, 'id!!!!!!!!!!!!')
+
   const comedians = await Comedian.aggregate([
     {
       $match: {

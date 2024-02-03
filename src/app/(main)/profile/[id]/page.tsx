@@ -15,12 +15,16 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
 
+  const data = await getComedian(params.id)
+
   const previousKeywords = (await parent).keywords || []
 
   return {
-    title: '',
+    title: data.name,
     keywords: [
       ...previousKeywords,
+      'video',
+      'player'
     ]
   }
 }

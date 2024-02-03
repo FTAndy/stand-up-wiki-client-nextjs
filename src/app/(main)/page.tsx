@@ -13,6 +13,8 @@ export default async function Home() {
   const top5Comedians = await getTop5Comedians()
   // TODO: add speical attached songs
   // TODO: responsive design https://mui.com/material-ui/react-grid/
+  // TODO: refresh the some special subtitle, some special subtitle missing in the database even if there is a subtitle in opensubtitle
+  // TODO: split the background image to separate images
   return (
     <main className={styles.main}>
       <Image
@@ -24,12 +26,12 @@ export default async function Home() {
         }}
         alt="Picture of great comedians"
       />
-      
+
       { top5Comedians.map(c => {
         return <Link
-          href={`/profile/${c.comedianId}`} 
-          key={c.id} 
-          className={styles.cover} 
+          href={`/profile/${c.comedianId}`}
+          key={c.id}
+          className={styles.cover}
           style={{
             left: `${(c.id) * 20}%`,
           }}

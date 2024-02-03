@@ -99,8 +99,6 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
           // })
         }
 
-        // TODO: transform subtitle format to vtt using subsrt-ts npm package and use vtt in the player, https://github.com/movie-web/movie-web/blob/48b708d5698795a96d10ddeb4f0ab9b9cd53fab0/src/components/player/utils/captions.ts
-        // TODO: play srt locally https://github.com/movie-web/movie-web/blob/c347fe7ef54fa96b858e3658ec565fff77206967/src/components/player/atoms/settings/CaptionsView.tsx
         // TODO: no stream found handle
         if (noCORSVideo) {
           const sources: Array<Source> = []
@@ -157,7 +155,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
               hls.attachMedia(video);
               window.hls = hls;
               console.log('init hls', noCORSVideo.playlist, video)
-              
+              // TODO: catch error and retry if the video source is still need cors policy
               // Handle changing captions
               player.on('languagechange', () => {
                 // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994

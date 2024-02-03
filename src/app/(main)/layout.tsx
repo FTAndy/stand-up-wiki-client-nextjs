@@ -31,35 +31,33 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // TODO: This will opt-out of cache for all pages, need to find a way to opt-in, and it 
+  // TODO: This will opt-out of cache for all pages, remove this to where it is needed
+  // TODO: use partial rendering for each page
   const session = await getServerSession(authOptions)
 
-
-  // TODO: all image use highest quality and with next/image to show
-  // @ts-nocheck
-/* eslint-disable */
   return (
     <html lang="en">
       <head>
-      <Script
-        dangerouslySetInnerHTML={{
-          __html: `(function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "kst4y9ey0l");`
-        }}
-      />
+        <Script
+          id="clarity"
+          dangerouslySetInnerHTML={{
+            __html: `(function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "kst4y9ey0l");`
+          }}
+        />
       </head>
       <body className={inter.className}>
       <div className='App'>
         <SessionProvider session={session}>
           <ReactQueryProvider>
             <ThemeProvider options={{ key: 'mui', prepend: true }}>
-              <HeaderBar 
+              <HeaderBar
                 session={session}
                />
-              {children}        
+              {children}
             </ThemeProvider>
           </ReactQueryProvider>
         </SessionProvider>
