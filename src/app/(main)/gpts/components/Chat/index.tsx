@@ -14,10 +14,10 @@ import Button from '@mui/material/Button';
 interface IChatComponentProps {
 }
 
-
+// TODO: switch to pro chat
 const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
   const [responding, setResponding] = React.useState(false);
-  const { messages, appendMsg, setTyping } = useMessages([]);  
+  const { messages, appendMsg, setTyping } = useMessages([]);
   const { currentChatAssistantId, comedianChatThreads, setComedianChatThreads, openChat, setOpenChat, currentVoiceId } = useGPTSStore()
   const containerRef = useClickOutside(() => setOpenChat(false));
 
@@ -33,7 +33,7 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
       const lastContent = currentComedianChatThread?.messages[currentComedianChatThread?.messages.length - 1]
       appendMsg({
         type: 'text',
-        content: { 
+        content: {
           text: lastContent.content,
           messageId: lastContent.messageId
         },
@@ -79,7 +79,7 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
       }
       setResponding(false);
     }
-    
+
 
     if (currentChatAssistantId && !currentComedianChatThread) {
       fetchChatHistory()
@@ -91,13 +91,13 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
   return (
     <>
       <div
-        ref={containerRef} 
+        ref={containerRef}
         className={styles['chat-container']}
         style={{
           display: openChat ? 'block' : 'none'
         }}
       >
-        { currentChatAssistantId ? 
+        { currentChatAssistantId ?
           <Chat
             locale='en-US'
             inputOptions={{
@@ -114,12 +114,12 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
                   content: { text: val },
                   position: 'right',
                 });
-          
-                setResponding(true);       
+
+                setResponding(true);
                 try {
-                  const {answer, respondMessageId} = await sendMessageToThread(currentComedianChatThread.threadId, val, currentChatAssistantId)                
+                  const {answer, respondMessageId} = await sendMessageToThread(currentComedianChatThread.threadId, val, currentChatAssistantId)
                   console.log(answer, 'answer', respondMessageId)
-    
+
                   setComedianChatThreads({
                     ...comedianChatThreads,
                     [currentChatAssistantId]: {
@@ -139,7 +139,7 @@ const ChatComponent: React.FunctionComponent<IChatComponentProps> = (props) => {
                 setResponding(false)
               }
             }}
-          />      
+          />
           : '' }
       </div>
     </>
