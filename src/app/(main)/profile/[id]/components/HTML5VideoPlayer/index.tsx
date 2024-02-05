@@ -13,7 +13,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { PlayMode } from '@/app/(main)/store';
 import './plyr.scss'
 
-
 declare type Qualities = 'unknown' | '360' | '480' | '720' | '1080';
 
 interface IHTML5VidoPlayerProps {
@@ -32,14 +31,19 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
   const currentPlayingSpecialId = React.useRef<string>()
 
   React.useEffect(() => {
-    if (playerEleRef.current) {
-      playerRef.current = new Plyr(playerEleRef.current, {
-        captions: {
-          active: true,
-          update: true
-        }
-      });
+    async function init() {
+      const PlyrModule = await import('plyr')
+      const Plyr = PlyrModule.default
+      if (playerEleRef.current) {
+        playerRef.current = new Plyr(playerEleRef.current, {
+          captions: {
+            active: true,
+            update: true
+          }
+        });
+      }
     }
+    init()
   }, [])
   // TODO: avoid double fetching
   React.useEffect(() => {

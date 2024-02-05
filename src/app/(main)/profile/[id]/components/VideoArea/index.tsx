@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useGlobalStore } from '@/app/(main)/store'
 import type { Comedian } from '@/types/comdian'
 import VideoPlayer from '..//BilibiliIframeVideoPlayer'
-import HTML5VidoPlayer from '..//HTML5VideoPlayer';
+import HTML5VidoPlayer from '../HTML5VideoPlayer';
 import { PlayMode } from '@/app/(main)/store'
 
 interface IVideoAreaProps {
