@@ -124,7 +124,6 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
             console.log(source, 'source')
 
             player.source = source
-            player.autoplay = true
             player.play()
           } else if (noCORSVideo.type === 'hls') {
             if (video.canPlayType('application/vnd.apple.mpegurl')) {
@@ -168,7 +167,6 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
             console.log(source, 'source')
 
             player.source = source
-            player.autoplay = true
             player.play()
           }
         }
