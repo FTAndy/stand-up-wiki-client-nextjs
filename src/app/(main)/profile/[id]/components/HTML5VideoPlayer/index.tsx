@@ -31,19 +31,15 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
   const currentPlayingSpecialId = React.useRef<string>()
 
   React.useEffect(() => {
-    async function init() {
-      const PlyrModule = await import('plyr')
-      const Plyr = PlyrModule.default
-      if (playerEleRef.current) {
-        playerRef.current = new Plyr(playerEleRef.current, {
-          captions: {
-            active: true,
-            update: true
-          }
-        });
-      }
+    // TODO: use async import to fix 500 error
+    if (playerEleRef.current) {
+      playerRef.current = new Plyr(playerEleRef.current, {
+        captions: {
+          active: true,
+          update: true
+        }
+      });
     }
-    init()
   }, [])
   // TODO: avoid double fetching
   React.useEffect(() => {
