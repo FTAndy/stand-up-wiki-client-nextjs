@@ -66,15 +66,17 @@ export type Special = {
     presentTime: Date
     coverImgURL: string
   }
-  bilibiliInfo?: {
-    aid: number,
-    bvid: string,
-    cid: string,
-    iframeUrl: string,
-    subtitles?: Array<Subtitle>
-  }
+  bilibiliInfo?: BilibiliInfo
   specialName: string,
   comments: Array<CommentContent>
+}
+
+export type BilibiliInfo =  {
+  aid: number,
+  bvid: string,
+  cid: string,
+  iframeUrl: string,
+  subtitles?: Array<Subtitle>
 }
 
 export type Specials = Array<Special>

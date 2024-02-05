@@ -8,29 +8,10 @@ import {useDidUpdate} from '@mantine/hooks'
 import Button from '@mui/material/Button';
 import dynamicFetch from 'next/dynamic'
 import Hls from 'hls.js'
+import { fetchStream, fetchBilibiliVideoStreamService } from '../../service/index'
 import CircularProgress from '@mui/material/CircularProgress';
 import { PlayMode } from '@/app/(main)/store';
 import './plyr.scss'
-
-const myFetcher = makeSimpleProxyFetcher('https://simple-proxy.ftandy.workers.dev', fetch);
-
-const providers = makeProviders({
-  fetcher: myFetcher,
-  // will be played on a native video player
-  target: targets.BROWSER
-})
-
-async function fetchStream (media: MovieMedia) {
-  const output = await providers.runAll({
-    media,
-    // sourceOrder: ['zoechip', 'flixhq']
-  })
-
-  console.log(output, 'output')
-
-  if (!output) console.log("No stream found", media.title)
-  return output?.stream
-}
 
 
 declare type Qualities = 'unknown' | '360' | '480' | '720' | '1080';
@@ -40,7 +21,7 @@ interface IHTML5VidoPlayerProps {
 
 const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) => {
   const { playingSpecial, currentComedian, setPlayMode } = useGlobalStore()
-  const [tracks, setTracks] = React.useState<Track[]>([])
+  const [currentTracks, setCurrentTracks] = React.useState<Track[]>([])
   const [loading, setLoading] = React.useState(false)
   const [isNoStream, setIsNoStream] = React.useState(false)
   const [retryCount, setRetryCount] = React.useState(0)
@@ -80,16 +61,19 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
         console.log(noCORSVideo, 'noCORSVideo', playingSpecial.TMDBInfo)
         if (currentPlayingSpecialId.current !== playingSpecial.TMDBInfo.tmdbId) {
           return
-        } 
+        }
+
+        let tracks: Track[] = []
 
         if (playingSpecial.TMDBInfo.vttSubtitle) {
-          setTracks([{
+          tracks = [{
             kind: 'captions',
             srcLang: 'en',
             src: `https://standup-wiki.azureedge.net${playingSpecial.TMDBInfo.vttSubtitle}`,
             label: 'English',
             default: true
-          }])
+          }]
+          setCurrentTracks(tracks)
           // tracks.push({
           //   kind: 'captions',
           //   srcLang: 'en',
@@ -121,10 +105,10 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
             //     src: c.url,
             //     label: c.language,
             //     default: c.language === 'en'
-            //   })            
+            //   })
             // })
 
-            
+
             const source = {
               type: 'video',
               sources,
@@ -134,7 +118,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
               //   src: '/path/to/thumbnails.vtt',
               // },
               // TODO: display srt on using module from movie-web
-              // tracks
+              tracks
             } as const
 
             console.log(source, 'source')
@@ -164,15 +148,36 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
             }
 
           }
-        } else {
-          setIsNoStream(true)
+        } else if (playingSpecial.bilibiliInfo) {
+          // TODO: fetch together
+          // TODO: Bilibili video source subtitle
+          const bilibiliReverseVideoLink = await fetchBilibiliVideoStreamService(playingSpecial.bilibiliInfo)
+          if (currentPlayingSpecialId.current !== playingSpecial.TMDBInfo.tmdbId) {
+            return
+          }
+          if (bilibiliReverseVideoLink) {
+            const source = {
+              type: 'video' as const,
+              sources: [{
+                src: bilibiliReverseVideoLink,
+                type: `video/mp4`,
+              }],
+              tracks
+            }
+
+            console.log(source, 'source')
+
+            player.source = source
+            player.autoplay = true
+            player.play()
+          }
         }
         player.once('canplay', () => {
           setLoading(false)
         })
       }
     }
- 
+
     fetchAndPlay()
     return () => {
       window?.hls?.destroy();
@@ -186,7 +191,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
 
   return <div className={styles['video-container']}>
     <video {...videoAttributes} className={styles['player-container']} ref={playerEleRef} id="player">
-      { tracks.map(t => {
+      { currentTracks.map(t => {
           return <track key={t.src} {...t} />
         })
       }

@@ -46,15 +46,15 @@ export default async function RootLayout({
         />
       </head>
       <body className={inter.className}>
-      <div className='App'>
-          <ReactQueryProvider>
-            <ThemeProvider options={{ key: 'mui', prepend: true }}>
-              <HeaderBar
-               />
-              {children}
-            </ThemeProvider>
-          </ReactQueryProvider>
-      </div>
+      <ReactQueryProvider>
+        <ThemeProvider options={{ key: 'mui', prepend: true }}>
+          <div className='App'>
+            <HeaderBar
+            />
+            {children}
+          </div>
+        </ThemeProvider>
+      </ReactQueryProvider>
       <Analytics />
       </body>
     </html>

@@ -66,7 +66,7 @@ export default async function HeaderBar (){
           Github
         </Button>
       </Link>
-      <SessionServerProvider >
+      <SessionServerProvider>
         <UserAvatar
           data-testid='user-avatar'
         />
