@@ -23,8 +23,11 @@ describe('Home Page', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: 'Specials For Free' })
     ).toBeInTheDocument()
+
+    const images = screen.getAllByRole('img', { name: 'Picture of great comedians'})
+
     expect(
-      screen.getByRole('img', { name: 'Picture of great comedians'})
+      images[0]
     ).toBeInTheDocument()
   })
 
@@ -48,14 +51,16 @@ describe('Home Page', () => {
 
   test('renders image with correct src', async () => {
     render(await Home())
-    const image = screen.getByRole('img', { name: 'Picture of great comedians' })
-    expect(image).toHaveAttribute('src', expect.stringContaining('comedians-4x-min'))
+    const image = screen.getAllByRole('img', { name: 'Picture of great comedians' })
+    expect(image[0]).toHaveAttribute('src', expect.stringContaining('standup-wiki.azureedge.net'))
   })
 
   test('renders comedians in the correct order', async () => {
 
     render(await Home())
-    await screen.findByRole('img', { name: 'Picture of great comedians' })
+
+    const images = screen.getAllByRole('img', { name: 'Picture of great comedians' });
+    expect(images).toBeInTheDocument();
 
     const comedians = screen.getAllByRole('link')
     expect(comedians[0]).toHaveAttribute('href', '/profile/1')

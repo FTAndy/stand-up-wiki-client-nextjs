@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import {getMongoDbClient} from '@/service/mongo-client'
 import { generateSpeechStream } from '@/utils/elevenLab'
 
-// TODO: create and transformToVoice API to cloudflare worker or azure function
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { id: threadId } = req.query as {id: string}

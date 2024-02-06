@@ -15,8 +15,8 @@ export const getTop5Comedians = cache(async () => {
     name: { $in: orderedNames }
   }).toArray()
 
-  console.log('query')
-  
+  console.log('query!!!!!!')
+
   const sortedComedians = orderedNames.map(name => comedians.find(comedian => comedian.name === name)).filter(comedian => comedian !== undefined);
 
   const comedianCovers = sortedComedians.map((s, index) => {

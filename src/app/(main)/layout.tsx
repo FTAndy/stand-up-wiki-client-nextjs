@@ -28,9 +28,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // TODO: This will opt-out of cache for all pages, remove this to where it is needed
-  // TODO: use partial rendering for each page
-
   return (
     <html lang="en">
       <head>

@@ -63,7 +63,6 @@ const nextConfig = {
   },
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   reactStrictMode: false,
-  // TODO: add global prefix and classname compress
   sassOptions: {
     includePaths: [
       path.join(__dirname, 'src/app/styles'),
@@ -73,7 +72,7 @@ const nextConfig = {
     //   localIdentName: isProd ? '[hash:base64]' : '[path][name]__[local]--[hash:base64:5]',
     // }
   },
-  
+
   webpack: (config, { dev }) => {
     // https://github.com/vercel/next.js/discussions/15818
     let rule, moduleRules, cssLoader;

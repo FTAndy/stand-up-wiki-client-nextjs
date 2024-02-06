@@ -3,7 +3,7 @@ import type { MessageProps } from '@chatui/core';
 import { Bubble } from '@chatui/core';
 import IconButton from '@mui/material/IconButton';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import { useGPTSStore } from '../../store'; 
+import { useGPTSStore } from '../../store';
 import CircularProgress from '@mui/material/CircularProgress';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { transformToVoice, bindThreadWithMessage } from '@/service/thread'
@@ -32,7 +32,7 @@ const MessagePlayer: React.FunctionComponent<IMessagePlayerProps> = (props) => {
 
   return <div>
     <Bubble content={contentFilter(content.text)} />
-    { props.position === 'left' && props.content.text && props.content.messageId ?  
+    { props.position === 'left' && props.content.text && props.content.messageId ?
       <div className={styles['chat-playarea']}>
         <IconButton style={{
           display: loadingState === LoadingState.NotStart ? 'block' : 'none',
@@ -44,7 +44,6 @@ const MessagePlayer: React.FunctionComponent<IMessagePlayerProps> = (props) => {
               const source = new MediaSource();
               audioRef.current.src = URL.createObjectURL(source);
               audioRef.current.autoplay = true;
-              // TODO: write a record to db
               const response = await transformToVoice(currentComedianChatThread.threadId, props.content.text, props.content.messageId, currentVoiceId)
 
               bindThreadWithMessage(currentComedianChatThread.threadId, props.content.messageId, currentVoiceId)
@@ -52,7 +51,7 @@ const MessagePlayer: React.FunctionComponent<IMessagePlayerProps> = (props) => {
               const reader = response.body?.getReader()
               if (reader) {
                 const sourceBuffer = source.addSourceBuffer('audio/mpeg');
-            
+
                 sourceBuffer.addEventListener('updateend', async () => {
                   const { done, value } = await reader.read();
                   if (done) {
@@ -61,7 +60,7 @@ const MessagePlayer: React.FunctionComponent<IMessagePlayerProps> = (props) => {
                     sourceBuffer.appendBuffer(value);
                   }
                 });
-            
+
                 // Start the process
                 const { value } = await reader.read();
                 if (value) {
@@ -86,7 +85,7 @@ const MessagePlayer: React.FunctionComponent<IMessagePlayerProps> = (props) => {
               marginTop: '2px'
         }} id={`${props.content.messageId}_audioPlayer`} controls>
           Your browser does not support the audio element.
-        </audio> 
+        </audio>
       </div>: '' }
   </div>
 };

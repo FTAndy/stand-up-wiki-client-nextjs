@@ -27,7 +27,7 @@ const GPTS: React.FunctionComponent<IGPTSProps> = async (props) => {
 
   const digitalFigures = await getComedianDigitalFigures()
 
-  // TODO: add register limitation
+  // TODO: add register limitation when reach certain amount of chat or audio
   return <div className={styles['gpt-container']}>
     <Typography variant="h3" className={styles['title']} >
       Standup Comedian GPTs
