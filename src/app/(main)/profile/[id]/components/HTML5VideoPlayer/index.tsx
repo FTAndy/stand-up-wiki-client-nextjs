@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react';
 import { useGlobalStore } from '@/app/(main)/store'
-import Plyr, {Source, Track} from 'plyr'
+import type {Source, Track} from 'plyr'
 import styles from './index.module.scss'
 import { makeProviders, makeSimpleProxyFetcher, targets, MovieMedia } from '@movie-web/providers';
 import {useDidUpdate} from '@mantine/hooks'
@@ -30,152 +30,161 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
 
   const currentPlayingSpecialId = React.useRef<string>()
 
-  React.useEffect(() => {
-    // TODO: use async import to fix 500 error
-    if (playerEleRef.current) {
-      playerRef.current = new Plyr(playerEleRef.current, {
-        captions: {
-          active: true,
-          update: true
-        }
-      });
-    }
-  }, [])
-  // TODO: avoid double fetching
-  React.useEffect(() => {
-    async function fetchAndPlay() {
-      if (playerRef.current && playerEleRef.current && playingSpecial && playingSpecial.TMDBInfo) {
-        currentPlayingSpecialId.current = playingSpecial.TMDBInfo.tmdbId
+  const fetchAndPlay = React.useCallback(async function() {
+    if (playerRef.current && playerEleRef.current && playingSpecial && playingSpecial.TMDBInfo) {
+      currentPlayingSpecialId.current = playingSpecial.TMDBInfo.tmdbId
 
-        const player = playerRef.current
-        const video = playerEleRef.current
-        // clear and fetch
-        player.source = {
-          type: 'video',
-          sources: [],
+      const player = playerRef.current
+      const video = playerEleRef.current
+      // clear and fetch
+      player.source = {
+        type: 'video',
+        sources: [],
+      }
+      player.stop()
+      setLoading(true)
+      setIsNoStream(false)
+      const noCORSVideo = await fetchStream(playingSpecial.TMDBInfo)
+      console.log(noCORSVideo, 'noCORSVideo', playingSpecial.TMDBInfo)
+      if (currentPlayingSpecialId.current !== playingSpecial.TMDBInfo.tmdbId) {
+        return
+      }
+
+      let tracks: Track[] = []
+
+      if (playingSpecial.TMDBInfo.vttSubtitle) {
+        tracks = [{
+          kind: 'captions',
+          srcLang: 'en',
+          src: `https://standup-wiki.azureedge.net${playingSpecial.TMDBInfo.vttSubtitle}`,
+          label: 'English',
+          default: true
+        }]
+        setCurrentTracks(tracks)
+        // tracks.push({
+        //   kind: 'captions',
+        //   srcLang: 'en',
+        //   src: `https://standup-wiki.azureedge.net${playingSpecial.TMDBInfo.vttSubtitle}`,
+        //   label: 'English',
+        //   default: true
+        // })
+      }
+
+      // TODO: no stream found handle
+      if (noCORSVideo) {
+        const sources: Array<Source> = []
+
+        if (noCORSVideo.type === 'file') {
+          for (const key in noCORSVideo.qualities) {
+            const qualityKey = key as Qualities;
+            const source = noCORSVideo.qualities[qualityKey]
+            sources.push({
+              src: source?.url ?? '',
+              type: `video/${source?.type}`,
+              size: parseInt(qualityKey)
+            })
+          }
+
+          // noCORSVideo.captions.forEach(c => {
+          //   tracks.push({
+          //     kind: 'captions',
+          //     srcLang: c.language,
+          //     src: c.url,
+          //     label: c.language,
+          //     default: c.language === 'en'
+          //   })
+          // })
+
+
+          const source = {
+            type: 'video',
+            sources,
+            // TODO: add poster and previewThumbnails
+            // poster: '/path/to/poster.jpg',
+            // previewThumbnails: {
+            //   src: '/path/to/thumbnails.vtt',
+            // },
+            // TODO: display srt on using module from movie-web
+            tracks
+          } as const
+
+          console.log(source, 'source')
+
+          player.source = source
+          player.play()
+        } else if (noCORSVideo.type === 'hls') {
+          if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = noCORSVideo.playlist;
+          } else if (Hls.isSupported()) {
+            // For more Hls.js options, see https://github.com/dailymotion/hls.js, https://github.com/video-dev/hls.js
+            // TODO: cache more hls content
+            // TODO: hls support for higher quality
+
+            const hls = new Hls();
+            hls.loadSource(noCORSVideo.playlist);
+            hls.attachMedia(video);
+            window.hls = hls;
+            console.log('init hls', noCORSVideo.playlist, video)
+            // TODO: catch error and retry if the video source is still need cors policy
+            // Handle changing captions
+            player.on('languagechange', () => {
+              // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
+              setTimeout(() => hls.subtitleTrack = player.currentTrack, 50);
+            });
+          }
+
         }
-        player.stop()
-        setLoading(true)
-        setIsNoStream(false)
-        const noCORSVideo = await fetchStream(playingSpecial.TMDBInfo)
-        console.log(noCORSVideo, 'noCORSVideo', playingSpecial.TMDBInfo)
+      } else if (playingSpecial.bilibiliInfo) {
+        // TODO: fetch together
+        // TODO: Bilibili video source subtitle
+        const bilibiliReverseVideoLink = await fetchBilibiliVideoStreamService(playingSpecial.bilibiliInfo)
         if (currentPlayingSpecialId.current !== playingSpecial.TMDBInfo.tmdbId) {
           return
         }
+        if (bilibiliReverseVideoLink) {
+          const source = {
+            type: 'video' as const,
+            sources: [{
+              src: bilibiliReverseVideoLink,
+              type: `video/mp4`,
+            }],
+            tracks
+          }
 
-        let tracks: Track[] = []
+          console.log(source, 'source')
 
-        if (playingSpecial.TMDBInfo.vttSubtitle) {
-          tracks = [{
-            kind: 'captions',
-            srcLang: 'en',
-            src: `https://standup-wiki.azureedge.net${playingSpecial.TMDBInfo.vttSubtitle}`,
-            label: 'English',
-            default: true
-          }]
-          setCurrentTracks(tracks)
-          // tracks.push({
-          //   kind: 'captions',
-          //   srcLang: 'en',
-          //   src: `https://standup-wiki.azureedge.net${playingSpecial.TMDBInfo.vttSubtitle}`,
-          //   label: 'English',
-          //   default: true
-          // })
+          player.source = source
+          player.play()
         }
+      }
+      player.once('canplay', () => {
+        setLoading(false)
+      })
+    }
+  }
+  , [])
 
-        // TODO: no stream found handle
-        if (noCORSVideo) {
-          const sources: Array<Source> = []
-
-          if (noCORSVideo.type === 'file') {
-            for (const key in noCORSVideo.qualities) {
-              const qualityKey = key as Qualities;
-              const source = noCORSVideo.qualities[qualityKey]
-              sources.push({
-                src: source?.url ?? '',
-                type: `video/${source?.type}`,
-                size: parseInt(qualityKey)
-              })
-            }
-
-            // noCORSVideo.captions.forEach(c => {
-            //   tracks.push({
-            //     kind: 'captions',
-            //     srcLang: c.language,
-            //     src: c.url,
-            //     label: c.language,
-            //     default: c.language === 'en'
-            //   })
-            // })
-
-
-            const source = {
-              type: 'video',
-              sources,
-              // TODO: add poster and previewThumbnails
-              // poster: '/path/to/poster.jpg',
-              // previewThumbnails: {
-              //   src: '/path/to/thumbnails.vtt',
-              // },
-              // TODO: display srt on using module from movie-web
-              tracks
-            } as const
-
-            console.log(source, 'source')
-
-            player.source = source
-            player.play()
-          } else if (noCORSVideo.type === 'hls') {
-            if (video.canPlayType('application/vnd.apple.mpegurl')) {
-              video.src = noCORSVideo.playlist;
-            } else if (Hls.isSupported()) {
-              // For more Hls.js options, see https://github.com/dailymotion/hls.js, https://github.com/video-dev/hls.js
-              // TODO: cache more hls content
-              // TODO: hls support for higher quality
-
-              const hls = new Hls();
-              hls.loadSource(noCORSVideo.playlist);
-              hls.attachMedia(video);
-              window.hls = hls;
-              console.log('init hls', noCORSVideo.playlist, video)
-              // TODO: catch error and retry if the video source is still need cors policy
-              // Handle changing captions
-              player.on('languagechange', () => {
-                // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
-                setTimeout(() => hls.subtitleTrack = player.currentTrack, 50);
-              });
-            }
-
+  React.useEffect(() => {
+    // TODO: use async import to fix 500 error
+    async function init() {
+      const asyncModule = await import('plyr')
+      const PlyrModule = asyncModule.default
+      if (playerEleRef.current) {
+        playerRef.current = new PlyrModule(playerEleRef.current, {
+          captions: {
+            active: true,
+            update: true
           }
-        } else if (playingSpecial.bilibiliInfo) {
-          // TODO: fetch together
-          // TODO: Bilibili video source subtitle
-          const bilibiliReverseVideoLink = await fetchBilibiliVideoStreamService(playingSpecial.bilibiliInfo)
-          if (currentPlayingSpecialId.current !== playingSpecial.TMDBInfo.tmdbId) {
-            return
-          }
-          if (bilibiliReverseVideoLink) {
-            const source = {
-              type: 'video' as const,
-              sources: [{
-                src: bilibiliReverseVideoLink,
-                type: `video/mp4`,
-              }],
-              tracks
-            }
-
-            console.log(source, 'source')
-
-            player.source = source
-            player.play()
-          }
-        }
-        player.once('canplay', () => {
-          setLoading(false)
-        })
+        });
+        fetchAndPlay()
       }
     }
 
+    init()
+
+  }, [])
+
+  React.useEffect(() => {
     fetchAndPlay()
     return () => {
       window?.hls?.destroy();
