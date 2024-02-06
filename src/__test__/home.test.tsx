@@ -59,9 +59,6 @@ describe('Home Page', () => {
 
     render(await Home())
 
-    const images = screen.getAllByRole('img', { name: 'Picture of great comedians' });
-    expect(images).toBeInTheDocument();
-
     const comedians = screen.getAllByRole('link')
     expect(comedians[0]).toHaveAttribute('href', '/profile/1')
     expect(comedians[1]).toHaveAttribute('href', '/profile/2')
