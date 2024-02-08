@@ -162,7 +162,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
       })
     }
   }
-  , [])
+  , [playingSpecial])
 
   React.useEffect(() => {
     // TODO: use async import to fix 500 error
