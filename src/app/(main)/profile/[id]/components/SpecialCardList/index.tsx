@@ -11,7 +11,7 @@ const SpecialCardList: React.FunctionComponent<ISpecialCardListProps> = (props) 
   const { setPlayingSpecial, playingSpecial, currentComedian, setCurrentComedian, playMode } = useGlobalStore()
 
   return currentComedian?.specials?.map(s => {
-    return <div key={s.specialName} style={{marginTop: '10px'}}>
+    return <div key={s.specialName}>
       <SpecialCard
         onClick={() => {
           window.scrollTo(0, 0);
