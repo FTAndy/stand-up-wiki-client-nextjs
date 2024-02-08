@@ -137,6 +137,8 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
       } else if (playingSpecial.bilibiliInfo) {
         // TODO: fetch together
         // TODO: Bilibili video source subtitle
+        // TODO: try to fix An error occurred while processing your request.
+        // Reference #132.8780632a.1707404482.3917e610
         const bilibiliReverseVideoLink = await fetchBilibiliVideoStreamService(playingSpecial.bilibiliInfo)
         if (currentPlayingSpecialId.current !== playingSpecial.TMDBInfo.tmdbId) {
           return
@@ -189,6 +191,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
     return () => {
       window?.hls?.destroy();
       currentPlayingSpecialId.current = undefined
+      setCurrentTracks([])
     }
   }, [playingSpecial?.TMDBInfo, retryCount])
 
