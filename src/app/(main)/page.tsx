@@ -20,7 +20,8 @@ const backgroundMap = {
 // TODO: add role based access control https://authjs.dev/guides/basics/role-based-access-control
 export default async function Home() {
   const top5Comedians = await getTop5Comedians()
-  // TODO: add speical attached songs or sound tracks using
+  // TODO: add speical attached songs or sound tracks using IMDB special profile sound track
+  // https://open.spotify.com/playlist/50sm0zH5P0tzHOU2HYfqxE
   // TODO: responsive design https://mui.com/material-ui/react-grid/
   // TODO: refresh the some special subtitle, some special subtitle missing in the database even if there is a subtitle in opensubtitle
   return (

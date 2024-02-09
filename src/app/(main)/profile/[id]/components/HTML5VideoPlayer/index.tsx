@@ -127,6 +127,7 @@ const HTML5VidoPlayer: React.FunctionComponent<IHTML5VidoPlayerProps> = (props) 
             console.log('init hls', noCORSVideo.playlist, video)
             // TODO: catch error and retry if the video source is still need cors policy
             // Handle changing captions
+            // https://bili.hakurei.cc/, maybe with a cookie can fix the problem
             player.on('languagechange', () => {
               // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
               setTimeout(() => hls.subtitleTrack = player.currentTrack, 50);
